@@ -14,7 +14,7 @@
 
     <style>
       :root {
-        --background: #001b2e;
+        --background: #445a63;
         --foreground: #a1d3f8;
         --border: #00000014;
         --input: #0b2b3a;
@@ -52,12 +52,8 @@
       body {
         margin: 0;
         padding: 0;
-        background: #001b2e;
-        background: radial-gradient(
-          circle at top,
-          rgba(59, 93, 109, 0.4),
-          #001b2e 50%
-        );
+        background: #445a63;
+        overflow-x: hidden;
         color: #c1d9e8;
         font-size: 15px;
         line-height: 1.6;
@@ -74,6 +70,16 @@
           Helvetica,
           Arial,
           sans-serif;
+      }
+
+      #bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
       }
 
       button,
@@ -117,8 +123,8 @@
         border-radius: var(--radius-md);
         background: linear-gradient(
           to bottom,
-          rgba(0, 27, 46, 0.96),
-          rgba(0, 27, 46, 0.9)
+          rgba(0, 0, 0, 0.96),
+          rgba(0, 0, 0, 0.9)
         );
       }
 
@@ -551,11 +557,12 @@
         height: 8px;
         background: #ff6b6b;
         border-radius: 50%;
-        border: 2px solid rgba(0, 27, 46, 0.96);
+        border: 2px solid rgba(0, 0, 0, 0.96);
       }
     </style>
   </head>
   <body>
+    <canvas id="bg"></canvas>
     <div class="app-shell">
       <header>
         <div class="top-nav">
@@ -754,5 +761,7 @@
         }
       });
     </script>
+    <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
+    <script src="background.js"></script>
   </body>
 </html>
