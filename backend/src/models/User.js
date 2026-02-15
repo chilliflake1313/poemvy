@@ -57,6 +57,10 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],
+  bookmarkedPoems: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Poem'
+  }],
   isEmailVerified: {
     type: Boolean,
     default: false

@@ -180,3 +180,106 @@ exports.deleteAccount = async (userId) => {
     throw error;
   }
 };
+
+// Bookmark poem
+exports.bookmarkPoem = async (userId, poemId) => {
+  try {
+    const user = await User.findById(userId);
+    const poem = await Poem.findById(poemId);
+
+    if (!poem) {
+      throw new Error('Poem not found');
+    }
+
+    // Check if already bookmarked
+    if (user.bookmarkedPoems.includes(poemId)) {
+      throw new Error('Poem already bookmarked');
+    }
+
+    user.bookmarkedPoems.push(poemId);
+    await user.save();
+
+    return true;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Unbookmark poem
+exports.unbookmarkPoem = async (userId, poemId) => {
+  try {
+    const user = await User.findById(userId);
+
+    user.bookmarkedPoems = user.bookmarkedPoems.filter(
+      id => id.toString() !== poemId.toString()
+    );
+    await user.save();
+
+    return true;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Get bookmarked poems
+exports.getBookmarkedPoems = async (userId, page = 1, limit = 10) => {
+  try {
+    const skip = (page - 1) * limit;
+
+    const user = await User.findById(userId)
+      .populate({
+        path: 'bookmarkedPoems',
+        options: {
+          sort: { createdAt: -1 },
+          skip: skip,
+          limit: limit
+        },
+        populate: [
+          { path: 'author', select: 'username name avatar' },
+          { path: 'tags', select: 'name slug' }
+        ]
+      });
+
+    const total = user.bookmarkedPoems.length;
+
+    return {
+      poems: user.bookmarkedPoems,
+      pagination: {
+        page,
+        limit,
+        total,
+        pages: Math.ceil(total / limit)
+      }
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Get liked poems
+exports.getLikedPoems = async (userId, page = 1, limit = 10) => {
+  try {
+    const skip = (page - 1) * limit;
+
+    const poems = await Poem.find({ likes: userId })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate('author', 'username name avatar')
+      .populate('tags', 'name slug');
+
+    const total = await Poem.countDocuments({ likes: userId });
+
+    return {
+      poems,
+      pagination: {
+        page,
+        limit,
+        total,
+        pages: Math.ceil(total / limit)
+      }
+    };
+  } catch (error) {
+    throw error;
+  }
+};

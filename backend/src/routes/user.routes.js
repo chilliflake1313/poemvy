@@ -55,6 +55,10 @@ router.put('/password', protect, updatePasswordValidation, userController.update
 router.put('/username', protect, updateUsernameValidation, userController.updateUsername);
 router.post('/follow/:userId', protect, userController.followUser);
 router.post('/unfollow/:userId', protect, userController.unfollowUser);
+router.post('/bookmark/:poemId', protect, userController.bookmarkPoem);
+router.post('/unbookmark/:poemId', protect, userController.unbookmarkPoem);
+router.get('/bookmarks', protect, userController.getBookmarkedPoems);
+router.get('/likes', protect, userController.getLikedPoems);
 router.delete('/account', protect, userController.deleteAccount);
 
 module.exports = router;

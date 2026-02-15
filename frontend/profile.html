@@ -432,6 +432,24 @@
         align-items: center;
         gap: 6px;
         cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .poem-action-item.liked iconify-icon {
+        color: #ff4757 !important;
+        filter: drop-shadow(0 0 8px rgba(255, 71, 87, 0.6));
+      }
+
+      .poem-action-item.liked .poem-action-count {
+        color: #ff4757;
+      }
+
+      .poem-action-item.bookmarked iconify-icon {
+        color: #ffa502 !important;
+      }
+
+      .poem-action-item.bookmarked .poem-action-count {
+        color: #ffa502;
       }
 
       .poem-action-count {
@@ -656,7 +674,7 @@
         <!-- Poems Feed -->
         <div class="poem-feed">
           <!-- Poem Card 1 -->
-          <article class="poem-card">
+          <article class="poem-card" data-poem-id="profile-poem1">
             <div class="poem-header-row">
               <h2 class="poem-title">The Silent Morning</h2>
               <div style="display: flex; align-items: center; gap: 12px">
@@ -674,13 +692,17 @@ and found only my own breath waiting for me.
             </div>
             <div class="poem-footer-row">
               <div class="poem-actions">
-                <div class="poem-action-item">
+                <div class="poem-action-item like-btn">
                   <iconify-icon icon="lucide:heart" width="16"></iconify-icon>
                   <span class="poem-action-count">124</span>
                 </div>
                 <div class="poem-action-item">
                   <iconify-icon icon="lucide:message-circle" width="16"></iconify-icon>
                   <span class="poem-action-count">18</span>
+                </div>
+                <div class="poem-action-item bookmark-btn">
+                  <iconify-icon icon="lucide:bookmark" width="16"></iconify-icon>
+                  <span class="poem-action-count">Save</span>
                 </div>
                 <div class="poem-action-item">
                   <iconify-icon icon="lucide:share-2" width="16"></iconify-icon>
@@ -690,7 +712,7 @@ and found only my own breath waiting for me.
           </article>
 
           <!-- Poem Card 2 -->
-          <article class="poem-card">
+          <article class="poem-card" data-poem-id="profile-poem2">
             <div class="poem-header-row">
               <h2 class="poem-title">Paper Boats</h2>
               <div style="display: flex; align-items: center; gap: 12px">
@@ -709,13 +731,17 @@ until they are just pulp and memory.
             </div>
             <div class="poem-footer-row">
               <div class="poem-actions">
-                <div class="poem-action-item">
+                <div class="poem-action-item like-btn">
                   <iconify-icon icon="lucide:heart" width="16"></iconify-icon>
                   <span class="poem-action-count">89</span>
                 </div>
                 <div class="poem-action-item">
                   <iconify-icon icon="lucide:message-circle" width="16"></iconify-icon>
                   <span class="poem-action-count">6</span>
+                </div>
+                <div class="poem-action-item bookmark-btn">
+                  <iconify-icon icon="lucide:bookmark" width="16"></iconify-icon>
+                  <span class="poem-action-count">Save</span>
                 </div>
                 <div class="poem-action-item">
                   <iconify-icon icon="lucide:share-2" width="16"></iconify-icon>
@@ -725,7 +751,7 @@ until they are just pulp and memory.
           </article>
 
           <!-- Poem Card 3 -->
-          <article class="poem-card">
+          <article class="poem-card" data-poem-id="profile-poem3">
             <div class="poem-header-row">
               <h2 class="poem-title">Echoes of Blue</h2>
               <div style="display: flex; align-items: center; gap: 12px">
@@ -743,13 +769,17 @@ the depth of the ocean where light falls.
             </div>
             <div class="poem-footer-row">
               <div class="poem-actions">
-                <div class="poem-action-item">
+                <div class="poem-action-item like-btn">
                   <iconify-icon icon="lucide:heart" width="16"></iconify-icon>
                   <span class="poem-action-count">205</span>
                 </div>
                 <div class="poem-action-item">
                   <iconify-icon icon="lucide:message-circle" width="16"></iconify-icon>
                   <span class="poem-action-count">34</span>
+                </div>
+                <div class="poem-action-item bookmark-btn">
+                  <iconify-icon icon="lucide:bookmark" width="16"></iconify-icon>
+                  <span class="poem-action-count">Save</span>
                 </div>
                 <div class="poem-action-item">
                   <iconify-icon icon="lucide:share-2" width="16"></iconify-icon>
@@ -776,8 +806,169 @@ the depth of the ocean where light falls.
           dropdown.classList.remove('show');
         }
       });
+
+      // Like/Heart button functionality
+      document.addEventListener('click', async function(e) {
+        const likeBtn = e.target.closest('.like-btn');
+        if (likeBtn) {
+          e.stopPropagation();
+          
+          const poemCard = likeBtn.closest('[data-poem-id]');
+          const poemId = poemCard?.getAttribute('data-poem-id');
+          
+          if (!poemId) return;
+          
+          const isLiked = likeBtn.classList.contains('liked');
+          
+          // Optimistic UI update
+          likeBtn.classList.toggle('liked');
+          
+          // Switch icon between outline and filled
+          const icon = likeBtn.querySelector('iconify-icon');
+          if (icon) {
+            if (likeBtn.classList.contains('liked')) {
+              icon.setAttribute('icon', 'mdi:heart');
+            } else {
+              icon.setAttribute('icon', 'lucide:heart');
+            }
+          }
+          
+          // Update count
+          const countSpan = likeBtn.querySelector('.poem-action-count');
+          if (countSpan) {
+            let count = parseInt(countSpan.textContent);
+            if (likeBtn.classList.contains('liked')) {
+              countSpan.textContent = count + 1;
+            } else {
+              countSpan.textContent = count - 1;
+            }
+          }
+          
+          // Call API if authenticated
+          if (isAuthenticated()) {
+            try {
+              if (isLiked) {
+                await unlikePoem(poemId);
+                removeLikedPoem(poemId);
+              } else {
+                await likePoem(poemId);
+                addLikedPoem(poemId);
+              }
+            } catch (error) {
+              // Revert UI on error
+              likeBtn.classList.toggle('liked');
+              if (icon) {
+                icon.setAttribute('icon', isLiked ? 'mdi:heart' : 'lucide:heart');
+              }
+              if (countSpan) {
+                let count = parseInt(countSpan.textContent);
+                countSpan.textContent = isLiked ? count + 1 : count - 1;
+              }
+              console.error('Failed to update like status');
+            }
+          }
+        }
+      });
+
+      // Bookmark button functionality
+      document.addEventListener('click', async function(e) {
+        const bookmarkBtn = e.target.closest('.bookmark-btn');
+        if (bookmarkBtn) {
+          e.stopPropagation();
+          
+          const poemCard = bookmarkBtn.closest('[data-poem-id]');
+          const poemId = poemCard?.getAttribute('data-poem-id');
+          
+          if (!poemId) return;
+          
+          const isBookmarked = bookmarkBtn.classList.contains('bookmarked');
+          
+          // Optimistic UI update
+          bookmarkBtn.classList.toggle('bookmarked');
+          
+          // Switch icon between outline and filled
+          const icon = bookmarkBtn.querySelector('iconify-icon');
+          if (icon) {
+            if (bookmarkBtn.classList.contains('bookmarked')) {
+              icon.setAttribute('icon', 'mdi:bookmark');
+            } else {
+              icon.setAttribute('icon', 'lucide:bookmark');
+            }
+          }
+          
+          // Update text
+          const textSpan = bookmarkBtn.querySelector('.poem-action-count');
+          if (textSpan) {
+            textSpan.textContent = bookmarkBtn.classList.contains('bookmarked') ? 'Saved' : 'Save';
+          }
+          
+          // Call API if authenticated
+          if (isAuthenticated()) {
+            try {
+              if (isBookmarked) {
+                await unbookmarkPoem(poemId);
+                removeBookmarkedPoem(poemId);
+              } else {
+                await bookmarkPoem(poemId);
+                addBookmarkedPoem(poemId);
+              }
+            } catch (error) {
+              // Revert UI on error
+              bookmarkBtn.classList.toggle('bookmarked');
+              if (icon) {
+                icon.setAttribute('icon', isBookmarked ? 'mdi:bookmark' : 'lucide:bookmark');
+              }
+              if (textSpan) {
+                textSpan.textContent = isBookmarked ? 'Saved' : 'Save';
+              }
+              console.error('Failed to update bookmark status');
+            }
+          }
+        }
+      });
+      
+      // Load user interactions and restore state on page load
+      window.addEventListener('DOMContentLoaded', async function() {
+        if (isAuthenticated()) {
+          await loadUserInteractions();
+          
+          // Restore liked and bookmarked states
+          document.querySelectorAll('[data-poem-id]').forEach(poemCard => {
+            const poemId = poemCard.getAttribute('data-poem-id');
+            
+            // Restore like state
+            if (isPoemLiked(poemId)) {
+              const likeBtn = poemCard.querySelector('.like-btn');
+              if (likeBtn) {
+                likeBtn.classList.add('liked');
+                const icon = likeBtn.querySelector('iconify-icon');
+                if (icon) {
+                  icon.setAttribute('icon', 'mdi:heart');
+                }
+              }
+            }
+            
+            // Restore bookmark state
+            if (isPoemBookmarked(poemId)) {
+              const bookmarkBtn = poemCard.querySelector('.bookmark-btn');
+              if (bookmarkBtn) {
+                bookmarkBtn.classList.add('bookmarked');
+                const icon = bookmarkBtn.querySelector('iconify-icon');
+                if (icon) {
+                  icon.setAttribute('icon', 'mdi:bookmark');
+                }
+                const textSpan = bookmarkBtn.querySelector('.poem-action-count');
+                if (textSpan) {
+                  textSpan.textContent = 'Saved';
+                }
+              }
+            }
+          });
+        }
+      });
     </script>
     <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
+    <script src="api.js"></script>
     <script src="background.js"></script>
   </body>
 </html>
