@@ -18,7 +18,7 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-renderer.setClearColor(0x445a63, 1);
+renderer.setClearColor(0x000000, 1);
 
 function createCircleTexture() {
     const size = 64;
@@ -51,7 +51,7 @@ function createLayer(count, size, speed, spread, fadeOnScreen = false) {
 
     for (let i = 0; i < count; i++) {
         positions[i * 3] = (Math.random() - 0.5) * spread;
-        positions[i * 3 + 1] = Math.random() * spread;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * spread;
         positions[i * 3 + 2] = (Math.random() - 0.5) * spread;
 
         opacities[i] = 1;
@@ -74,16 +74,21 @@ function createLayer(count, size, speed, spread, fadeOnScreen = false) {
     return { points, count, speed, spread, fadeOnScreen };
 }
 
-const back = createLayer(1000, 0.03, 0.001, 30);
-const mid = createLayer(700, 0.06, 0.002, 25);
+const back = createLayer(1000, 0.03, 0.0005, 30);
+const mid = createLayer(700, 0.06, 0.001, 25);
 
-function animateLayer(layer) {
+let lastTime = Date.now();
+
+function animateLayer(layer, delta) {
     const positions = layer.points.geometry.attributes.position.array;
     const opacities = layer.points.geometry.attributes.opacity?.array;
 
     for (let i = 0; i < layer.count; i++) {
-
-        positions[i * 3 + 1] -= layer.speed;
+        // Smooth constant fall with delta time
+        positions[i * 3 + 1] -= layer.speed * delta * 60;
+        
+        // Optional slight horizontal drift
+        positions[i * 3] += Math.sin(Date.now() * 0.0002 + i) * 0.001;
 
         if (layer.fadeOnScreen) {
             if (positions[i * 3 + 1] < -1) {
@@ -91,12 +96,14 @@ function animateLayer(layer) {
                     opacities[i] -= 0.03;
                 } else {
                     positions[i * 3 + 1] = layer.spread / 2;
+                    positions[i * 3] = (Math.random() - 0.5) * layer.spread;
                     opacities[i] = 1;
                 }
             }
         } else {
             if (positions[i * 3 + 1] < -layer.spread / 2) {
                 positions[i * 3 + 1] = layer.spread / 2;
+                positions[i * 3] = (Math.random() - 0.5) * layer.spread;
             }
         }
     }
@@ -110,8 +117,12 @@ function animateLayer(layer) {
 function animate() {
     requestAnimationFrame(animate);
 
-    animateLayer(back);
-    animateLayer(mid);
+    const currentTime = Date.now();
+    const delta = (currentTime - lastTime) / 1000;
+    lastTime = currentTime;
+
+    animateLayer(back, delta);
+    animateLayer(mid, delta);
 
     renderer.render(scene, camera);
 }
