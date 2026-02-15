@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Poemvy – Home</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100;200;300;400;500;600;700;800;900&family=Geist:wght@100;200;300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900&family=PT+Serif:wght@400;700&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Shantell+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --background: #001b2e;
+        --foreground: #a1d3f8;
+        --border: #00000014;
+        --input: #0b2b3a;
+        --primary: #3576a2;
+        --primary-foreground: #001b2e;
+        --secondary: #3b5d6d;
+        --secondary-foreground: #a1d3f8;
+        --muted: #6e8f99;
+        --muted-foreground: #6e8f99;
+        --success: #3b5d6d;
+        --success-foreground: #a1d3f8;
+        --accent: #a1d3f8;
+        --accent-foreground: #001b2e;
+        --destructive: #2b4756;
+        --destructive-foreground: #a1d3f8;
+        --warning: #3b5d6d;
+        --warning-foreground: #a1d3f8;
+        --card: #0b2b3a;
+        --card-foreground: #cfeffb;
+        --sidebar: #071826;
+        --sidebar-foreground: #a1d3f8;
+        --sidebar-primary: #062233;
+        --sidebar-primary-foreground: #a1d3f8;
+        --radius-sm: 4px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 24px;
+        --font-family-body: Inter;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background: radial-gradient(
+          circle at top,
+          rgba(59, 93, 109, 0.35),
+          var(--background) 52%
+        );
+        color: var(--foreground);
+        font-size: 15px;
+        line-height: 1.6;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+
+      button,
+      input,
+      textarea {
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+
+      .app-shell {
+        width: 100%;
+        max-width: 1440px;
+        padding: 0 24px 48px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Header Styles */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(18px);
+      }
+
+      .top-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 0;
+        height: 64px;
+        border-bottom: 1px solid rgba(110, 143, 153, 0.35);
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 27, 46, 0.96),
+          rgba(0, 27, 46, 0.9)
+        );
+      }
+
+      .logo-mark {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo-icon-wrap {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(53, 118, 162, 0.2);
+      }
+
+      .logo-text {
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--foreground);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .nav-link {
+        position: relative;
+        color: var(--muted-foreground);
+        text-decoration: none;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .nav-link[data-active="true"] {
+        color: var(--foreground);
+      }
+
+      .nav-link-label {
+        padding-bottom: 2px;
+      }
+
+      .nav-link-underline {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -4px;
+        height: 2px;
+        border-radius: 999px;
+        background-color: transparent;
+      }
+
+      .nav-link[data-active="true"] .nav-link-underline {
+        background-color: rgba(53, 118, 162, 0.9);
+      }
+
+      /* Main Layout */
+      main {
+        display: flex;
+        justify-content: center;
+        padding-top: 32px;
+      }
+
+      .feed-shell {
+        width: 100%;
+        max-width: 720px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .section-title {
+        font-size: 14px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted-foreground);
+      }
+
+      /* Composer Styles */
+      .composer {
+        background: rgba(59, 93, 109, 0.3);
+        border-radius: var(--radius-lg);
+        padding: 16px 18px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .composer-top {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
+      .avatar-circle {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        overflow: hidden;
+        background-color: var(--secondary);
+        flex-shrink: 0;
+      }
+
+      .avatar-circle img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .composer-input-shell {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .composer-placeholder {
+        min-height: 48px;
+        color: var(--muted-foreground);
+        font-size: 16px;
+        line-height: 1.7;
+      }
+
+      .composer-meta-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 4px;
+      }
+
+      .composer-hints {
+        display: flex;
+        gap: 10px;
+        font-size: 12px;
+        color: var(--muted-foreground);
+      }
+
+      .composer-hint-chip {
+        padding: 4px 8px;
+        border-radius: var(--radius-xl);
+        background: rgba(59, 93, 109, 0.5);
+        white-space: nowrap;
+      }
+
+      .composer-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .icon-button {
+        width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--muted-foreground);
+        cursor: pointer;
+      }
+
+      .publish-btn {
+        margin-left: auto;
+        padding: 6px 16px;
+        border-radius: 999px;
+        background: rgba(53, 118, 162, 0.35);
+        color: rgba(161, 211, 248, 0.8);
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      /* Poem Card Styles */
+      .poem-feed {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      article.poem-card {
+        background: rgba(11, 43, 58, 0.8);
+        border-radius: var(--radius-lg);
+        padding: 16px 18px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .poem-header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .poem-author-block {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .author-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .author-name-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .author-name {
+        font-size: 14px;
+        font-weight: 500;
+        color: #a1d3f8;
+      }
+
+      .author-handle {
+        font-size: 13px;
+        color: var(--muted-foreground);
+      }
+
+      .poem-header-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .follow-btn {
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(59, 93, 109, 0.6);
+        color: rgba(161, 211, 248, 0.9);
+        font-size: 12px;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .poem-timestamp {
+        font-size: 12px;
+        color: rgba(110, 143, 153, 0.85);
+        white-space: nowrap;
+      }
+
+      .poem-body {
+        font-size: 16px;
+        line-height: 1.8;
+        color: rgba(193, 217, 232, 0.95);
+        white-space: pre-line;
+      }
+
+      .poem-footer-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 4px;
+      }
+
+      .poem-actions {
+        display: flex;
+        gap: 18px;
+        font-size: 12px;
+        color: rgba(110, 143, 153, 0.9);
+      }
+
+      .poem-action-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .poem-action-count {
+        min-width: 10px;
+      }
+
+      .poem-tagline {
+        font-size: 11px;
+        color: rgba(110, 143, 153, 0.8);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header>
+        <div class="top-nav">
+          <div class="logo-mark" data-media-type="banani-button">
+            <div class="logo-icon-wrap">
+              <iconify-icon
+                icon="lucide:feather"
+                style="font-size: 20px; color: var(--accent)"
+              ></iconify-icon>
+            </div>
+            <div class="logo-text">Poemvy</div>
+          </div>
+          <nav class="nav-links">
+            <a
+              class="nav-link"
+              data-media-type="banani-button"
+              data-active="true"
+            >
+              <span class="nav-link-label">Home</span>
+              <span class="nav-link-underline"></span>
+            </a>
+            <a class="nav-link" data-media-type="banani-button">
+              <span class="nav-link-label">Write</span>
+              <span class="nav-link-underline"></span>
+            </a>
+            <a class="nav-link" data-media-type="banani-button">
+              <span class="nav-link-label">Profile</span>
+              <span class="nav-link-underline"></span>
+            </a>
+          </nav>
+        </div>
+      </header>
+
+      <main>
+        <section class="feed-shell" aria-label="Poem feed">
+          <div class="section-title">Your quiet space</div>
+
+          <section class="composer" aria-label="Write a new poem">
+            <div class="composer-top">
+              <div class="avatar-circle">
+                <img
+                  src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FEuropean%2F2"
+                  alt="Your avatar"
+                />
+              </div>
+              <div class="composer-input-shell">
+                <div class="composer-placeholder">
+                  What is your soul whispering?
+                </div>
+              </div>
+            </div>
+            <div class="composer-meta-row">
+              <div class="composer-hints">
+                <div class="composer-hint-chip">free verse</div>
+                <div class="composer-hint-chip">haiku</div>
+                <div class="composer-hint-chip">midnight thoughts</div>
+              </div>
+              <div class="composer-actions">
+                <div class="icon-button" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:image"
+                    style="font-size: 16px; color: currentColor"
+                  ></iconify-icon>
+                </div>
+                <div class="icon-button" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:mic"
+                    style="font-size: 16px; color: currentColor"
+                  ></iconify-icon>
+                </div>
+                <div class="icon-button" data-media-type="banani-button">
+                  <iconify-icon
+                    icon="lucide:sparkles"
+                    style="font-size: 16px; color: currentColor"
+                  ></iconify-icon>
+                </div>
+                <div class="publish-btn" data-media-type="banani-button">
+                  Publish
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="poem-feed" aria-label="Recent poems">
+            <article class="poem-card" data-media-type="banani-button">
+              <div class="poem-header-row">
+                <div class="poem-author-block">
+                  <div class="avatar-circle">
+                    <img
+                      src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F18-25%2FEast%20Asian%2F3"
+                      alt="Mei Ling"
+                    />
+                  </div>
+                  <div class="author-meta">
+                    <div class="author-name-row">
+                      <span class="author-name">Mei Ling</span>
+                      <button
+                        class="follow-btn"
+                        data-media-type="banani-button"
+                      >
+                        Follow
+                      </button>
+                    </div>
+                    <span class="author-handle">@meiwrites</span>
+                  </div>
+                </div>
+                <div class="poem-header-right">
+                  <div class="poem-timestamp">2 hours ago</div>
+                </div>
+              </div>
+              <div class="poem-body">
+                The forest breathes a mist so deep, where distant peaks in
+                silence sleep. I leave my worries by the stream, and walk
+                inside a waking dream.
+              </div>
+              <div class="poem-footer-row">
+                <div class="poem-actions">
+                  <div
+                    class="poem-action-item"
+                    data-media-type="banani-button"
+                  >
+                    <div
+                      style="
+                        width: 20px;
+                        height: 20px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                      "
+                    >
+                      <iconify-icon
+                        icon="lucide:heart"
+                        style="font-size: 16px; color: currentColor"
+                      ></iconify-icon>
+                    </div>
+                    <span class="poem-action-count">108</span>
+                  </div>
+                  <div
+                    class="poem-action-item"
+                    data-media-type="banani-button"
+                  >
+                    <div
+                      style="
+                        width: 20px;
+                        height: 20px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                      "
+                    >
+                      <iconify-icon
+                        icon="lucide:message-circle"
+                        style="font-size: 16px; color: currentColor"
+                      ></iconify-icon>
+                    </div>
+                    <span class="poem-action-count">14</span>
+                  </div>
+                  <div
+                    class="poem-action-item"
+                    data-media-type="banani-button"
+                  >
+                    <div
+                      style="
+                        width: 20px;
+                        height: 20px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                      "
+                    >
+                      <iconify-icon
+                        icon="lucide:share-2"
+                        style="font-size: 16px; color: currentColor"
+                      ></iconify-icon>
+                    </div>
+                    <span class="poem-action-count">Share</span>
+                  </div>
+                </div>
+                <div class="poem-tagline">forest mist · quiet awakening</div>
+              </div>
+            </article>
+
+            <article class="poem-card" data-media-type="banani-button">
+              <div class="poem-header-row">
+                <div class="poem-author-block">
+                  <div class="avatar-circle">
+                    <img
+                      src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FEuropean%2F5"
+                      alt="Julian Thorne"
+                    />
+                  </div>
+                  <div class="author-meta">
+                    <div class="author-name-row">
+                      <span class="author-name">Julian Thorne</span>
+                      <button
+                        class="follow-btn"
+                        data-media-type="banani-button"
+                      >
+                        Follow
+                      </button>
+                    </div>
+                    <span class="author-handle">@jthorne_poet</span>
+                  </div>
+                </div>
+                <div class="poem-header-right">
+                  <div class="poem-timestamp">5 hours ago</div>
+                </div>
+              </div>
+              <div class="poem-body">
+                Between each thought, a distant bell, a single note in
+                midnight blue. I learn to rest inside its swell, where every
+                silence feels like dew.
+              </div>
+              <div class="poem-footer-row">
+                <div class="poem-actions">
+                  <div
+                    class="poem-action-item"
+                    data-media-type="banani-button"
+                  >
+                    <div
+                      style="
+                        width: 20px;
+                        height: 20px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                      "
+                    >
+                      <iconify-icon
+                        icon="lucide:heart"
+                        style="font-size: 16px; color: currentColor"
+                      ></iconify-icon>
+                    </div>
+                    <span class="poem-action-count">264</span>
+                  </div>
+                  <div
+                    class="poem-action-item"
+                    data-media-type="banani-button"
+                  >
+                    <div
+                      style="
+                        width: 20px;
+                        height: 20px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                      "
+                    >
+                      <iconify-icon
+                        icon="lucide:message-circle"
+                        style="font-size: 16px; color: currentColor"
+                      ></iconify-icon>
+                    </div>
+                    <span class="poem-action-count">32</span>
+                  </div>
+                  <div
+                    class="poem-action-item"
+                    data-media-type="banani-button"
+                  >
+                    <div
+                      style="
+                        width: 20px;
+                        height: 20px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                      "
+                    >
+                      <iconify-icon
+                        icon="lucide:share-2"
+                        style="font-size: 16px; color: currentColor"
+                      ></iconify-icon>
+                    </div>
+                    <span class="poem-action-count">Share</span>
+                  </div>
+                </div>
+                <div class="poem-tagline">stillness · inner echo</div>
+              </div>
+            </article>
+
+            <article class="poem-card" data-media-type="banani-button">
+              <div class="poem-header-row">
+                <div class="poem-author-block">
+                  <div class="avatar-circle">
+                    <img
+                      src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F1"
+                      alt="Zara N."
+                    />
+                  </div>
+                  <div class="author-meta">
+                    <div class="author-name-row">
+                      <span class="author-name">Zara N.</span>
+                      <button
+                        class="follow-btn"
+                        data-media-type="banani-button"
+                      >
+                        Follow
+                      </button>
+                    </div>
+                    <span class="author-handle">@zara_moon</span>
+                  </div>
+                </div>
+                <div class="poem-header-right">
+                  <div class="poem-timestamp">Yesterday</div>
+                </div>
+              </div>
+              <div class="poem-body">
+                A river made of midnight glass wanders through my quiet chest;
+                every breath, a current passed, every pause, a place to rest.
+              </div>
+              <div class="poem-footer-row">
+                <div class="poem-actions">
+                  <div
+                    class="poem-action-item"
+                    data-media-type="banani-button"
+                  >
+                    <div
+                      style="
+                        width: 20px;
+                        height: 20px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                      "
+                    >
+                      <iconify-icon
+                        icon="lucide:heart"
+                        style="font-size: 16px; color: currentColor"
+                      ></iconify-icon>
+                    </div>
+                    <span class="poem-action-count">412</span>
+                  </div>
+                  <div
+                    class="poem-action-item"
+                    data-media-type="banani-button"
+                  >
+                    <div
+                      style="
+                        width: 20px;
+                        height: 20px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                      "
+                    >
+                      <iconify-icon
+                        icon="lucide:message-circle"
+                        style="font-size: 16px; color: currentColor"
+                      ></iconify-icon>
+                    </div>
+                    <span class="poem-action-count">51</span>
+                  </div>
+                  <div
+                    class="poem-action-item"
+                    data-media-type="banani-button"
+                  >
+                    <div
+                      style="
+                        width: 20px;
+                        height: 20px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                      "
+                    >
+                      <iconify-icon
+                        icon="lucide:share-2"
+                        style="font-size: 16px; color: currentColor"
+                      ></iconify-icon>
+                    </div>
+                    <span class="poem-action-count">Share</span>
+                  </div>
+                </div>
+                <div class="poem-tagline">river · gentle courage</div>
+              </div>
+            </article>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  </body>
+</html>
