@@ -474,26 +474,30 @@
       }
 
       .profile-btn {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        overflow: hidden;
+        display: flex;
+        align-items: center;
+        gap: 8px;
         cursor: pointer;
-        border: 2px solid rgba(53, 118, 162, 0.4);
-        transition: all 0.2s;
-        background: none;
-        padding: 0;
+        white-space: nowrap;
+        padding: 6px 12px 6px 6px;
+        border-radius: 999px;
+        transition: all 0.25s ease;
+        background: transparent;
+        border: none;
+        color: rgba(161, 211, 248, 0.7);
       }
 
       .profile-btn:hover {
-        border-color: rgba(53, 118, 162, 0.7);
-        transform: scale(1.05);
+        background: rgba(53, 118, 162, 0.2);
+        color: rgba(161, 211, 248, 1);
       }
 
       .profile-btn img {
-        width: 100%;
-        height: 100%;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
         object-fit: cover;
+        border: 2px solid rgba(53, 118, 162, 0.4);
       }
 
       .dropdown-menu {
@@ -539,28 +543,28 @@
       /* Notification Bell */
       .notification-btn {
         position: relative;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         color: rgba(161, 211, 248, 0.7);
         cursor: pointer;
-        transition: all 0.2s;
+        white-space: nowrap;
+        padding: 8px 20px;
+        border-radius: 999px;
+        transition: all 0.25s ease;
         background: transparent;
         border: none;
       }
 
       .notification-btn:hover {
-        background: rgba(53, 118, 162, 0.2);
         color: rgba(161, 211, 248, 1);
+        background: rgba(53, 118, 162, 0.2);
       }
 
       .notification-badge {
         position: absolute;
-        top: 6px;
-        right: 6px;
+        top: 8px;
+        right: 16px;
         width: 8px;
         height: 8px;
         background: #ff6b6b;

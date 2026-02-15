@@ -195,3 +195,27 @@ function addBookmarkedPoem(poemId) {
 function removeBookmarkedPoem(poemId) {
   userBookmarkedPoems.delete(poemId);
 }
+
+// Add a comment to a poem
+async function addComment(poemId, text) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/poems/${poemId}/comment`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${getAuthToken()}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ text })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Failed to add comment');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error adding comment:', error);
+    throw error;
+  }
+}
