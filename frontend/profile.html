@@ -101,6 +101,7 @@
         align-items: center;
         gap: 10px;
         cursor: pointer;
+        text-decoration: none;
       }
 
       .logo-icon-wrap {
@@ -537,7 +538,7 @@
       <!-- Top Navigation -->
       <header>
         <div class="top-nav">
-          <div class="logo-mark" onclick="window.location.href='index.html'">
+          <a href="index.html" class="logo-mark">
             <div class="logo-icon-wrap">
               <iconify-icon
                 icon="lucide:feather"
@@ -545,7 +546,7 @@
               ></iconify-icon>
             </div>
             <div class="logo-text">Poemvy</div>
-          </div>
+          </a>
           <div class="search-container">
             <div class="search-wrapper">
               <iconify-icon
