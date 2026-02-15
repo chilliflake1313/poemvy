@@ -545,6 +545,13 @@
         border-radius: 999px;
         font-size: 13px;
         color: rgba(161, 211, 248, 0.9);
+        max-width: 200px;
+      }
+
+      .tag-chip span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .tag-chip iconify-icon {
@@ -570,6 +577,120 @@
       .add-tag-btn:hover {
         border-color: rgba(161, 211, 248, 0.7);
         color: rgba(161, 211, 248, 1);
+      }
+
+      /* Tag Dialog */
+      .tag-dialog-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+      }
+
+      .tag-dialog-overlay.show {
+        display: flex;
+      }
+
+      .tag-dialog {
+        background: rgba(25, 43, 54, 0.98);
+        border: 1px solid rgba(161, 211, 248, 0.2);
+        border-radius: 16px;
+        padding: 24px;
+        width: 400px;
+        max-width: 90%;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+
+      .tag-dialog-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .tag-dialog-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #e8f4fb;
+      }
+
+      .tag-dialog-close {
+        background: none;
+        border: none;
+        color: rgba(161, 211, 248, 0.6);
+        cursor: pointer;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.2s;
+      }
+
+      .tag-dialog-close:hover {
+        color: rgba(161, 211, 248, 1);
+      }
+
+      .tag-input-wrapper {
+        margin-bottom: 8px;
+      }
+
+      .tag-input {
+        width: 100%;
+        background: rgba(59, 93, 109, 0.3);
+        border: 1px solid rgba(161, 211, 248, 0.2);
+        border-radius: 8px;
+        padding: 12px 16px;
+        color: #e8f4fb;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+
+      .tag-input:focus {
+        border-color: rgba(161, 211, 248, 0.5);
+      }
+
+      .tag-input::placeholder {
+        color: rgba(161, 211, 248, 0.4);
+      }
+
+      .tag-dialog-actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+      }
+
+      .tag-dialog-btn {
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: none;
+      }
+
+      .tag-dialog-btn.cancel {
+        background: rgba(59, 93, 109, 0.4);
+        color: rgba(161, 211, 248, 0.8);
+      }
+
+      .tag-dialog-btn.cancel:hover {
+        background: rgba(59, 93, 109, 0.6);
+      }
+
+      .tag-dialog-btn.add {
+        background: rgba(53, 118, 162, 0.8);
+        color: #ffffff;
+      }
+
+      .tag-dialog-btn.add:hover {
+        background: rgba(53, 118, 162, 1);
       }
 
       .collection-selector {
@@ -875,15 +996,8 @@
           <div class="meta-section">
             <div class="meta-row">
               <div class="meta-label">Tags</div>
-              <div class="tags-input-container">
-                <div class="tag-chip">
-                  <span>#nature</span>
-                  <iconify-icon
-                    icon="lucide:x"
-                    style="font-size: 12px"
-                  ></iconify-icon>
-                </div>
-                <button class="add-tag-btn">+ Add tag</button>
+              <div class="tags-input-container" id="tagsContainer">
+                <button class="add-tag-btn" id="addTagBtn">+ Add tag</button>
               </div>
             </div>
             <div class="meta-row">
@@ -899,6 +1013,31 @@
           </div>
         </div>
       </main>
+    </div>
+
+    <!-- Tag Dialog -->
+    <div class="tag-dialog-overlay" id="tagDialogOverlay">
+      <div class="tag-dialog">
+        <div class="tag-dialog-header">
+          <div class="tag-dialog-title">Add Tag</div>
+          <button class="tag-dialog-close" id="closeTagDialog">
+            <iconify-icon icon="lucide:x" style="font-size: 18px"></iconify-icon>
+          </button>
+        </div>
+        <div class="tag-input-wrapper">
+          <input
+            type="text"
+            class="tag-input"
+            id="tagInput"
+            placeholder="Enter tag (e.g., #nature, #poetry)"
+            maxlength="50"
+          />
+        </div>
+        <div class="tag-dialog-actions">
+          <button class="tag-dialog-btn cancel" id="cancelTagBtn">Cancel</button>
+          <button class="tag-dialog-btn add" id="addTagSubmitBtn">Add</button>
+        </div>
+      </div>
     </div>
 
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
@@ -1106,6 +1245,109 @@
           }
         }
       });
+
+      // Tag functionality
+      const tagDialogOverlay = document.getElementById('tagDialogOverlay');
+      const tagInput = document.getElementById('tagInput');
+      const addTagBtn = document.getElementById('addTagBtn');
+      const closeTagDialog = document.getElementById('closeTagDialog');
+      const cancelTagBtn = document.getElementById('cancelTagBtn');
+      const addTagSubmitBtn = document.getElementById('addTagSubmitBtn');
+      const tagsContainer = document.getElementById('tagsContainer');
+      let tags = [];
+
+      function openTagDialog() {
+        tagDialogOverlay.classList.add('show');
+        tagInput.value = '';
+        tagInput.focus();
+      }
+
+      function closeTagDialogFn() {
+        tagDialogOverlay.classList.remove('show');
+        tagInput.value = '';
+      }
+
+      function addTag() {
+        let tagValue = tagInput.value.trim();
+        
+        // Add # prefix if not present
+        if (tagValue && !tagValue.startsWith('#')) {
+          tagValue = '#' + tagValue;
+        }
+        
+        // Check if tag is valid and not duplicate
+        if (tagValue && tagValue.length > 1 && !tags.includes(tagValue)) {
+          tags.push(tagValue);
+          renderTags();
+          closeTagDialogFn();
+        }
+      }
+
+      function removeTag(tagToRemove) {
+        tags = tags.filter(tag => tag !== tagToRemove);
+        renderTags();
+      }
+
+      function renderTags() {
+        tagsContainer.innerHTML = '';
+        
+        tags.forEach(tag => {
+          const tagChip = document.createElement('div');
+          tagChip.className = 'tag-chip';
+          tagChip.innerHTML = `
+            <span>${tag}</span>
+            <iconify-icon
+              icon="lucide:x"
+              style="font-size: 12px"
+            ></iconify-icon>
+          `;
+          
+          const removeIcon = tagChip.querySelector('iconify-icon');
+          removeIcon.addEventListener('click', () => removeTag(tag));
+          
+          tagsContainer.appendChild(tagChip);
+        });
+        
+        const addButton = document.createElement('button');
+        addButton.className = 'add-tag-btn';
+        addButton.id = 'addTagBtn';
+        addButton.textContent = '+ Add tag';
+        addButton.addEventListener('click', openTagDialog);
+        tagsContainer.appendChild(addButton);
+      }
+
+      if (addTagBtn) {
+        addTagBtn.addEventListener('click', openTagDialog);
+      }
+
+      if (closeTagDialog) {
+        closeTagDialog.addEventListener('click', closeTagDialogFn);
+      }
+
+      if (cancelTagBtn) {
+        cancelTagBtn.addEventListener('click', closeTagDialogFn);
+      }
+
+      if (addTagSubmitBtn) {
+        addTagSubmitBtn.addEventListener('click', addTag);
+      }
+
+      if (tagInput) {
+        tagInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            addTag();
+          }
+        });
+      }
+
+      if (tagDialogOverlay) {
+        tagDialogOverlay.addEventListener('click', function(e) {
+          if (e.target === tagDialogOverlay) {
+            closeTagDialogFn();
+          }
+        });
+      }
     </script>
     <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
     <script src="background.js"></script>
