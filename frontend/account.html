@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Poemvy – Account</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100;200;300;400;500;600;700;800;900&family=Geist:wght@100;200;300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900&family=PT+Serif:wght@400;700&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Shantell+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --background: #001b2e;
+        --foreground: #a1d3f8;
+        --border: #00000014;
+        --input: #0b2b3a;
+        --primary: #3576a2;
+        --primary-foreground: #001b2e;
+        --secondary: #3b5d6d;
+        --secondary-foreground: #a1d3f8;
+        --muted: #6e8f99;
+        --muted-foreground: #6e8f99;
+        --accent: #a1d3f8;
+        --accent-foreground: #001b2e;
+        --card: #0b2b3a;
+        --card-foreground: #cfeffb;
+        --radius-sm: 4px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 24px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background: #001b2e;
+        background: radial-gradient(
+          circle at top,
+          rgba(59, 93, 109, 0.4),
+          #001b2e 50%
+        );
+        color: #c1d9e8;
+        font-size: 15px;
+        line-height: 1.6;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+
+      button,
+      input,
+      textarea {
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+
+      .app-shell {
+        width: 100%;
+        max-width: 1440px;
+        padding: 0 24px 48px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Header Styles */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(18px);
+      }
+
+      .top-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 0;
+        height: 64px;
+        border-bottom: 1px solid rgba(110, 143, 153, 0.35);
+        border-radius: var(--radius-md);
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 27, 46, 0.96),
+          rgba(0, 27, 46, 0.9)
+        );
+      }
+
+      .logo-mark {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .logo-icon-wrap {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(53, 118, 162, 0.2);
+      }
+
+      .logo-text {
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #a1d3f8;
+      }
+
+      .search-container {
+        flex: 1;
+        max-width: 480px;
+        margin: 0 32px;
+      }
+
+      .search-bar {
+        width: 100%;
+        padding: 8px 16px 8px 40px;
+        background: rgba(11, 43, 58, 0.6);
+        border: 1px solid rgba(53, 118, 162, 0.3);
+        border-radius: 999px;
+        color: rgba(193, 217, 232, 0.95);
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s;
+        position: relative;
+      }
+
+      .search-bar::placeholder {
+        color: rgba(110, 143, 153, 0.7);
+      }
+
+      .search-bar:focus {
+        border-color: rgba(53, 118, 162, 0.6);
+        background: rgba(11, 43, 58, 0.8);
+      }
+
+      .search-wrapper {
+        position: relative;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(110, 143, 153, 0.7);
+        pointer-events: none;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .nav-link {
+        position: relative;
+        color: rgba(161, 211, 248, 0.7);
+        text-decoration: none;
+        cursor: pointer;
+        white-space: nowrap;
+        padding: 8px 20px;
+        border-radius: 999px;
+        transition: all 0.25s ease;
+        background: transparent;
+      }
+
+      .nav-link:hover {
+        color: rgba(161, 211, 248, 1);
+        background: rgba(53, 118, 162, 0.2);
+      }
+
+      /* Profile Dropdown */
+      .profile-dropdown {
+        position: relative;
+      }
+
+      .profile-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid rgba(53, 118, 162, 0.4);
+        transition: all 0.2s;
+        background: none;
+        padding: 0;
+      }
+
+      .profile-btn:hover {
+        border-color: rgba(53, 118, 162, 0.7);
+        transform: scale(1.05);
+      }
+
+      .profile-btn img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        min-width: 180px;
+        background: rgba(11, 43, 58, 0.95);
+        border: 1px solid rgba(53, 118, 162, 0.3);
+        border-radius: var(--radius-md);
+        padding: 8px;
+        display: none;
+        flex-direction: column;
+        gap: 4px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(12px);
+        z-index: 1000;
+      }
+
+      .dropdown-menu.show {
+        display: flex;
+      }
+
+      .dropdown-item {
+        padding: 10px 14px;
+        border-radius: var(--radius-sm);
+        color: rgba(161, 211, 248, 0.9);
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .dropdown-item:hover {
+        background: rgba(53, 118, 162, 0.3);
+        color: #e8f4fb;
+      }
+
+      /* Notification Bell */
+      .notification-btn {
+        position: relative;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(161, 211, 248, 0.7);
+        cursor: pointer;
+        transition: all 0.2s;
+        background: transparent;
+        border: none;
+      }
+
+      .notification-btn:hover {
+        background: rgba(53, 118, 162, 0.2);
+        color: rgba(161, 211, 248, 1);
+      }
+
+      .notification-badge {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 8px;
+        height: 8px;
+        background: #ff6b6b;
+        border-radius: 50%;
+        border: 2px solid rgba(0, 27, 46, 0.96);
+      }
+
+      /* Main Content */
+      main {
+        display: flex;
+        justify-content: center;
+        padding-top: 32px;
+      }
+
+      .account-container {
+        width: 100%;
+        max-width: 620px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+      }
+
+      .page-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(53, 118, 162, 0.2);
+      }
+
+      .page-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #e8f4fb;
+        margin: 0;
+      }
+
+      .settings-section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 24px;
+        background: rgba(11, 43, 58, 0.6);
+        border: 1px solid rgba(53, 118, 162, 0.2);
+        border-radius: var(--radius-lg);
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(161, 211, 248, 0.9);
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(53, 118, 162, 0.15);
+      }
+
+      .form-row {
+        display: flex;
+        gap: 16px;
+      }
+
+      .form-group {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .form-label {
+        font-size: 13px;
+        font-weight: 500;
+        color: rgba(161, 211, 248, 0.85);
+      }
+
+      .form-label .required {
+        color: #ff6b6b;
+        margin-left: 2px;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 10px 14px;
+        background: rgba(11, 43, 58, 0.8);
+        border: 1px solid rgba(53, 118, 162, 0.3);
+        border-radius: var(--radius-sm);
+        color: rgba(193, 217, 232, 0.95);
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s;
+      }
+
+      .form-input::placeholder {
+        color: rgba(110, 143, 153, 0.6);
+      }
+
+      .form-input:focus {
+        border-color: rgba(53, 118, 162, 0.6);
+        background: rgba(11, 43, 58, 0.9);
+      }
+
+      .form-input:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .change-link {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: rgba(161, 211, 248, 0.85);
+        text-decoration: none;
+        cursor: pointer;
+        margin-top: 4px;
+      }
+
+      .change-link:hover {
+        color: #a1d3f8;
+      }
+
+      .form-hint {
+        font-size: 12px;
+        color: rgba(110, 143, 153, 0.8);
+        margin-top: 4px;
+      }
+
+      .save-btn {
+        align-self: flex-end;
+        padding: 8px 20px;
+        border-radius: var(--radius-sm);
+        background: rgba(255, 255, 255, 0.95);
+        color: #001b2e;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s;
+      }
+
+      .save-btn:hover {
+        background: #ffffff;
+        transform: translateY(-1px);
+      }
+
+      .change-username-btn {
+        align-self: flex-end;
+        padding: 8px 20px;
+        border-radius: var(--radius-sm);
+        background: rgba(255, 255, 255, 0.95);
+        color: #001b2e;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s;
+      }
+
+      .change-username-btn:hover {
+        background: #ffffff;
+        transform: translateY(-1px);
+      }
+
+      .danger-zone {
+        border-color: rgba(239, 68, 68, 0.3);
+        background: rgba(20, 14, 14, 0.4);
+      }
+
+      .danger-zone .section-header {
+        color: rgba(239, 68, 68, 0.9);
+        border-bottom-color: rgba(239, 68, 68, 0.2);
+      }
+
+      .danger-description {
+        font-size: 14px;
+        color: rgba(193, 217, 232, 0.85);
+        line-height: 1.6;
+      }
+
+      .delete-btn {
+        align-self: flex-start;
+        padding: 10px 20px;
+        border-radius: var(--radius-sm);
+        background: #ef4444;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s;
+      }
+
+      .delete-btn:hover {
+        background: #dc2626;
+        transform: translateY(-1px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header>
+        <div class="top-nav">
+          <a href="index.html" class="logo-mark">
+            <div class="logo-icon-wrap">
+              <iconify-icon
+                icon="lucide:feather"
+                style="font-size: 20px; color: var(--accent)"
+              ></iconify-icon>
+            </div>
+            <div class="logo-text">Poemvy</div>
+          </a>
+          <div class="search-container">
+            <div class="search-wrapper">
+              <iconify-icon
+                icon="lucide:search"
+                class="search-icon"
+                style="font-size: 16px"
+              ></iconify-icon>
+              <input
+                type="text"
+                class="search-bar"
+                placeholder="Search poems, poets, or themes..."
+              />
+            </div>
+          </div>
+          <nav class="nav-links">
+            <a href="index.html" class="nav-link">
+              <span class="nav-link-label">Home</span>
+            </a>
+            <button class="notification-btn" title="Notifications">
+              <iconify-icon icon="lucide:bell" width="20"></iconify-icon>
+              <span class="notification-badge"></span>
+            </button>
+            <div class="profile-dropdown">
+              <button class="profile-btn" onclick="toggleDropdown()">
+                <img
+                  src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FEuropean%2F2"
+                  alt="Your profile"
+                />
+              </button>
+              <div class="dropdown-menu" id="profileDropdown">
+                <a href="profile.html" class="dropdown-item">
+                  <iconify-icon icon="lucide:user" width="16"></iconify-icon>
+                  Profile
+                </a>
+                <a href="account.html" class="dropdown-item">
+                  <iconify-icon icon="lucide:settings" width="16"></iconify-icon>
+                  Account
+                </a>
+                <a href="#" class="dropdown-item">
+                  <iconify-icon icon="lucide:sliders" width="16"></iconify-icon>
+                  Settings
+                </a>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </header>
+
+      <main>
+        <div class="account-container">
+          <div class="page-header">
+            <h1 class="page-title">Account</h1>
+          </div>
+
+          <!-- Contact Info Section -->
+          <section class="settings-section">
+            <div class="section-header">
+              <iconify-icon icon="lucide:mail" width="16"></iconify-icon>
+              Contact Info
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">
+                  Account email <span class="required">*</span>
+                </label>
+                <input
+                  type="email"
+                  class="form-input"
+                  placeholder="Enter your email"
+                  disabled
+                />
+                <a href="#" class="change-link">
+                  <iconify-icon icon="lucide:refresh-cw" width="12"></iconify-icon>
+                  Change account email
+                </a>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Mobile</label>
+                <input
+                  type="tel"
+                  class="form-input"
+                  placeholder="Enter mobile number"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Secondary email</label>
+              <input
+                type="email"
+                class="form-input"
+                placeholder="Add a backup email"
+              />
+            </div>
+            <button class="save-btn">Save</button>
+          </section>
+
+          <!-- Change Password Section -->
+          <section class="settings-section">
+            <div class="section-header">
+              <iconify-icon icon="lucide:lock" width="16"></iconify-icon>
+              Change Password
+            </div>
+            <div class="form-group">
+              <label class="form-label">
+                Current password <span class="required">*</span>
+              </label>
+              <input
+                type="password"
+                class="form-input"
+                placeholder="••••••••"
+              />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">
+                  New password <span class="required">*</span>
+                </label>
+                <input
+                  type="password"
+                  class="form-input"
+                  placeholder="Min 8 characters"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">
+                  Confirm new password <span class="required">*</span>
+                </label>
+                <input
+                  type="password"
+                  class="form-input"
+                  placeholder="••••••••"
+                />
+              </div>
+            </div>
+            <button class="save-btn">Save</button>
+          </section>
+
+          <!-- Change Username Section -->
+          <section class="settings-section">
+            <div class="section-header">
+              <iconify-icon icon="lucide:at-sign" width="16"></iconify-icon>
+              Change Username
+            </div>
+            <p class="form-hint">
+              You can change your username to another username that is not currently in use.
+            </p>
+            <div class="form-group">
+              <label class="form-label">
+                Username <span class="required">*</span>
+              </label>
+              <input
+                type="text"
+                class="form-input"
+                placeholder="Enter username"
+              />
+            </div>
+            <button class="change-username-btn">Change</button>
+          </section>
+
+          <!-- Danger Zone Section -->
+          <section class="settings-section danger-zone">
+            <div class="section-header">
+              <iconify-icon icon="lucide:alert-triangle" width="16"></iconify-icon>
+              Danger Zone
+            </div>
+            <p class="danger-description">
+              Delete your account and account data. This can't be undone!
+            </p>
+            <button class="delete-btn">Delete Account</button>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script>
+      function toggleDropdown() {
+        const dropdown = document.getElementById('profileDropdown');
+        dropdown.classList.toggle('show');
+      }
+
+      // Close dropdown when clicking outside
+      window.addEventListener('click', function(e) {
+        if (!e.target.closest('.profile-dropdown')) {
+          const dropdown = document.getElementById('profileDropdown');
+          dropdown.classList.remove('show');
+        }
+      });
+    </script>
+  </body>
+</html>

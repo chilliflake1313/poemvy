@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Poemvy – Write</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100;200;300;400;500;600;700;800;900&family=Geist:wght@100;200;300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900&family=PT+Serif:wght@400;700&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Shantell+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --background: #001b2e;
+        --foreground: #a1d3f8;
+        --border: #00000014;
+        --input: #0b2b3a;
+        --primary: #3576a2;
+        --primary-foreground: #001b2e;
+        --secondary: #3b5d6d;
+        --secondary-foreground: #a1d3f8;
+        --muted: #6e8f99;
+        --muted-foreground: #6e8f99;
+        --success: #3b5d6d;
+        --success-foreground: #a1d3f8;
+        --accent: #a1d3f8;
+        --accent-foreground: #001b2e;
+        --destructive: #2b4756;
+        --destructive-foreground: #a1d3f8;
+        --warning: #3b5d6d;
+        --warning-foreground: #a1d3f8;
+        --card: #0b2b3a;
+        --card-foreground: #cfeffb;
+        --sidebar: #071826;
+        --sidebar-foreground: #a1d3f8;
+        --sidebar-primary: #062233;
+        --sidebar-primary-foreground: #a1d3f8;
+        --radius-sm: 4px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 24px;
+        --font-family-body: Inter;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background: #001b2e;
+        background: radial-gradient(
+          circle at top,
+          rgba(59, 93, 109, 0.4),
+          #001b2e 50%
+        );
+        color: #c1d9e8;
+        font-size: 15px;
+        line-height: 1.6;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+
+      button,
+      input,
+      textarea {
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+
+      .app-shell {
+        width: 100%;
+        max-width: 1440px;
+        padding: 0 24px 48px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Header Styles */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(18px);
+      }
+
+      .top-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 0;
+        height: 64px;
+        border-bottom: 1px solid rgba(110, 143, 153, 0.35);
+        border-radius: var(--radius-md);
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 27, 46, 0.96),
+          rgba(0, 27, 46, 0.9)
+        );
+      }
+
+      .logo-mark {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+      }
+
+      .logo-icon-wrap {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(53, 118, 162, 0.2);
+      }
+
+      .logo-text {
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #a1d3f8;
+      }
+
+      .search-container {
+        flex: 1;
+        max-width: 480px;
+        margin: 0 32px;
+      }
+
+      .search-bar {
+        width: 100%;
+        padding: 8px 16px 8px 40px;
+        background: rgba(11, 43, 58, 0.6);
+        border: 1px solid rgba(53, 118, 162, 0.3);
+        border-radius: 999px;
+        color: rgba(193, 217, 232, 0.95);
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s;
+        position: relative;
+      }
+
+      .search-bar::placeholder {
+        color: rgba(110, 143, 153, 0.7);
+      }
+
+      .search-bar:focus {
+        border-color: rgba(53, 118, 162, 0.6);
+        background: rgba(11, 43, 58, 0.8);
+      }
+
+      .search-wrapper {
+        position: relative;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(110, 143, 153, 0.7);
+        pointer-events: none;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .nav-link {
+        position: relative;
+        color: rgba(161, 211, 248, 0.7);
+        text-decoration: none;
+        cursor: pointer;
+        white-space: nowrap;
+        padding: 8px 20px;
+        border-radius: 999px;
+        transition: all 0.25s ease;
+        background: transparent;
+      }
+
+      .nav-link:hover {
+        color: rgba(161, 211, 248, 1);
+        background: rgba(53, 118, 162, 0.2);
+      }
+
+      .nav-link[data-active="true"] {
+        color: #ffffff;
+        background: rgba(53, 118, 162, 0.4);
+        border: 1px solid rgba(53, 118, 162, 0.3);
+      }
+
+      .nav-link-label {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Main Layout */
+      main {
+        display: flex;
+        justify-content: center;
+        padding-top: 40px;
+        flex: 1;
+      }
+
+      .editor-container {
+        width: 100%;
+        max-width: 720px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+      }
+
+      .editor-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .editor-status {
+        font-size: 13px;
+        color: rgba(161, 211, 248, 0.7);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .status-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: rgba(53, 118, 162, 0.8);
+      }
+
+      .editor-actions {
+        display: flex;
+        gap: 12px;
+      }
+
+      .btn-secondary {
+        padding: 8px 16px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 500;
+        color: rgba(161, 211, 248, 0.8);
+        background: transparent;
+        border: 1px solid rgba(110, 143, 153, 0.3);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .btn-secondary:hover {
+        border-color: rgba(53, 118, 162, 0.5);
+        color: rgba(161, 211, 248, 1);
+        background: rgba(53, 118, 162, 0.1);
+      }
+
+      .btn-primary {
+        padding: 8px 24px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #001b2e;
+        background: #a1d3f8;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .btn-primary:hover {
+        background: #b8dff9;
+      }
+
+      .writing-surface {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        background: transparent;
+      }
+
+      .title-input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        font-size: 32px;
+        font-weight: 500;
+        color: #e8f4fb;
+        outline: none;
+        padding: 0;
+        font-family: inherit;
+      }
+
+      .title-input::placeholder {
+        color: rgba(161, 211, 248, 0.4);
+      }
+
+      .toolbar {
+        display: flex;
+        gap: 16px;
+        padding: 12px 0;
+        border-top: 1px solid rgba(110, 143, 153, 0.3);
+        border-bottom: 1px solid rgba(110, 143, 153, 0.3);
+      }
+
+      .tool-btn {
+        background: transparent;
+        border: none;
+        color: rgba(161, 211, 248, 0.6);
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.2s;
+      }
+
+      .tool-btn:hover {
+        color: rgba(161, 211, 248, 1);
+      }
+
+      .toolbar-divider {
+        width: 1px;
+        height: 20px;
+        background: rgba(110, 143, 153, 0.3);
+        margin: 0 4px;
+      }
+
+      .body-textarea {
+        width: 100%;
+        min-height: 400px;
+        background: transparent;
+        border: none;
+        font-size: 18px;
+        line-height: 1.8;
+        color: #d4e8f3;
+        outline: none;
+        resize: vertical;
+        padding: 0;
+        font-family: inherit;
+      }
+
+      .body-textarea::placeholder {
+        color: rgba(161, 211, 248, 0.35);
+      }
+
+      .meta-section {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding-top: 24px;
+        border-top: 1px solid rgba(110, 143, 153, 0.3);
+      }
+
+      .meta-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .meta-label {
+        font-size: 13px;
+        color: rgba(161, 211, 248, 0.7);
+        width: 80px;
+      }
+
+      .tags-input-container {
+        flex: 1;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .tag-chip {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        background: rgba(59, 93, 109, 0.5);
+        border-radius: 999px;
+        font-size: 13px;
+        color: rgba(161, 211, 248, 0.9);
+      }
+
+      .tag-chip iconify-icon {
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+
+      .tag-chip iconify-icon:hover {
+        color: #ffffff;
+      }
+
+      .add-tag-btn {
+        background: transparent;
+        border: 1px dashed rgba(161, 211, 248, 0.4);
+        color: rgba(161, 211, 248, 0.7);
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .add-tag-btn:hover {
+        border-color: rgba(161, 211, 248, 0.7);
+        color: rgba(161, 211, 248, 1);
+      }
+
+      .collection-selector {
+        font-size: 14px;
+        color: #e8f4fb;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        transition: background 0.2s;
+      }
+
+      .collection-selector:hover {
+        background: rgba(53, 118, 162, 0.15);
+      }
+
+      /* Profile Dropdown */
+      .profile-dropdown {
+        position: relative;
+      }
+
+      .profile-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid rgba(53, 118, 162, 0.4);
+        transition: all 0.2s;
+        background: none;
+        padding: 0;
+      }
+
+      .profile-btn:hover {
+        border-color: rgba(53, 118, 162, 0.7);
+        transform: scale(1.05);
+      }
+
+      .profile-btn img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        min-width: 180px;
+        background: rgba(11, 43, 58, 0.95);
+        border: 1px solid rgba(53, 118, 162, 0.3);
+        border-radius: var(--radius-md);
+        padding: 8px;
+        display: none;
+        flex-direction: column;
+        gap: 4px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(12px);
+        z-index: 1000;
+      }
+
+      .dropdown-menu.show {
+        display: flex;
+      }
+
+      .dropdown-item {
+        padding: 10px 14px;
+        border-radius: var(--radius-sm);
+        color: rgba(161, 211, 248, 0.9);
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .dropdown-item:hover {
+        background: rgba(53, 118, 162, 0.3);
+        color: #e8f4fb;
+      }
+
+      /* Notification Bell */
+      .notification-btn {
+        position: relative;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(161, 211, 248, 0.7);
+        cursor: pointer;
+        transition: all 0.2s;
+        background: transparent;
+        border: none;
+      }
+
+      .notification-btn:hover {
+        background: rgba(53, 118, 162, 0.2);
+        color: rgba(161, 211, 248, 1);
+      }
+
+      .notification-badge {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 8px;
+        height: 8px;
+        background: #ff6b6b;
+        border-radius: 50%;
+        border: 2px solid rgba(0, 27, 46, 0.96);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header>
+        <div class="top-nav">
+          <a href="index.html" class="logo-mark">
+            <div class="logo-icon-wrap">
+              <iconify-icon
+                icon="lucide:feather"
+                style="font-size: 20px; color: var(--accent)"
+              ></iconify-icon>
+            </div>
+            <div class="logo-text">Poemvy</div>
+          </a>
+          <div class="search-container">
+            <div class="search-wrapper">
+              <iconify-icon
+                icon="lucide:search"
+                class="search-icon"
+                style="font-size: 16px"
+              ></iconify-icon>
+              <input
+                type="text"
+                class="search-bar"
+                placeholder="Search poems, poets, or themes..."
+              />
+            </div>
+          </div>
+          <nav class="nav-links">
+            <a href="index.html" class="nav-link">
+              <span class="nav-link-label">Home</span>
+            </a>
+            <button class="notification-btn" title="Notifications">
+              <iconify-icon icon="lucide:bell" width="20"></iconify-icon>
+              <span class="notification-badge"></span>
+            </button>
+            <div class="profile-dropdown">
+              <button class="profile-btn" onclick="toggleDropdown()">
+                <img
+                  src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FEuropean%2F2"
+                  alt="Your profile"
+                />
+              </button>
+              <div class="dropdown-menu" id="profileDropdown">
+                <a href="profile.html" class="dropdown-item">
+                  <iconify-icon icon="lucide:user" width="16"></iconify-icon>
+                  Profile
+                </a>
+                <a href="account.html" class="dropdown-item">
+                  <iconify-icon icon="lucide:settings" width="16"></iconify-icon>
+                  Account
+                </a>
+                <a href="#" class="dropdown-item">
+                  <iconify-icon icon="lucide:sliders" width="16"></iconify-icon>
+                  Settings
+                </a>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </header>
+
+      <main>
+        <div class="editor-container">
+          <div class="editor-header">
+            <div class="editor-status">
+              <div class="status-dot"></div>
+              <span>Saved to drafts</span>
+            </div>
+            <div class="editor-actions">
+              <button class="btn-secondary">Preview</button>
+              <button class="btn-primary">Publish</button>
+            </div>
+          </div>
+
+          <div class="writing-surface">
+            <input
+              type="text"
+              class="title-input"
+              placeholder="Title of your poem"
+            />
+
+            <div class="toolbar">
+              <button class="tool-btn" title="Bold">
+                <div
+                  style="
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:bold"
+                    style="font-size: 18px"
+                  ></iconify-icon>
+                </div>
+              </button>
+              <button class="tool-btn" title="Italic">
+                <div
+                  style="
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:italic"
+                    style="font-size: 18px"
+                  ></iconify-icon>
+                </div>
+              </button>
+              <button class="tool-btn" title="Center Align">
+                <div
+                  style="
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:align-center"
+                    style="font-size: 18px"
+                  ></iconify-icon>
+                </div>
+              </button>
+              <div class="toolbar-divider"></div>
+              <button class="tool-btn" title="Add Image">
+                <div
+                  style="
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <iconify-icon
+                    icon="lucide:image"
+                    style="font-size: 18px"
+                  ></iconify-icon>
+                </div>
+              </button>
+            </div>
+
+            <textarea
+              class="body-textarea"
+              placeholder="What is your soul whispering today..."
+            ></textarea>
+          </div>
+
+          <div class="meta-section">
+            <div class="meta-row">
+              <div class="meta-label">Tags</div>
+              <div class="tags-input-container">
+                <div class="tag-chip">
+                  <span>#nature</span>
+                  <iconify-icon
+                    icon="lucide:x"
+                    style="font-size: 12px"
+                  ></iconify-icon>
+                </div>
+                <button class="add-tag-btn">+ Add tag</button>
+              </div>
+            </div>
+            <div class="meta-row">
+              <div class="meta-label">Collection</div>
+              <div class="collection-selector">
+                <span>Midnight Whispers</span>
+                <iconify-icon
+                  icon="lucide:chevron-down"
+                  style="font-size: 14px; color: rgba(110, 143, 153, 0.8)"
+                ></iconify-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script>
+      function toggleDropdown() {
+        const dropdown = document.getElementById('profileDropdown');
+        dropdown.classList.toggle('show');
+      }
+
+      // Close dropdown when clicking outside
+      window.addEventListener('click', function(e) {
+        if (!e.target.closest('.profile-dropdown')) {
+          const dropdown = document.getElementById('profileDropdown');
+          dropdown.classList.remove('show');
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elena Voshka – Poemvy</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100;200;300;400;500;600;700;800;900&family=Geist:wght@100;200;300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900&family=PT+Serif:wght@400;700&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Shantell+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --background: #001b2e;
+        --foreground: #a1d3f8;
+        --border: #00000014;
+        --input: #0b2b3a;
+        --primary: #3576a2;
+        --primary-foreground: #001b2e;
+        --secondary: #3b5d6d;
+        --secondary-foreground: #a1d3f8;
+        --muted: #6e8f99;
+        --muted-foreground: #6e8f99;
+        --accent: #a1d3f8;
+        --accent-foreground: #001b2e;
+        --card: #0b2b3a;
+        --card-foreground: #cfeffb;
+        --radius-sm: 4px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 24px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background: #001b2e;
+        background: radial-gradient(
+          circle at top,
+          rgba(59, 93, 109, 0.4),
+          #001b2e 50%
+        );
+        color: #c1d9e8;
+        font-size: 15px;
+        line-height: 1.6;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+
+      .app-shell {
+        width: 100%;
+        max-width: 1440px;
+        padding: 0 24px 48px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Header Styles */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(18px);
+      }
+
+      .top-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 0;
+        height: 64px;
+        border-bottom: 1px solid rgba(110, 143, 153, 0.35);
+        border-radius: var(--radius-md);
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 27, 46, 0.96),
+          rgba(0, 27, 46, 0.9)
+        );
+      }
+
+      .logo-mark {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+      }
+
+      .logo-icon-wrap {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(53, 118, 162, 0.2);
+      }
+
+      .logo-text {
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #a1d3f8;
+      }
+
+      .search-container {
+        flex: 1;
+        max-width: 480px;
+        margin: 0 32px;
+      }
+
+      .search-wrapper {
+        position: relative;
+      }
+
+      .search-bar {
+        width: 100%;
+        padding: 8px 16px 8px 40px;
+        background: rgba(11, 43, 58, 0.6);
+        border: 1px solid rgba(53, 118, 162, 0.3);
+        border-radius: 999px;
+        color: rgba(193, 217, 232, 0.95);
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s;
+      }
+
+      .search-bar::placeholder {
+        color: rgba(110, 143, 153, 0.7);
+      }
+
+      .search-bar:focus {
+        border-color: rgba(53, 118, 162, 0.6);
+        background: rgba(11, 43, 58, 0.8);
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(110, 143, 153, 0.7);
+        pointer-events: none;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .nav-link {
+        position: relative;
+        color: rgba(161, 211, 248, 0.7);
+        text-decoration: none;
+        cursor: pointer;
+        white-space: nowrap;
+        padding: 8px 20px;
+        border-radius: 999px;
+        transition: all 0.25s ease;
+        background: transparent;
+      }
+
+      .nav-link:hover {
+        color: rgba(161, 211, 248, 1);
+        background: rgba(53, 118, 162, 0.2);
+      }
+
+      .nav-link[data-active="true"] {
+        color: #ffffff;
+        background: rgba(53, 118, 162, 0.4);
+        border: 1px solid rgba(53, 118, 162, 0.3);
+      }
+
+      /* Main Layout */
+      main {
+        display: flex;
+        justify-content: center;
+        padding-top: 32px;
+      }
+
+      /* Profile Container */
+      .profile-container {
+        max-width: 720px;
+        margin: 0 auto;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      /* Profile Header */
+      .profile-header {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 40px;
+        padding: 24px 0 32px;
+        border-bottom: 1px solid rgba(53, 118, 162, 0.2);
+      }
+
+      .profile-left {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .profile-right {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 3px solid rgba(53, 118, 162, 0.4);
+      }
+
+      .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .profile-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+      }
+
+      .profile-name {
+        font-size: 26px;
+        font-weight: 700;
+        color: #e8f4fb;
+        margin: 0;
+      }
+
+      .profile-handle {
+        font-size: 15px;
+        color: rgba(161, 211, 248, 0.7);
+        margin: 0;
+      }
+
+      .profile-bio {
+        font-size: 15px;
+        line-height: 1.6;
+        color: rgba(193, 217, 232, 0.9);
+        margin: 0;
+      }
+
+      /* Profile Stats */
+      .profile-stats {
+        display: flex;
+        gap: 32px;
+        margin: 0;
+      }
+
+      .stat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .stat-value {
+        font-size: 18px;
+        font-weight: 600;
+        color: #e8f4fb;
+      }
+
+      .stat-label {
+        font-size: 13px;
+        color: rgba(161, 211, 248, 0.7);
+      }
+
+      /* Edit Profile Button */
+      .edit-profile-btn {
+        padding: 10px 24px;
+        border-radius: 999px;
+        background: rgba(53, 118, 162, 0.4);
+        color: rgba(161, 211, 248, 0.95);
+        font-size: 14px;
+        font-weight: 500;
+        border: 1px solid rgba(53, 118, 162, 0.3);
+        cursor: pointer;
+        transition: all 0.2s;
+        align-self: flex-start;
+      }
+
+      .edit-profile-btn:hover {
+        background: rgba(53, 118, 162, 0.6);
+        color: #ffffff;
+      }
+
+      /* Profile Tabs */
+      .profile-tabs {
+        display: flex;
+        gap: 32px;
+        justify-content: center;
+        border-bottom: 1px solid rgba(53, 118, 162, 0.2);
+        padding-bottom: 0;
+      }
+
+      .profile-tab {
+        padding: 12px 8px;
+        font-size: 14px;
+        font-weight: 500;
+        color: rgba(161, 211, 248, 0.6);
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+        background: none;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        position: relative;
+        bottom: -1px;
+      }
+
+      .profile-tab:hover {
+        color: rgba(161, 211, 248, 0.9);
+      }
+
+      .profile-tab.active {
+        color: #a1d3f8;
+        border-bottom-color: #a1d3f8;
+      }
+
+      /* Poems Feed */
+      .poem-feed {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 20px;
+      }
+
+      article.poem-card {
+        background: rgba(11, 43, 58, 0.9);
+        border: 1px solid rgba(53, 118, 162, 0.15);
+        border-radius: var(--radius-lg);
+        padding: 16px 18px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .poem-header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .poem-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #e8f4fb;
+      }
+
+      .poem-date {
+        font-size: 12px;
+        color: rgba(110, 143, 153, 0.85);
+      }
+
+      .poem-more-btn {
+        background: none;
+        border: none;
+        color: rgba(161, 211, 248, 0.6);
+        cursor: pointer;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .poem-body {
+        font-size: 16px;
+        line-height: 1.8;
+        color: rgba(193, 217, 232, 0.95);
+        white-space: pre-line;
+        margin: 8px 0;
+      }
+
+      .poem-footer-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 4px;
+      }
+
+      .poem-actions {
+        display: flex;
+        gap: 18px;
+        font-size: 12px;
+        color: rgba(110, 143, 153, 0.9);
+      }
+
+      .poem-action-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+      }
+
+      .poem-action-count {
+        min-width: 10px;
+      }
+
+      /* Profile Dropdown */
+      .profile-dropdown {
+        position: relative;
+      }
+
+      .profile-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid rgba(53, 118, 162, 0.4);
+        transition: all 0.2s;
+        background: none;
+        padding: 0;
+      }
+
+      .profile-btn:hover {
+        border-color: rgba(53, 118, 162, 0.7);
+        transform: scale(1.05);
+      }
+
+      .profile-btn img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        min-width: 180px;
+        background: rgba(11, 43, 58, 0.95);
+        border: 1px solid rgba(53, 118, 162, 0.3);
+        border-radius: var(--radius-md);
+        padding: 8px;
+        display: none;
+        flex-direction: column;
+        gap: 4px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(12px);
+        z-index: 1000;
+      }
+
+      .dropdown-menu.show {
+        display: flex;
+      }
+
+      .dropdown-item {
+        padding: 10px 14px;
+        border-radius: var(--radius-sm);
+        color: rgba(161, 211, 248, 0.9);
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .dropdown-item:hover {
+        background: rgba(53, 118, 162, 0.3);
+        color: #e8f4fb;
+      }
+
+      /* Notification Bell */
+      .notification-btn {
+        position: relative;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(161, 211, 248, 0.7);
+        cursor: pointer;
+        transition: all 0.2s;
+        background: transparent;
+        border: none;
+      }
+
+      .notification-btn:hover {
+        background: rgba(53, 118, 162, 0.2);
+        color: rgba(161, 211, 248, 1);
+      }
+
+      .notification-badge {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 8px;
+        height: 8px;
+        background: #ff6b6b;
+        border-radius: 50%;
+        border: 2px solid rgba(0, 27, 46, 0.96);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <!-- Top Navigation -->
+      <header>
+        <div class="top-nav">
+          <div class="logo-mark" onclick="window.location.href='index.html'">
+            <div class="logo-icon-wrap">
+              <iconify-icon
+                icon="lucide:feather"
+                style="font-size: 20px; color: var(--accent)"
+              ></iconify-icon>
+            </div>
+            <div class="logo-text">Poemvy</div>
+          </div>
+          <div class="search-container">
+            <div class="search-wrapper">
+              <iconify-icon
+                icon="lucide:search"
+                class="search-icon"
+                style="font-size: 16px"
+              ></iconify-icon>
+              <input
+                type="text"
+                class="search-bar"
+                placeholder="Search poems, poets, or themes..."
+              />
+            </div>
+          </div>
+          <nav class="nav-links">
+            <a href="index.html" class="nav-link">
+              <span class="nav-link-label">Home</span>
+            </a>
+            <button class="notification-btn" title="Notifications">
+              <iconify-icon icon="lucide:bell" width="20"></iconify-icon>
+              <span class="notification-badge"></span>
+            </button>
+            <div class="profile-dropdown">
+              <button class="profile-btn" onclick="toggleDropdown()">
+                <img
+                  src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FEuropean%2F2"
+                  alt="Your profile"
+                />
+              </button>
+              <div class="dropdown-menu" id="profileDropdown">
+                <a href="profile.html" class="dropdown-item">
+                  <iconify-icon icon="lucide:user" width="16"></iconify-icon>
+                  Profile
+                </a>
+                <a href="account.html" class="dropdown-item">
+                  <iconify-icon icon="lucide:settings" width="16"></iconify-icon>
+                  Account
+                </a>
+                <a href="#" class="dropdown-item">
+                  <iconify-icon icon="lucide:sliders" width="16"></iconify-icon>
+                  Settings
+                </a>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main>
+        <!-- Profile Container -->
+        <div class="profile-container">
+        <!-- Profile Header -->
+        <div class="profile-header">
+          <div class="profile-left">
+            <div class="profile-avatar">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FEuropean%2F2"
+                alt="Elena Voshka"
+              />
+            </div>
+            <div class="profile-info">
+              <h1 class="profile-name">Elena Voshka</h1>
+              <p class="profile-handle">@elena</p>
+            </div>
+          </div>
+
+          <div class="profile-right">
+            <div class="profile-stats">
+              <div class="stat-item">
+                <span class="stat-value">62</span>
+                <span class="stat-label">Poems</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">12k</span>
+                <span class="stat-label">Followers</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">85</span>
+                <span class="stat-label">Following</span>
+              </div>
+            </div>
+
+            <p class="profile-bio">
+              Chasing the moon through words. Finding silence in the noise.<br />
+              Poet & Dreamer based in Kyoto.
+            </p>
+
+            <button class="edit-profile-btn">Edit Profile</button>
+          </div>
+        </div>
+
+        <!-- Profile Tabs -->
+        <div class="profile-tabs">
+          <button class="profile-tab active">Poems</button>
+          <button class="profile-tab">Collections</button>
+          <button class="profile-tab">About</button>
+        </div>
+
+        <!-- Poems Feed -->
+        <div class="poem-feed">
+          <!-- Poem Card 1 -->
+          <article class="poem-card">
+            <div class="poem-header-row">
+              <h2 class="poem-title">The Silent Morning</h2>
+              <div style="display: flex; align-items: center; gap: 12px">
+                <span class="poem-date">Oct 14</span>
+                <button class="poem-more-btn">
+                  <iconify-icon icon="lucide:more-horizontal" width="18"></iconify-icon>
+                </button>
+              </div>
+            </div>
+            <div class="poem-body">
+The mist hasn't lifted yet,
+it clings to the pine needles like a second skin.
+I walked out to meet the cold,
+and found only my own breath waiting for me.
+            </div>
+            <div class="poem-footer-row">
+              <div class="poem-actions">
+                <div class="poem-action-item">
+                  <iconify-icon icon="lucide:heart" width="16"></iconify-icon>
+                  <span class="poem-action-count">124</span>
+                </div>
+                <div class="poem-action-item">
+                  <iconify-icon icon="lucide:message-circle" width="16"></iconify-icon>
+                  <span class="poem-action-count">18</span>
+                </div>
+                <div class="poem-action-item">
+                  <iconify-icon icon="lucide:share-2" width="16"></iconify-icon>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Poem Card 2 -->
+          <article class="poem-card">
+            <div class="poem-header-row">
+              <h2 class="poem-title">Paper Boats</h2>
+              <div style="display: flex; align-items: center; gap: 12px">
+                <span class="poem-date">Oct 02</span>
+                <button class="poem-more-btn">
+                  <iconify-icon icon="lucide:more-horizontal" width="18"></iconify-icon>
+                </button>
+              </div>
+            </div>
+            <div class="poem-body">
+We fold our worries into sharp angles,
+crease them down with thumbnails,
+and set them afloat on the river.
+Watch them drift, water-logging slowly,
+until they are just pulp and memory.
+            </div>
+            <div class="poem-footer-row">
+              <div class="poem-actions">
+                <div class="poem-action-item">
+                  <iconify-icon icon="lucide:heart" width="16"></iconify-icon>
+                  <span class="poem-action-count">89</span>
+                </div>
+                <div class="poem-action-item">
+                  <iconify-icon icon="lucide:message-circle" width="16"></iconify-icon>
+                  <span class="poem-action-count">6</span>
+                </div>
+                <div class="poem-action-item">
+                  <iconify-icon icon="lucide:share-2" width="16"></iconify-icon>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Poem Card 3 -->
+          <article class="poem-card">
+            <div class="poem-header-row">
+              <h2 class="poem-title">Echoes of Blue</h2>
+              <div style="display: flex; align-items: center; gap: 12px">
+                <span class="poem-date">Sep 28</span>
+                <button class="poem-more-btn">
+                  <iconify-icon icon="lucide:more-horizontal" width="18"></iconify-icon>
+                </button>
+              </div>
+            </div>
+            <div class="poem-body">
+Blue is not just a color,
+it is a distance.
+The space between mountains,
+the depth of the ocean where light falls.
+            </div>
+            <div class="poem-footer-row">
+              <div class="poem-actions">
+                <div class="poem-action-item">
+                  <iconify-icon icon="lucide:heart" width="16"></iconify-icon>
+                  <span class="poem-action-count">205</span>
+                </div>
+                <div class="poem-action-item">
+                  <iconify-icon icon="lucide:message-circle" width="16"></iconify-icon>
+                  <span class="poem-action-count">34</span>
+                </div>
+                <div class="poem-action-item">
+                  <iconify-icon icon="lucide:share-2" width="16"></iconify-icon>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+      </main>
+    </div>
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script>
+      function toggleDropdown() {
+        const dropdown = document.getElementById('profileDropdown');
+        dropdown.classList.toggle('show');
+      }
+
+      // Close dropdown when clicking outside
+      window.addEventListener('click', function(e) {
+        if (!e.target.closest('.profile-dropdown')) {
+          const dropdown = document.getElementById('profileDropdown');
+          dropdown.classList.remove('show');
+        }
+      });
+    </script>
+  </body>
+</html>
