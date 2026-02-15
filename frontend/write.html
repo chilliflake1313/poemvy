@@ -377,6 +377,12 @@
         padding: 8px;
         overflow-y: auto;
         max-height: 420px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .drafts-list::-webkit-scrollbar {
+        display: none;
       }
 
       .draft-item {
@@ -502,6 +508,12 @@
         resize: vertical;
         padding: 0;
         font-family: inherit;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .body-textarea::-webkit-scrollbar {
+        display: none;
       }
 
       .body-textarea::placeholder {
