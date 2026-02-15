@@ -52,18 +52,20 @@
       body {
         margin: 0;
         padding: 0;
+        background: #001b2e;
         background: radial-gradient(
           circle at top,
-          rgba(59, 93, 109, 0.35),
-          var(--background) 52%
+          rgba(59, 93, 109, 0.4),
+          #001b2e 50%
         );
-        color: var(--foreground);
+        color: #c1d9e8;
         font-size: 15px;
         line-height: 1.6;
         display: flex;
         justify-content: center;
         min-height: 100vh;
         font-family:
+          Inter,
           system-ui,
           -apple-system,
           BlinkMacSystemFont,
@@ -111,6 +113,7 @@
         padding: 12px 0;
         height: 64px;
         border-bottom: 1px solid rgba(110, 143, 153, 0.35);
+        border-radius: var(--radius-md);
         background: linear-gradient(
           to bottom,
           rgba(0, 27, 46, 0.96),
@@ -139,45 +142,88 @@
         font-weight: 500;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        color: var(--foreground);
+        color: #a1d3f8;
+      }
+
+      .search-container {
+        flex: 1;
+        max-width: 480px;
+        margin: 0 32px;
+      }
+
+      .search-bar {
+        width: 100%;
+        padding: 8px 16px 8px 40px;
+        background: rgba(11, 43, 58, 0.6);
+        border: 1px solid rgba(53, 118, 162, 0.3);
+        border-radius: 999px;
+        color: rgba(193, 217, 232, 0.95);
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s;
+        position: relative;
+      }
+
+      .search-bar::placeholder {
+        color: rgba(110, 143, 153, 0.7);
+      }
+
+      .search-bar:focus {
+        border-color: rgba(53, 118, 162, 0.6);
+        background: rgba(11, 43, 58, 0.8);
+      }
+
+      .search-wrapper {
+        position: relative;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(110, 143, 153, 0.7);
+        pointer-events: none;
       }
 
       .nav-links {
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 12px;
         font-size: 14px;
         font-weight: 500;
       }
 
       .nav-link {
         position: relative;
-        color: var(--muted-foreground);
+        color: rgba(161, 211, 248, 0.7);
         text-decoration: none;
         cursor: pointer;
         white-space: nowrap;
+        padding: 8px 20px;
+        border-radius: 999px;
+        transition: all 0.25s ease;
+        background: transparent;
+      }
+
+      .nav-link:hover {
+        color: rgba(161, 211, 248, 1);
+        background: rgba(53, 118, 162, 0.2);
       }
 
       .nav-link[data-active="true"] {
-        color: var(--foreground);
+        color: #ffffff;
+        background: rgba(53, 118, 162, 0.4);
+        border: 1px solid rgba(53, 118, 162, 0.3);
       }
 
       .nav-link-label {
-        padding-bottom: 2px;
+        position: relative;
+        z-index: 1;
       }
 
       .nav-link-underline {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: -4px;
-        height: 2px;
-        border-radius: 999px;
-        background-color: transparent;
-      }
-
-      .nav-link[data-active="true"] .nav-link-underline {
-        background-color: rgba(53, 118, 162, 0.9);
+        display: none;
       }
 
       /* Main Layout */
@@ -199,12 +245,13 @@
         font-size: 14px;
         letter-spacing: 0.12em;
         text-transform: uppercase;
-        color: var(--muted-foreground);
+        color: rgba(110, 143, 153, 0.7);
       }
 
       /* Composer Styles */
       .composer {
-        background: rgba(59, 93, 109, 0.3);
+        background: rgba(11, 43, 58, 0.6);
+        border: 1px solid rgba(53, 118, 162, 0.2);
         border-radius: var(--radius-lg);
         padding: 16px 18px 14px;
         display: flex;
@@ -243,7 +290,7 @@
 
       .composer-placeholder {
         min-height: 48px;
-        color: var(--muted-foreground);
+        color: rgba(161, 211, 248, 0.5);
         font-size: 16px;
         line-height: 1.7;
       }
@@ -259,13 +306,14 @@
         display: flex;
         gap: 10px;
         font-size: 12px;
-        color: var(--muted-foreground);
+        color: rgba(110, 143, 153, 0.8);
       }
 
       .composer-hint-chip {
         padding: 4px 8px;
         border-radius: var(--radius-xl);
-        background: rgba(59, 93, 109, 0.5);
+        background: rgba(59, 93, 109, 0.7);
+        color: rgba(161, 211, 248, 0.7);
         white-space: nowrap;
       }
 
@@ -282,20 +330,32 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--muted-foreground);
+        color: rgba(110, 143, 153, 0.8);
         cursor: pointer;
+        transition: color 0.2s;
+      }
+
+      .icon-button:hover {
+        color: rgba(161, 211, 248, 0.9);
       }
 
       .publish-btn {
         margin-left: auto;
         padding: 6px 16px;
         border-radius: 999px;
-        background: rgba(53, 118, 162, 0.35);
-        color: rgba(161, 211, 248, 0.8);
+        background: rgba(53, 118, 162, 0.5);
+        color: rgba(161, 211, 248, 0.95);
         font-size: 13px;
         font-weight: 500;
         cursor: pointer;
         white-space: nowrap;
+        border: 1px solid rgba(53, 118, 162, 0.3);
+        transition: all 0.2s;
+      }
+
+      .publish-btn:hover {
+        background: rgba(53, 118, 162, 0.7);
+        color: #ffffff;
       }
 
       /* Poem Card Styles */
@@ -306,7 +366,8 @@
       }
 
       article.poem-card {
-        background: rgba(11, 43, 58, 0.8);
+        background: rgba(11, 43, 58, 0.9);
+        border: 1px solid rgba(53, 118, 162, 0.15);
         border-radius: var(--radius-lg);
         padding: 16px 18px 12px;
         display: flex;
@@ -359,13 +420,19 @@
       .follow-btn {
         padding: 4px 10px;
         border-radius: 999px;
-        background: rgba(59, 93, 109, 0.6);
-        color: rgba(161, 211, 248, 0.9);
+        background: rgba(53, 118, 162, 0.4);
+        color: rgba(161, 211, 248, 0.95);
         font-size: 12px;
         font-weight: 500;
-        border: none;
+        border: 1px solid rgba(53, 118, 162, 0.3);
         cursor: pointer;
         white-space: nowrap;
+        transition: all 0.2s;
+      }
+
+      .follow-btn:hover {
+        background: rgba(53, 118, 162, 0.6);
+        color: #ffffff;
       }
 
       .poem-timestamp {
@@ -426,6 +493,20 @@
             </div>
             <div class="logo-text">Poemvy</div>
           </div>
+          <div class="search-container">
+            <div class="search-wrapper">
+              <iconify-icon
+                icon="lucide:search"
+                class="search-icon"
+                style="font-size: 16px"
+              ></iconify-icon>
+              <input
+                type="text"
+                class="search-bar"
+                placeholder="Search poems, poets, or themes..."
+              />
+            </div>
+          </div>
           <nav class="nav-links">
             <a
               class="nav-link"
@@ -433,15 +514,9 @@
               data-active="true"
             >
               <span class="nav-link-label">Home</span>
-              <span class="nav-link-underline"></span>
-            </a>
-            <a class="nav-link" data-media-type="banani-button">
-              <span class="nav-link-label">Write</span>
-              <span class="nav-link-underline"></span>
             </a>
             <a class="nav-link" data-media-type="banani-button">
               <span class="nav-link-label">Profile</span>
-              <span class="nav-link-underline"></span>
             </a>
           </nav>
         </div>
@@ -449,8 +524,6 @@
 
       <main>
         <section class="feed-shell" aria-label="Poem feed">
-          <div class="section-title">Your quiet space</div>
-
           <section class="composer" aria-label="Write a new poem">
             <div class="composer-top">
               <div class="avatar-circle">
