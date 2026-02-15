@@ -496,7 +496,7 @@
         margin: 0 4px;
       }
 
-      .body-textarea {
+      .editor-content {
         width: 100%;
         min-height: 400px;
         background: transparent;
@@ -505,19 +505,96 @@
         line-height: 1.8;
         color: #d4e8f3;
         outline: none;
-        resize: vertical;
         padding: 0;
         font-family: inherit;
         scrollbar-width: none;
         -ms-overflow-style: none;
+        overflow-y: auto;
       }
 
-      .body-textarea::-webkit-scrollbar {
+      .editor-content::-webkit-scrollbar {
         display: none;
       }
 
-      .body-textarea::placeholder {
+      .editor-content:empty:before {
+        content: attr(data-placeholder);
         color: rgba(161, 211, 248, 0.35);
+        pointer-events: none;
+      }
+
+      .editor-content h1 {
+        font-size: 32px;
+        font-weight: 600;
+        margin: 16px 0;
+        color: #e8f4f8;
+      }
+
+      .editor-content h2 {
+        font-size: 24px;
+        font-weight: 600;
+        margin: 14px 0;
+        color: #e8f4f8;
+      }
+
+      .editor-content strong {
+        font-weight: 600;
+        color: #e8f4f8;
+      }
+
+      .editor-content em {
+        font-style: italic;
+        color: rgba(161, 211, 248, 0.95);
+      }
+
+      .editor-content blockquote {
+        border-left: 3px solid rgba(161, 211, 248, 0.4);
+        padding-left: 20px;
+        margin: 16px 0;
+        color: rgba(161, 211, 248, 0.85);
+        font-style: italic;
+      }
+
+      .floating-toolbar {
+        position: absolute;
+        display: none;
+        background: rgba(26, 35, 53, 0.98);
+        border: 1px solid rgba(161, 211, 248, 0.2);
+        border-radius: 8px;
+        padding: 6px;
+        gap: 4px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        z-index: 10000;
+        backdrop-filter: blur(10px);
+      }
+
+      .floating-toolbar.show {
+        display: flex;
+      }
+
+      .toolbar-btn {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        border-radius: 4px;
+        color: rgba(161, 211, 248, 0.8);
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+      }
+
+      .toolbar-btn:hover {
+        background: rgba(53, 118, 162, 0.3);
+        color: rgba(161, 211, 248, 1);
+      }
+
+      .toolbar-btn.active {
+        background: rgba(53, 118, 162, 0.5);
+        color: rgba(161, 211, 248, 1);
       }
 
       .meta-section {
@@ -932,55 +1009,6 @@
             />
 
             <div class="toolbar">
-              <button class="tool-btn" title="Bold">
-                <div
-                  style="
-                    width: 20px;
-                    height: 20px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                  "
-                >
-                  <iconify-icon
-                    icon="lucide:bold"
-                    style="font-size: 18px"
-                  ></iconify-icon>
-                </div>
-              </button>
-              <button class="tool-btn" title="Italic">
-                <div
-                  style="
-                    width: 20px;
-                    height: 20px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                  "
-                >
-                  <iconify-icon
-                    icon="lucide:italic"
-                    style="font-size: 18px"
-                  ></iconify-icon>
-                </div>
-              </button>
-              <button class="tool-btn" title="Center Align">
-                <div
-                  style="
-                    width: 20px;
-                    height: 20px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                  "
-                >
-                  <iconify-icon
-                    icon="lucide:align-center"
-                    style="font-size: 18px"
-                  ></iconify-icon>
-                </div>
-              </button>
-              <div class="toolbar-divider"></div>
               <button class="tool-btn" title="Add Image">
                 <div
                   style="
@@ -999,10 +1027,31 @@
               </button>
             </div>
 
-            <textarea
-              class="body-textarea"
-              placeholder="What is your soul whispering today..."
-            ></textarea>
+            <div
+              id="editorContent"
+              class="editor-content"
+              contenteditable="true"
+              data-placeholder="What is your soul whispering today..."
+            ></div>
+          </div>
+
+          <!-- Floating Toolbar -->
+          <div id="floatingToolbar" class="floating-toolbar">
+            <button class="toolbar-btn" data-cmd="bold" title="Bold (Ctrl+B)">
+              <strong>B</strong>
+            </button>
+            <button class="toolbar-btn" data-cmd="italic" title="Italic (Ctrl+I)">
+              <em>I</em>
+            </button>
+            <button class="toolbar-btn" data-cmd="h1" title="Heading 1">
+              H1
+            </button>
+            <button class="toolbar-btn" data-cmd="h2" title="Heading 2">
+              H2
+            </button>
+            <button class="toolbar-btn" data-cmd="quote" title="Quote">
+              &ldquo;&rdquo;
+            </button>
           </div>
 
           <div class="meta-section">
@@ -1053,6 +1102,7 @@
     </div>
 
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
     <script>
       function toggleDropdown() {
         const dropdown = document.getElementById('profileDropdown');
@@ -1072,7 +1122,54 @@
       const statusDot = document.querySelector('.status-dot');
       const statusText = document.querySelector('.status-text');
       const titleInput = document.querySelector('.title-input');
-      const bodyTextarea = document.querySelector('.body-textarea');
+      const editorContent = document.getElementById('editorContent');
+      const floatingToolbar = document.getElementById('floatingToolbar');
+
+      // DOMPurify configuration - allowed tags only
+      const ALLOWED_TAGS = ['p', 'h1', 'h2', 'h3', 'strong', 'em', 'blockquote', 'ul', 'ol', 'li', 'a', 'br'];
+      const ALLOWED_ATTR = ['href', 'target'];
+
+      function sanitizeHTML(html) {
+        return DOMPurify.sanitize(html, {
+          ALLOWED_TAGS: ALLOWED_TAGS,
+          ALLOWED_ATTR: ALLOWED_ATTR,
+          KEEP_CONTENT: true,
+          ALLOW_DATA_ATTR: false
+        });
+      }
+
+      function stripInlineStyles(element) {
+        // Remove all inline styles from element and children
+        const all = element.querySelectorAll('*');
+        all.forEach(el => {
+          el.removeAttribute('style');
+          el.removeAttribute('class');
+        });
+      }
+
+      function normalizeContent() {
+        // Sanitize and normalize content
+        const content = editorContent.innerHTML;
+        const sanitized = sanitizeHTML(content);
+        editorContent.innerHTML = sanitized;
+        stripInlineStyles(editorContent);
+      }
+
+      function saveSelection() {
+        const selection = window.getSelection();
+        if (selection.rangeCount > 0) {
+          return selection.getRangeAt(0);
+        }
+        return null;
+      }
+
+      function restoreSelection(range) {
+        if (range) {
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+      }
 
       function updateStatus(status) {
         if (status === 'saving') {
@@ -1087,9 +1184,9 @@
       function autoSave() {
         updateStatus('saving');
         
-        // Save draft to localStorage
+        // Sanitize content before save
         const title = titleInput.value.trim();
-        const body = bodyTextarea.value.trim();
+        const body = sanitizeHTML(editorContent.innerHTML.trim());
         
         if (title || body) {
           const draft = {
@@ -1136,10 +1233,10 @@
           clearTimeout(autoSaveTimer);
         }
         
-        // Set new timer to save after 1 second of no typing
+        // Set new timer to save after 8 seconds of no typing
         autoSaveTimer = setTimeout(() => {
           autoSave();
-        }, 1000);
+        }, 8000);
       }
 
       // Attach event listeners
@@ -1147,8 +1244,24 @@
         titleInput.addEventListener('input', handleInput);
       }
       
-      if (bodyTextarea) {
-        bodyTextarea.addEventListener('input', handleInput);
+      if (editorContent) {
+        editorContent.addEventListener('input', handleInput);
+        
+        // Sanitize on paste
+        editorContent.addEventListener('paste', (e) => {
+          e.preventDefault();
+          const text = e.clipboardData.getData('text/html') || e.clipboardData.getData('text/plain');
+          const sanitized = sanitizeHTML(text);
+          document.execCommand('insertHTML', false, sanitized);
+          handleInput();
+        });
+        
+        // Normalize content on blur
+        editorContent.addEventListener('blur', () => {
+          setTimeout(() => {
+            normalizeContent();
+          }, 100);
+        });
       }
 
       // Drafts dropdown functionality
@@ -1188,7 +1301,11 @@
             minute: '2-digit'
           });
           
-          const preview = draft.body.substring(0, 100) + (draft.body.length > 100 ? '...' : '');
+          // Strip HTML tags for preview
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = draft.body;
+          const plainText = tempDiv.textContent || tempDiv.innerText || '';
+          const preview = plainText.substring(0, 100) + (plainText.length > 100 ? '...' : '');
           
           return `
             <div class="draft-item" data-draft-id="${draft.id}">
@@ -1216,12 +1333,194 @@
         
         if (draft) {
           titleInput.value = draft.title === 'Untitled' ? '' : draft.title;
-          bodyTextarea.value = draft.body;
+          editorContent.innerHTML = draft.body || '';
           localStorage.setItem('currentDraftId', draftId);
           closeDraftsDropdown();
           updateStatus('saved');
         }
       }
+
+      // Rich Text Editor Functionality
+      function wrapSelection(tag) {
+        const selection = window.getSelection();
+        if (!selection.rangeCount) return;
+
+        const range = selection.getRangeAt(0);
+        const selectedText = range.toString();
+        
+        if (selectedText.length === 0) return;
+
+        // Check if already wrapped in same tag (prevent nesting)
+        const parentElement = range.commonAncestorContainer.parentElement;
+        if (parentElement && parentElement.tagName && parentElement.tagName.toLowerCase() === tag.toLowerCase()) {
+          // Already wrapped, unwrap instead
+          const content = parentElement.innerHTML;
+          const textNode = document.createTextNode(parentElement.textContent);
+          parentElement.parentNode.replaceChild(textNode, parentElement);
+          floatingToolbar.classList.remove('show');
+          handleInput();
+          return;
+        }
+
+        // Save cursor position
+        const savedRange = range.cloneRange();
+        
+        // Create wrapper and insert
+        const wrapper = document.createElement(tag);
+        const contents = range.extractContents();
+        
+        // Strip nested same tags
+        const nestedTags = contents.querySelectorAll(tag);
+        nestedTags.forEach(nested => {
+          const textNode = document.createTextNode(nested.textContent);
+          nested.parentNode.replaceChild(textNode, nested);
+        });
+        
+        wrapper.appendChild(contents);
+        range.insertNode(wrapper);
+        
+        // Restore selection around the new wrapper
+        const newRange = document.createRange();
+        newRange.selectNodeContents(wrapper);
+        selection.removeAllRanges();
+        selection.addRange(newRange);
+        
+        // Hide toolbar after a moment
+        setTimeout(() => {
+          floatingToolbar.classList.remove('show');
+        }, 100);
+        
+        // Trigger auto-save
+        handleInput();
+      }
+
+      // Selection detection for floating toolbar
+      document.addEventListener('selectionchange', () => {
+        const selection = window.getSelection();
+        if (!selection.rangeCount) {
+          floatingToolbar.classList.remove('show');
+          return;
+        }
+
+        const range = selection.getRangeAt(0);
+        const selectedText = selection.toString();
+
+        // Check if selection is within editor
+        const container = range.commonAncestorContainer;
+        const isInEditor = editorContent.contains(container.nodeType === 3 ? container.parentNode : container);
+
+        if (selectedText.length > 0 && isInEditor) {
+          const rect = range.getBoundingClientRect();
+          
+          // Position toolbar above selection
+          const toolbarHeight = 44;
+          const toolbarWidth = floatingToolbar.offsetWidth || 180;
+          
+          let top = rect.top + window.scrollY - toolbarHeight - 8;
+          let left = rect.left + window.scrollX + (rect.width / 2) - (toolbarWidth / 2);
+          
+          // Keep toolbar in viewport
+          if (top < window.scrollY) {
+            top = rect.bottom + window.scrollY + 8;
+          }
+          if (left < 10) left = 10;
+          if (left + toolbarWidth > window.innerWidth - 10) {
+            left = window.innerWidth - toolbarWidth - 10;
+          }
+
+          floatingToolbar.style.top = top + 'px';
+          floatingToolbar.style.left = left + 'px';
+          floatingToolbar.classList.add('show');
+        } else {
+          floatingToolbar.classList.remove('show');
+        }
+      });
+
+      // Toolbar button handlers
+      document.querySelector('[data-cmd="bold"]').addEventListener('click', () => wrapSelection('strong'));
+      document.querySelector('[data-cmd="italic"]').addEventListener('click', () => wrapSelection('em'));
+      document.querySelector('[data-cmd="h1"]').addEventListener('click', () => wrapSelection('h1'));
+      document.querySelector('[data-cmd="h2"]').addEventListener('click', () => wrapSelection('h2'));
+      document.querySelector('[data-cmd="quote"]').addEventListener('click', () => wrapSelection('blockquote'));
+
+      // Keyboard shortcuts and special behaviors
+      editorContent.addEventListener('keydown', (e) => {
+        // Ctrl+B for bold, Ctrl+I for italic
+        if (e.ctrlKey || e.metaKey) {
+          if (e.key === 'b') {
+            e.preventDefault();
+            wrapSelection('strong');
+          } else if (e.key === 'i') {
+            e.preventDefault();
+            wrapSelection('em');
+          }
+          return;
+        }
+
+        // Enter key in heading converts to paragraph
+        if (e.key === 'Enter') {
+          const selection = window.getSelection();
+          if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const container = range.commonAncestorContainer;
+            const parentElement = container.nodeType === 3 ? container.parentElement : container;
+            
+            // Check if inside heading
+            const heading = parentElement.closest('h1, h2, h3');
+            if (heading) {
+              e.preventDefault();
+              
+              // Create new paragraph
+              const p = document.createElement('p');
+              p.innerHTML = '<br>';
+              
+              // Insert after heading
+              heading.parentNode.insertBefore(p, heading.nextSibling);
+              
+              // Move cursor to new paragraph
+              const newRange = document.createRange();
+              newRange.setStart(p, 0);
+              newRange.collapse(true);
+              selection.removeAllRanges();
+              selection.addRange(newRange);
+              
+              handleInput();
+              return;
+            }
+          }
+        }
+
+        // Backspace on empty heading converts to paragraph
+        if (e.key === 'Backspace') {
+          const selection = window.getSelection();
+          if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const container = range.commonAncestorContainer;
+            const parentElement = container.nodeType === 3 ? container.parentElement : container;
+            
+            // Check if inside empty heading
+            const heading = parentElement.closest('h1, h2, h3');
+            if (heading && (heading.textContent.trim() === '' || range.startOffset === 0)) {
+              e.preventDefault();
+              
+              // Convert to paragraph
+              const p = document.createElement('p');
+              p.innerHTML = heading.innerHTML || '<br>';
+              heading.parentNode.replaceChild(p, heading);
+              
+              // Move cursor to paragraph
+              const newRange = document.createRange();
+              newRange.setStart(p, 0);
+              newRange.collapse(true);
+              selection.removeAllRanges();
+              selection.addRange(newRange);
+              
+              handleInput();
+              return;
+            }
+          }
+        }
+      });
 
       // Add click handler for drafts button
       const draftsBtn = document.querySelector('.editor-actions button:first-child');
@@ -1253,7 +1552,7 @@
           const draft = drafts.find(d => d.id == currentDraftId);
           if (draft) {
             titleInput.value = draft.title === 'Untitled' ? '' : draft.title;
-            bodyTextarea.value = draft.body;
+            editorContent.innerHTML = draft.body || '';
           }
         }
       });
