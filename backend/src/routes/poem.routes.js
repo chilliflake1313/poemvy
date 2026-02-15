@@ -12,16 +12,33 @@ const poemValidation = [
     .withMessage('Title is required')
     .isLength({ max: 200 })
     .withMessage('Title cannot exceed 200 characters'),
-  body('body')
+  body('content')
     .trim()
     .notEmpty()
-    .withMessage('Poem body is required')
+    .withMessage('Poem content is required')
     .isLength({ max: 10000 })
-    .withMessage('Poem body cannot exceed 10000 characters'),
-  body('tags')
+    .withMessage('Poem content cannot exceed 10000 characters'),
+  body('tagNames')
     .optional()
     .isArray()
-    .withMessage('Tags must be an array'),
+    .withMessage('tagNames must be an array'),
+  body('tagNames.*')
+    .optional()
+    .trim()
+    .isLength({ max: 30 })
+    .withMessage('Tag name cannot exceed 30 characters'),
+  body('images')
+    .optional()
+    .isArray()
+    .withMessage('images must be an array'),
+  body('images.*')
+    .optional()
+    .isURL()
+    .withMessage('Each image must be a valid URL'),
+  body('collectionId')
+    .optional()
+    .isMongoId()
+    .withMessage('collectionId must be a valid MongoDB ID'),
   body('isDraft')
     .optional()
     .isBoolean()

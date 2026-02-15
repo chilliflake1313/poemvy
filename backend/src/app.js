@@ -30,6 +30,8 @@ app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/users', require('./routes/user.routes'));
 app.use('/api/poems', require('./routes/poem.routes'));
 app.use('/api/collections', require('./routes/collection.routes'));
+app.use('/api/tags', require('./routes/tag.routes'));
+app.use('/api/upload', require('./routes/upload.routes'));
 
 // Health check endpoint
 app.get('/health', (req, res) => {

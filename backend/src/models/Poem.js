@@ -7,10 +7,10 @@ const poemSchema = new mongoose.Schema({
     trim: true,
     maxlength: [200, 'Title cannot exceed 200 characters']
   },
-  body: {
+  content: {
     type: String,
-    required: [true, 'Poem body is required'],
-    maxlength: [10000, 'Poem body cannot exceed 10000 characters']
+    required: [true, 'Poem content is required'],
+    maxlength: [10000, 'Poem content cannot exceed 10000 characters']
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
@@ -18,10 +18,17 @@ const poemSchema = new mongoose.Schema({
     required: true
   },
   tags: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Tag'
+  }],
+  images: [{
     type: String,
-    trim: true,
-    lowercase: true,
-    maxlength: [30, 'Tag cannot exceed 30 characters']
+    validate: {
+      validator: function(v) {
+        return /^https?:\/\/.+/.test(v);
+      },
+      message: 'Image must be a valid URL'
+    }
   }],
   collection: {
     type: mongoose.Schema.Types.ObjectId,

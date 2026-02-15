@@ -1,5 +1,6 @@
 const Poem = require('../models/Poem');
 const User = require('../models/User');
+const tagService = require('./tag.service');
 
 // Get feed of poems
 exports.getFeed = async (page = 1, limit = 10, userId = null) => {
@@ -13,7 +14,8 @@ exports.getFeed = async (page = 1, limit = 10, userId = null) => {
       .skip(skip)
       .limit(limit)
       .populate('author', 'username name avatar')
-      .populate('collection', 'name');
+      .populate('collection', 'name')
+      .populate('tags', 'name slug');
 
     const total = await Poem.countDocuments(query);
 
@@ -37,6 +39,7 @@ exports.getPoem = async (poemId, userId = null) => {
     const poem = await Poem.findById(poemId)
       .populate('author', 'username name avatar bio')
       .populate('collection', 'name')
+      .populate('tags', 'name slug')
       .populate('comments.user', 'username name avatar');
 
     if (!poem) {
@@ -87,7 +90,8 @@ exports.getUserPoems = async (username, page = 1, limit = 10, drafts = false, re
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
-      .populate('collection', 'name');
+      .populate('collection', 'name')
+      .populate('tags', 'name slug');
 
     const total = await Poem.countDocuments(query);
 
@@ -120,7 +124,8 @@ exports.getPoemsByTag = async (tag, page = 1, limit = 10) => {
       .sort({ publishedAt: -1 })
       .skip(skip)
       .limit(limit)
-      .populate('author', 'username name avatar');
+      .populate('author', 'username name avatar')
+      .populate('tags', 'name slug');
 
     const total = await Poem.countDocuments(query);
 
@@ -141,9 +146,26 @@ exports.getPoemsByTag = async (tag, page = 1, limit = 10) => {
 // Create poem
 exports.createPoem = async (poemData) => {
   try {
+    // Process tags if provided
+    if (poemData.tagNames && Array.isArray(poemData.tagNames)) {
+      const tagIds = await tagService.processTagNames(poemData.tagNames);
+      poemData.tags = tagIds;
+      delete poemData.tagNames;
+    }
+
+    // Validate content length (sanitization should happen on frontend with DOMPurify)
+    if (poemData.content && poemData.content.length > 10000) {
+      throw new Error('Content exceeds maximum length of 10000 characters');
+    }
+
+    // Validate images array
+    if (poemData.images && poemData.images.length > 10) {
+      throw new Error('Maximum 10 images allowed per poem');
+    }
+
     const poem = await Poem.create(poemData);
 
-    return poem.populate('author', 'username name avatar');
+    return poem.populate('author', 'username name avatar').populate('tags', 'name slug');
   } catch (error) {
     throw error;
   }
@@ -172,7 +194,7 @@ exports.updatePoem = async (poemId, userId, updates) => {
 
     await poem.save();
 
-    return poem.populate('author', 'username name avatar');
+    return poem.populate('author', 'username name avatar').populate('tags', 'name slug');
   } catch (error) {
     throw error;
   }
@@ -190,6 +212,11 @@ exports.deletePoem = async (poemId, userId) => {
     // Check ownership
     if (poem.author.toString() !== userId.toString()) {
       throw new Error('Not authorized to delete this poem');
+    }
+
+    // Decrement tag usage counts
+    if (poem.tags && poem.tags.length > 0) {
+      await tagService.decrementTagUsage(poem.tags);
     }
 
     await poem.deleteOne();
