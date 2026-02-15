@@ -782,6 +782,178 @@
         background: rgba(53, 118, 162, 1);
       }
 
+      /* Image Upload Dialog */
+      .image-dialog-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+      }
+
+      .image-dialog-overlay.show {
+        display: flex;
+      }
+
+      .image-dialog {
+        background: rgba(25, 43, 54, 0.98);
+        border: 1px solid rgba(161, 211, 248, 0.2);
+        border-radius: 16px;
+        padding: 24px;
+        width: 500px;
+        max-width: 90%;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+
+      .image-dialog-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .image-dialog-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #e8f4fb;
+      }
+
+      .image-dialog-close {
+        background: none;
+        border: none;
+        color: rgba(161, 211, 248, 0.6);
+        cursor: pointer;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.2s;
+      }
+
+      .image-dialog-close:hover {
+        color: rgba(161, 211, 248, 1);
+      }
+
+      .image-upload-area {
+        border: 2px dashed rgba(161, 211, 248, 0.3);
+        border-radius: 12px;
+        padding: 40px 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-bottom: 16px;
+      }
+
+      .image-upload-area:hover {
+        border-color: rgba(161, 211, 248, 0.5);
+        background: rgba(59, 93, 109, 0.2);
+      }
+
+      .image-upload-area.dragover {
+        border-color: rgba(161, 211, 248, 0.7);
+        background: rgba(59, 93, 109, 0.3);
+      }
+
+      .upload-icon {
+        font-size: 48px;
+        color: rgba(161, 211, 248, 0.5);
+        margin-bottom: 12px;
+      }
+
+      .upload-text {
+        color: rgba(161, 211, 248, 0.7);
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+
+      .upload-hint {
+        color: rgba(161, 211, 248, 0.4);
+        font-size: 12px;
+      }
+
+      .image-preview-container {
+        display: none;
+        margin-bottom: 16px;
+      }
+
+      .image-preview-container.show {
+        display: block;
+      }
+
+      .image-preview {
+        width: 100%;
+        max-height: 300px;
+        object-fit: contain;
+        border-radius: 8px;
+        margin-bottom: 8px;
+      }
+
+      .image-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 12px;
+        background: rgba(59, 93, 109, 0.3);
+        border-radius: 8px;
+        font-size: 12px;
+        color: rgba(161, 211, 248, 0.7);
+      }
+
+      .image-size-error {
+        color: rgba(255, 87, 87, 0.9);
+        font-size: 12px;
+        margin-top: 8px;
+        display: none;
+      }
+
+      .image-size-error.show {
+        display: block;
+      }
+
+      .image-dialog-actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+      }
+
+      .image-dialog-btn {
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: none;
+      }
+
+      .image-dialog-btn.cancel {
+        background: rgba(59, 93, 109, 0.4);
+        color: rgba(161, 211, 248, 0.8);
+      }
+
+      .image-dialog-btn.cancel:hover {
+        background: rgba(59, 93, 109, 0.6);
+      }
+
+      .image-dialog-btn.upload {
+        background: rgba(53, 118, 162, 0.8);
+        color: #ffffff;
+      }
+
+      .image-dialog-btn.upload:hover {
+        background: rgba(53, 118, 162, 1);
+      }
+
+      .image-dialog-btn.upload:disabled {
+        background: rgba(59, 93, 109, 0.4);
+        color: rgba(161, 211, 248, 0.4);
+        cursor: not-allowed;
+      }
+
       .collection-selector {
         font-size: 14px;
         color: #e8f4fb;
@@ -1009,7 +1181,7 @@
             />
 
             <div class="toolbar">
-              <button class="tool-btn" title="Add Image">
+              <button class="tool-btn" id="imageUploadBtn" title="Add Image">
                 <div
                   style="
                     width: 20px;
@@ -1074,6 +1246,38 @@
           </div>
         </div>
       </main>
+    </div>
+
+    <!-- Image Upload Dialog -->
+    <div class="image-dialog-overlay" id="imageDialogOverlay">
+      <div class="image-dialog">
+        <div class="image-dialog-header">
+          <div class="image-dialog-title">Upload Image</div>
+          <button class="image-dialog-close" id="closeImageDialog">
+            <iconify-icon icon="lucide:x" style="font-size: 18px"></iconify-icon>
+          </button>
+        </div>
+        <div class="image-upload-area" id="imageUploadArea">
+          <div class="upload-icon">
+            <iconify-icon icon="lucide:image-plus"></iconify-icon>
+          </div>
+          <div class="upload-text">Click to upload or drag and drop</div>
+          <div class="upload-hint">PNG, JPG, GIF up to 5MB</div>
+          <input type="file" id="imageFileInput" accept="image/*" style="display: none;" />
+        </div>
+        <div class="image-preview-container" id="imagePreviewContainer">
+          <img id="imagePreview" class="image-preview" />
+          <div class="image-info">
+            <span id="imageFileName">filename.jpg</span>
+            <span id="imageFileSize">0 KB</span>
+          </div>
+        </div>
+        <div class="image-size-error" id="imageSizeError">File size exceeds 5MB limit</div>
+        <div class="image-dialog-actions">
+          <button class="image-dialog-btn cancel" id="cancelImageBtn">Cancel</button>
+          <button class="image-dialog-btn upload" id="uploadImageBtn" disabled>Insert</button>
+        </div>
+      </div>
     </div>
 
     <!-- Tag Dialog -->
@@ -1526,6 +1730,169 @@
       const draftsBtn = document.querySelector('.editor-actions button:first-child');
       if (draftsBtn) {
         draftsBtn.addEventListener('click', toggleDraftsDropdown);
+      }
+
+      // Image Upload functionality
+      const imageUploadBtn = document.getElementById('imageUploadBtn');
+      const imageDialogOverlay = document.getElementById('imageDialogOverlay');
+      const closeImageDialog = document.getElementById('closeImageDialog');
+      const cancelImageBtn = document.getElementById('cancelImageBtn');
+      const uploadImageBtn = document.getElementById('uploadImageBtn');
+      const imageUploadArea = document.getElementById('imageUploadArea');
+      const imageFileInput = document.getElementById('imageFileInput');
+      const imagePreview = document.getElementById('imagePreview');
+      const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+      const imageFileName = document.getElementById('imageFileName');
+      const imageFileSize = document.getElementById('imageFileSize');
+      const imageSizeError = document.getElementById('imageSizeError');
+      const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
+      let selectedImageFile = null;
+
+      function openImageDialog() {
+        imageDialogOverlay.classList.add('show');
+        resetImageDialog();
+      }
+
+      function closeImageDialogFn() {
+        imageDialogOverlay.classList.remove('show');
+        resetImageDialog();
+      }
+
+      function resetImageDialog() {
+        imageFileInput.value = '';
+        selectedImageFile = null;
+        imagePreviewContainer.classList.remove('show');
+        imageSizeError.classList.remove('show');
+        uploadImageBtn.disabled = true;
+      }
+
+      function formatFileSize(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+      }
+
+      function handleImageFile(file) {
+        if (!file || !file.type.startsWith('image/')) {
+          return;
+        }
+
+        // Check file size
+        if (file.size > MAX_FILE_SIZE) {
+          imageSizeError.classList.add('show');
+          imagePreviewContainer.classList.remove('show');
+          uploadImageBtn.disabled = true;
+          return;
+        }
+
+        imageSizeError.classList.remove('show');
+        selectedImageFile = file;
+
+        // Show preview
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          imagePreview.src = e.target.result;
+          imagePreviewContainer.classList.add('show');
+          imageFileName.textContent = file.name;
+          imageFileSize.textContent = formatFileSize(file.size);
+          uploadImageBtn.disabled = false;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function insertImageIntoEditor(imageUrl) {
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        img.style.maxWidth = '100%';
+        img.style.height = 'auto';
+        img.style.display = 'block';
+        img.style.margin = '16px 0';
+        img.style.borderRadius = '8px';
+        
+        editorContent.appendChild(img);
+        
+        // Add a paragraph after the image for continued editing
+        const p = document.createElement('p');
+        p.innerHTML = '<br>';
+        editorContent.appendChild(p);
+        
+        // Focus on the new paragraph
+        const range = document.createRange();
+        const sel = window.getSelection();
+        range.setStart(p, 0);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        
+        handleInput(); // Trigger auto-save
+      }
+
+      // Event listeners for image upload
+      if (imageUploadBtn) {
+        imageUploadBtn.addEventListener('click', openImageDialog);
+      }
+
+      if (closeImageDialog) {
+        closeImageDialog.addEventListener('click', closeImageDialogFn);
+      }
+
+      if (cancelImageBtn) {
+        cancelImageBtn.addEventListener('click', closeImageDialogFn);
+      }
+
+      if (imageUploadArea) {
+        imageUploadArea.addEventListener('click', () => {
+          imageFileInput.click();
+        });
+
+        // Drag and drop
+        imageUploadArea.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          imageUploadArea.classList.add('dragover');
+        });
+
+        imageUploadArea.addEventListener('dragleave', () => {
+          imageUploadArea.classList.remove('dragover');
+        });
+
+        imageUploadArea.addEventListener('drop', (e) => {
+          e.preventDefault();
+          imageUploadArea.classList.remove('dragover');
+          const files = e.dataTransfer.files;
+          if (files.length > 0) {
+            handleImageFile(files[0]);
+          }
+        });
+      }
+
+      if (imageFileInput) {
+        imageFileInput.addEventListener('change', (e) => {
+          if (e.target.files.length > 0) {
+            handleImageFile(e.target.files[0]);
+          }
+        });
+      }
+
+      if (uploadImageBtn) {
+        uploadImageBtn.addEventListener('click', () => {
+          if (selectedImageFile) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              insertImageIntoEditor(e.target.result);
+              closeImageDialogFn();
+            };
+            reader.readAsDataURL(selectedImageFile);
+          }
+        });
+      }
+
+      // Close dialog when clicking outside
+      if (imageDialogOverlay) {
+        imageDialogOverlay.addEventListener('click', function(e) {
+          if (e.target === imageDialogOverlay) {
+            closeImageDialogFn();
+          }
+        });
       }
 
       // Add click handler for close button in drafts dropdown
