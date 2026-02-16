@@ -1,14 +1,101 @@
 // API Configuration
 const API_BASE_URL = 'http://localhost:5000/api';
 
-// Get auth token from localStorage
+// Token management
 function getAuthToken() {
-  return localStorage.getItem('authToken');
+  return localStorage.getItem('accessToken');
+}
+
+function getRefreshToken() {
+  return localStorage.getItem('refreshToken');
+}
+
+function setTokens(accessToken, refreshToken) {
+  localStorage.setItem('accessToken', accessToken);
+  localStorage.setItem('refreshToken', refreshToken);
+}
+
+function clearTokens() {
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  localStorage.clear();
 }
 
 // Check if user is authenticated
 function isAuthenticated() {
   return !!getAuthToken();
+}
+
+// Refresh access token
+async function refreshAccessToken() {
+  try {
+    const refreshToken = getRefreshToken();
+    if (!refreshToken) {
+      throw new Error('No refresh token available');
+    }
+
+    const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ refreshToken })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to refresh token');
+    }
+
+    const data = await response.json();
+    setTokens(data.accessToken, data.refreshToken);
+    return data.accessToken;
+  } catch (error) {
+    // Refresh failed - logout user
+    handleUnauthorized();
+    throw error;
+  }
+}
+
+// Global 401 handler - Force logout
+function handleUnauthorized() {
+  clearTokens();
+  // Redirect to login if not already there
+  if (!window.location.href.includes('login.html')) {
+    window.location.href = 'login.html';
+  }
+}
+
+// Enhanced fetch with automatic token refresh
+async function fetchWithAuth(url, options = {}) {
+  // Add auth header
+  options.headers = {
+    ...options.headers,
+    'Authorization': `Bearer ${getAuthToken()}`
+  };
+
+  let response = await fetch(url, options);
+
+  // Handle 401 - Try to refresh token
+  if (response.status === 401) {
+    try {
+      // Try refreshing the token
+      await refreshAccessToken();
+      
+      // Retry original request with new token
+      options.headers['Authorization'] = `Bearer ${getAuthToken()}`;
+      response = await fetch(url, options);
+      
+      // If still 401, force logout
+      if (response.status === 401) {
+        handleUnauthorized();
+      }
+    } catch (error) {
+      handleUnauthorized();
+      throw error;
+    }
+  }
+
+  return response;
 }
 
 // Like a poem

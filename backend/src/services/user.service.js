@@ -165,9 +165,8 @@ exports.verifyEmailUpdate = async (userId, newEmail, code) => {
     // Find matching OTP
     const otp = await Otp.findOne({ 
       email: newEmail.toLowerCase(),
-      code,
       type: 'email-change'
-    });
+    }).select('+code');
 
     // Check if OTP exists
     if (!otp) {
@@ -183,6 +182,20 @@ exports.verifyEmailUpdate = async (userId, newEmail, code) => {
     // Check if already used
     if (otp.used) {
       throw new Error('Verification code has already been used');
+    }
+
+    // Check max attempts
+    if (otp.attempts >= 5) {
+      await Otp.deleteOne({ _id: otp._id });
+      throw new Error('Too many failed attempts. Please request a new code.');
+    }
+
+    // Verify code using bcrypt
+    const isValidCode = await otp.compareCode(code);
+    if (!isValidCode) {
+      otp.attempts += 1;
+      await otp.save();
+      throw new Error('Invalid verification code');
     }
 
     // Mark OTP as used

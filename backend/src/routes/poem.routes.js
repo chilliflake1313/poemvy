@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
 const poemController = require('../controllers/poem.controller');
-const { protect, optionalAuth } = require('../middleware/auth');
+const { protect, optionalAuth, requireEmailVerified } = require('../middleware/auth');
 
 // Validation middleware
 const poemValidation = [
@@ -61,7 +61,7 @@ router.get('/user/:username', optionalAuth, poemController.getUserPoems);
 router.get('/tag/:tag', optionalAuth, poemController.getPoemsByTag);
 
 // Protected routes
-router.post('/', protect, poemValidation, poemController.createPoem);
+router.post('/', protect, requireEmailVerified, poemValidation, poemController.createPoem);
 router.put('/:poemId', protect, poemValidation, poemController.updatePoem);
 router.delete('/:poemId', protect, poemController.deletePoem);
 router.post('/:poemId/like', protect, poemController.likePoem);
@@ -73,6 +73,6 @@ router.post('/:poemId/share', protect, poemController.sharePoem);
 // Draft routes
 router.put('/draft', protect, poemController.saveDraft);
 router.get('/draft', protect, poemController.getDraft);
-router.put('/:poemId/publish', protect, poemController.publishDraft);
+router.put('/:poemId/publish', protect, requireEmailVerified, poemController.publishDraft);
 
 module.exports = router;

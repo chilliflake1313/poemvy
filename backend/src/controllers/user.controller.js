@@ -140,9 +140,8 @@ exports.verifyPasswordChange = async (req, res) => {
     // Find OTP
     const otp = await Otp.findOne({
       email: user.email,
-      code,
       type: 'password-change'
-    });
+    }).select('+code');
 
     if (!otp) {
       return res.status(400).json({ error: 'Invalid verification code' });
@@ -151,6 +150,20 @@ exports.verifyPasswordChange = async (req, res) => {
     if (otp.expiresAt < new Date()) {
       await otp.deleteOne();
       return res.status(400).json({ error: 'Code expired. Please request a new one.' });
+    }
+
+    // Check max attempts
+    if (otp.attempts >= 5) {
+      await otp.deleteOne();
+      return res.status(400).json({ error: 'Too many failed attempts. Please request a new code.' });
+    }
+
+    // Verify code using bcrypt
+    const isValidCode = await otp.compareCode(code);
+    if (!isValidCode) {
+      otp.attempts += 1;
+      await otp.save();
+      return res.status(400).json({ error: 'Invalid verification code' });
     }
 
     // Update password

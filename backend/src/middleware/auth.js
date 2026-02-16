@@ -79,4 +79,20 @@ const authorize = (req, res, next) => {
   }
 };
 
-module.exports = { protect, optionalAuth, authorize };
+// Require email verification
+const requireEmailVerified = (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({ error: 'Authentication required' });
+  }
+
+  if (!req.user.isEmailVerified) {
+    return res.status(403).json({ 
+      error: 'Email verification required. Please verify your email to publish poems.',
+      requiresEmailVerification: true 
+    });
+  }
+
+  next();
+};
+
+module.exports = { protect, optionalAuth, authorize, requireEmailVerified };

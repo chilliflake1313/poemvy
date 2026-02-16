@@ -3,6 +3,11 @@ const router = express.Router();
 const { body } = require('express-validator');
 const userController = require('../controllers/user.controller');
 const { protect } = require('../middleware/auth');
+const { 
+  passwordResetLimiter, 
+  emailChangeLimiter, 
+  otpVerifyLimiter 
+} = require('../middleware/rateLimiter');
 
 // Validation middleware
 const updateProfileValidation = [
@@ -99,12 +104,12 @@ router.get('/search', userController.searchUsers);
 
 // Protected routes
 router.put('/profile', protect, updateProfileValidation, userController.updateProfile);
-router.put('/password', protect, updatePasswordValidation, userController.updatePassword);
-router.put('/password/request', protect, requestPasswordChangeValidation, userController.requestPasswordChange);
-router.put('/password/verify', protect, verifyPasswordChangeValidation, userController.verifyPasswordChange);
+router.put('/password', protect, passwordResetLimiter, updatePasswordValidation, userController.updatePassword);
+router.put('/password/request', protect, passwordResetLimiter, requestPasswordChangeValidation, userController.requestPasswordChange);
+router.put('/password/verify', protect, otpVerifyLimiter, verifyPasswordChangeValidation, userController.verifyPasswordChange);
 router.put('/username', protect, updateUsernameValidation, userController.updateUsername);
-router.put('/email', protect, requestEmailUpdateValidation, userController.requestEmailUpdate);
-router.put('/email/verify', protect, verifyEmailUpdateValidation, userController.verifyEmailUpdate);
+router.put('/email', protect, emailChangeLimiter, requestEmailUpdateValidation, userController.requestEmailUpdate);
+router.put('/email/verify', protect, otpVerifyLimiter, verifyEmailUpdateValidation, userController.verifyEmailUpdate);
 router.post('/follow/:userId', protect, userController.followUser);
 router.post('/unfollow/:userId', protect, userController.unfollowUser);
 router.post('/bookmark/:poemId', protect, userController.bookmarkPoem);

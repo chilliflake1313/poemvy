@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
+const { apiLimiter } = require('./middleware/rateLimiter');
+const { errorHandler, notFoundHandler } = require('./middleware/errorHandler');
 
 const app = express();
 
@@ -14,12 +15,8 @@ app.use(cors({
   credentials: true
 }));
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
-});
-app.use('/api/', limiter);
+// Rate limiting - general API limiter
+app.use('/api/', apiLimiter);
 
 // Body parser middleware
 app.use(express.json());
@@ -39,18 +36,9 @@ app.get('/health', (req, res) => {
 });
 
 // 404 handler
-app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found' });
-});
+app.use(notFoundHandler);
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error('❌ Error: - app.js:46', err.stack);
-  
-  res.status(err.status || 500).json({
-    error: err.message || 'Internal server error',
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
-  });
-});
+// Global error handler
+app.use(errorHandler);
 
 module.exports = app;
