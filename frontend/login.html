@@ -308,7 +308,7 @@
       }
 
       // Check if already logged in
-      if (localStorage.getItem("token")) {
+      if (localStorage.getItem("accessToken")) {
         window.location.href = "index.html";
       }
 
@@ -339,15 +339,21 @@
 
           if (response.ok) {
             // Store tokens
-            localStorage.setItem("token", data.accessToken);
+            localStorage.setItem("accessToken", data.accessToken);
             localStorage.setItem("refreshToken", data.refreshToken);
             localStorage.setItem("user", JSON.stringify(data.user));
 
             showMessage("Login successful! Redirecting...", "success");
 
-            // Redirect to home
+            // Redirect to return URL or home
             setTimeout(() => {
-              window.location.href = "index.html";
+              const returnUrl = localStorage.getItem('returnUrl');
+              if (returnUrl) {
+                localStorage.removeItem('returnUrl');
+                window.location.href = returnUrl;
+              } else {
+                window.location.href = "index.html";
+              }
             }, 1000);
           } else if (response.status === 403 && data.requiresVerification) {
             // User needs to verify email
@@ -367,7 +373,7 @@
           }
         } catch (error) {
           console.error("Login error:", error);
-          showMessage("Network error. Please check your connection.");
+          showMessage(`Network error: ${error.message}. Check if backend is running on port 5000.`);
           loginBtn.disabled = false;
           loginBtn.textContent = "Log In";
         }

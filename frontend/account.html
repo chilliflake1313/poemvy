@@ -539,6 +539,122 @@
           opacity: 0;
         }
       }
+
+      /* Auth Modal */
+      #authModal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(8px);
+        z-index: 10000;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.2s ease;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .auth-box {
+        background: linear-gradient(135deg, rgba(15, 32, 45, 0.95), rgba(25, 45, 62, 0.95));
+        border: 1px solid rgba(53, 118, 162, 0.3);
+        border-radius: 16px;
+        padding: 40px;
+        max-width: 400px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        animation: slideUp 0.3s ease;
+      }
+
+      .auth-box h3 {
+        color: #a1d3f8;
+        font-size: 24px;
+        margin: 0 0 12px 0;
+        font-weight: 600;
+      }
+
+      .auth-box p {
+        color: rgba(161, 211, 248, 0.7);
+        font-size: 15px;
+        margin: 0 0 32px 0;
+        line-height: 1.5;
+      }
+
+      .auth-box-buttons {
+        display: flex;
+        gap: 12px;
+        flex-direction: column;
+      }
+
+      .auth-box button {
+        padding: 14px 28px;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+        width: 100%;
+      }
+
+      .auth-box .btn-primary {
+        background: linear-gradient(135deg, #3576a2, #2d6b94);
+        color: white;
+      }
+
+      .auth-box .btn-primary:hover {
+        background: linear-gradient(135deg, #4086b8, #3576a2);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(53, 118, 162, 0.4);
+      }
+
+      .auth-box .btn-secondary {
+        background: transparent;
+        border: 1px solid rgba(53, 118, 162, 0.4);
+        color: #a1d3f8;
+      }
+
+      .auth-box .btn-secondary:hover {
+        background: rgba(53, 118, 162, 0.2);
+        border-color: rgba(53, 118, 162, 0.6);
+      }
+
+      .auth-box .btn-close {
+        background: transparent;
+        border: none;
+        color: rgba(161, 211, 248, 0.5);
+        margin-top: 8px;
+        padding: 8px;
+        font-size: 14px;
+      }
+
+      .auth-box .btn-close:hover {
+        color: rgba(161, 211, 248, 0.8);
+      }
+
+      /* Disable content when not authenticated */
+      body.auth-required .account-container {
+        pointer-events: none;
+        opacity: 0.6;
+      }
     </style>
   </head>
   <body>
@@ -716,9 +832,22 @@
       const API_BASE = 'http://localhost:5000/api';
       let currentUser = null;
 
+      // Check authentication immediately - redirect if not logged in
+      const authToken = localStorage.getItem('accessToken');
+      if (!authToken) {
+        // Show auth modal instead of redirecting
+        document.body.classList.add('auth-required');
+        setTimeout(() => {
+          showAuthModal(() => {
+            // After login, reload to load user data
+            window.location.reload();
+          });
+        }, 500);
+      }
+
       // Get token from localStorage
       function getToken() {
-        return localStorage.getItem('token');
+        return localStorage.getItem('accessToken');
       }
 
       // Load user data on page load
@@ -1201,17 +1330,34 @@
       }
 
       // Handle logout
-      function handleLogout(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        
-        // Clear all auth data
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('user');
-        
-        // Redirect to login page
-        window.location.href = 'login.html';
+      async function handleLogout(event) {
+        if (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+
+        const refreshToken = localStorage.getItem("refreshToken");
+
+        try {
+          if (refreshToken) {
+            await fetch("http://localhost:5000/api/auth/logout", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+              },
+              body: JSON.stringify({ refreshToken })
+            });
+          }
+        } catch (err) {
+          console.error("Logout API failed:", err);
+        }
+
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("user");
+
+        window.location.href = "login.html";
       }
 
       // Close dropdown when clicking outside
@@ -1254,6 +1400,81 @@
         }
       });
     </script>
+
+    <!-- Auth Modal -->
+    <div id="authModal">
+      <div class="auth-box">
+        <h3>Login to manage account</h3>
+        <p>Please log in to access your account settings.</p>
+        <div class="auth-box-buttons">
+          <button class="btn-primary" onclick="goToLogin()">Login</button>
+          <button class="btn-secondary" onclick="goToSignup()">Create Account</button>
+          <button class="btn-close" onclick="goToHome()">Go Back</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Auth Modal Management
+      let pendingAction = null;
+
+      function requireAuth(actionCallback) {
+        const token = localStorage.getItem('accessToken');
+        
+        if (!token) {
+          showAuthModal(actionCallback);
+          return false;
+        }
+        
+        return true;
+      }
+
+      function showAuthModal(callback) {
+        pendingAction = callback;
+        const modal = document.getElementById('authModal');
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeAuthModal() {
+        const modal = document.getElementById('authModal');
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        pendingAction = null;
+      }
+
+      function goToLogin() {
+        if (pendingAction) {
+          localStorage.setItem('pendingAction', 'true');
+          localStorage.setItem('returnUrl', window.location.href);
+        }
+        window.location.href = 'login.html';
+      }
+
+      function goToSignup() {
+        if (pendingAction) {
+          localStorage.setItem('pendingAction', 'true');
+          localStorage.setItem('returnUrl', window.location.href);
+        }
+        window.location.href = 'signup.html';
+      }
+
+      function goToHome() {
+        window.location.href = 'index.html';
+      }
+
+      // Check if returning from login with pending action
+      window.addEventListener('DOMContentLoaded', function() {
+        if (localStorage.getItem('pendingAction') === 'true') {
+          localStorage.removeItem('pendingAction');
+          if (pendingAction) {
+            pendingAction();
+            pendingAction = null;
+          }
+        }
+      });
+    </script>
+
     <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
     <script src="background.js"></script>
   </body>

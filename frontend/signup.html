@@ -514,7 +514,7 @@
           }
         } catch (error) {
           console.error("Signup error:", error);
-          showMessage("Network error. Please check your connection.");
+          showMessage(`Network error: ${error.message}. Check if backend is running on port 5000.`);
           signupBtn.disabled = false;
           signupBtn.textContent = "Create Account";
         }
@@ -570,15 +570,21 @@
 
           if (response.ok) {
             // Store tokens
-            localStorage.setItem("token", data.accessToken);
+            localStorage.setItem("accessToken", data.accessToken);
             localStorage.setItem("refreshToken", data.refreshToken);
             localStorage.setItem("user", JSON.stringify(data.user));
 
             showMessage("Account verified! Redirecting...", "success");
             
-            // Redirect to home
+            // Redirect to return URL or home
             setTimeout(() => {
-              window.location.href = "index.html";
+              const returnUrl = localStorage.getItem('returnUrl');
+              if (returnUrl) {
+                localStorage.removeItem('returnUrl');
+                window.location.href = returnUrl;
+              } else {
+                window.location.href = "index.html";
+              }
             }, 1500);
           } else {
             showMessage(data.error || "Invalid verification code");
@@ -591,7 +597,7 @@
           }
         } catch (error) {
           console.error("Verification error:", error);
-          showMessage("Network error. Please try again.");
+          showMessage(`Network error: ${error.message}. Check if backend is running.`);
           verifyBtn.disabled = false;
           verifyBtn.textContent = "Verify & Continue";
         }
@@ -630,7 +636,7 @@
           }
         } catch (error) {
           console.error("Resend error:", error);
-          showMessage("Network error. Please try again.");
+          showMessage(`Network error: ${error.message}. Check if backend is running.`);
         } finally {
           resendBtn.disabled = false;
           resendBtn.textContent = "Resend Code";
