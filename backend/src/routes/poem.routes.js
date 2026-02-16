@@ -70,4 +70,9 @@ router.post('/:poemId/comment', protect, commentValidation, poemController.addCo
 router.delete('/:poemId/comment/:commentId', protect, poemController.deleteComment);
 router.post('/:poemId/share', protect, poemController.sharePoem);
 
+// Draft routes
+router.put('/draft', protect, poemController.saveDraft);
+router.get('/draft', protect, poemController.getDraft);
+router.put('/:poemId/publish', protect, poemController.publishDraft);
+
 module.exports = router;

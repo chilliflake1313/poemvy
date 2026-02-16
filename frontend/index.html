@@ -814,6 +814,13 @@
         color: #e8f4fb;
       }
 
+      /* Logout item separator */
+      .dropdown-item[onclick*="handleLogout"] {
+        margin-top: 8px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(53, 118, 162, 0.2);
+      }
+
       /* Notification Bell */
       .notification-btn {
         position: relative;
@@ -967,6 +974,10 @@
                 <a href="#" class="dropdown-item">
                   <iconify-icon icon="lucide:sliders" width="16"></iconify-icon>
                   Settings
+                </a>
+                <a href="#" class="dropdown-item" onclick="handleLogout(event)" style="color: #ff6b6b;">
+                  <iconify-icon icon="lucide:log-out" width="16"></iconify-icon>
+                  Log Out
                 </a>
               </div>
             </div>
@@ -1616,6 +1627,20 @@
       function toggleDropdown() {
         const dropdown = document.getElementById('profileDropdown');
         dropdown.classList.toggle('show');
+      }
+
+      // Handle logout
+      function handleLogout(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        // Clear all auth data
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user');
+        
+        // Redirect to login page
+        window.location.href = 'login.html';
       }
 
       // Close dropdown when clicking outside

@@ -16,14 +16,21 @@ const generateRefreshToken = (userId) => {
 };
 
 // Register new user
-exports.register = async (username, email, password) => {
+exports.register = async (username, email, password, name = null) => {
   try {
     // Create user
-    const user = await User.create({
+    const userData = {
       username,
       email,
       password
-    });
+    };
+    
+    // Add name if provided
+    if (name) {
+      userData.name = name;
+    }
+    
+    const user = await User.create(userData);
 
     // Generate tokens
     const accessToken = generateAccessToken(user._id);
