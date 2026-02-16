@@ -100,6 +100,14 @@
         top: 0;
         z-index: 20;
         backdrop-filter: blur(18px);
+        display: flex;
+        justify-content: center;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.96),
+          rgba(0, 0, 0, 0.9)
+        );
+        border-bottom: 1px solid rgba(110, 143, 153, 0.35);
       }
 
       .top-nav {
@@ -108,13 +116,8 @@
         justify-content: space-between;
         padding: 12px 0;
         height: 64px;
-        border-bottom: 1px solid rgba(110, 143, 153, 0.35);
-        border-radius: var(--radius-md);
-        background: linear-gradient(
-          to bottom,
-          rgba(0, 0, 0, 0.96),
-          rgba(0, 0, 0, 0.9)
-        );
+        width: 100%;
+        max-width: 720px;
       }
 
       .logo-mark {
@@ -145,8 +148,8 @@
 
       .search-container {
         flex: 1;
-        max-width: 480px;
-        margin: 0 32px;
+        max-width: 320px;
+        margin: 0 24px;
       }
 
       .search-bar {
@@ -202,11 +205,12 @@
         border-radius: 999px;
         transition: all 0.25s ease;
         background: transparent;
+        border: 1px solid transparent;
       }
 
       .nav-link:hover {
         color: rgba(161, 211, 248, 1);
-        background: rgba(53, 118, 162, 0.2);
+        background: transparent;
       }
 
       /* Profile Dropdown */
