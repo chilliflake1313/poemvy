@@ -74,6 +74,7 @@ const userSchema = new mongoose.Schema({
       expires: 604800 // 7 days
     }
   }],
+  passwordChangedAt: Date,
   lastLogin: Date,
   createdAt: {
     type: Date,

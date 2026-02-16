@@ -516,6 +516,145 @@
         background: #dc2626;
         transform: translateY(-1px);
       }
+
+      /* Notification animations */
+      @keyframes slideIn {
+        from {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideOut {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+      }
+
+      /* Auth Modal */
+      #authModal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(8px);
+        z-index: 10000;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.2s ease;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .auth-box {
+        background: linear-gradient(135deg, rgba(15, 32, 45, 0.95), rgba(25, 45, 62, 0.95));
+        border: 1px solid rgba(53, 118, 162, 0.3);
+        border-radius: 16px;
+        padding: 40px;
+        max-width: 400px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        animation: slideUp 0.3s ease;
+      }
+
+      .auth-box h3 {
+        color: #a1d3f8;
+        font-size: 24px;
+        margin: 0 0 12px 0;
+        font-weight: 600;
+      }
+
+      .auth-box p {
+        color: rgba(161, 211, 248, 0.7);
+        font-size: 15px;
+        margin: 0 0 32px 0;
+        line-height: 1.5;
+      }
+
+      .auth-box-buttons {
+        display: flex;
+        gap: 12px;
+        flex-direction: column;
+      }
+
+      .auth-box button {
+        padding: 14px 28px;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+        width: 100%;
+      }
+
+      .auth-box .btn-primary {
+        background: linear-gradient(135deg, #3576a2, #2d6b94);
+        color: white;
+      }
+
+      .auth-box .btn-primary:hover {
+        background: linear-gradient(135deg, #4086b8, #3576a2);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(53, 118, 162, 0.4);
+      }
+
+      .auth-box .btn-secondary {
+        background: transparent;
+        border: 1px solid rgba(53, 118, 162, 0.4);
+        color: #a1d3f8;
+      }
+
+      .auth-box .btn-secondary:hover {
+        background: rgba(53, 118, 162, 0.2);
+        border-color: rgba(53, 118, 162, 0.6);
+      }
+
+      .auth-box .btn-close {
+        background: transparent;
+        border: none;
+        color: rgba(161, 211, 248, 0.5);
+        margin-top: 8px;
+        padding: 8px;
+        font-size: 14px;
+      }
+
+      .auth-box .btn-close:hover {
+        color: rgba(161, 211, 248, 0.8);
+      }
+
+      /* Disable content when not authenticated */
+      body.auth-required .account-container {
+        pointer-events: none;
+        opacity: 0.6;
+      }
     </style>
   </head>
   <body>
@@ -524,13 +663,7 @@
       <header>
         <div class="top-nav">
           <a href="index.html" class="logo-mark">
-            <div class="logo-icon-wrap">
-              <iconify-icon
-                icon="lucide:feather"
-                style="font-size: 20px; color: var(--accent)"
-              ></iconify-icon>
-            </div>
-            <div class="logo-text">Poemvy</div>
+            <div class="logo-text">P❆EMVY</div>
           </a>
           <div class="search-container">
             <div class="search-wrapper">
@@ -596,40 +729,21 @@
               <iconify-icon icon="lucide:mail" width="16"></iconify-icon>
               Contact Info
             </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label class="form-label">
-                  Account email <span class="required">*</span>
-                </label>
-                <input
-                  type="email"
-                  class="form-input"
-                  placeholder="Enter your email"
-                  disabled
-                />
-                <a href="#" class="change-link">
-                  <iconify-icon icon="lucide:refresh-cw" width="12"></iconify-icon>
-                  Change account email
-                </a>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Mobile</label>
-                <input
-                  type="tel"
-                  class="form-input"
-                  placeholder="Enter mobile number"
-                />
-              </div>
-            </div>
             <div class="form-group">
-              <label class="form-label">Secondary email</label>
+              <label class="form-label">
+                Account email <span class="required">*</span>
+              </label>
               <input
                 type="email"
                 class="form-input"
-                placeholder="Add a backup email"
+                placeholder="Enter your email"
+                disabled
               />
+              <a href="#" class="change-link">
+                <iconify-icon icon="lucide:refresh-cw" width="12"></iconify-icon>
+                Change account email
+              </a>
             </div>
-            <button class="save-btn">Save</button>
           </section>
 
           <!-- Change Password Section -->
@@ -644,6 +758,7 @@
               </label>
               <input
                 type="password"
+                id="currentPasswordInput"
                 class="form-input"
                 placeholder="••••••••"
               />
@@ -655,6 +770,7 @@
                 </label>
                 <input
                   type="password"
+                  id="newPasswordInput"
                   class="form-input"
                   placeholder="Min 8 characters"
                 />
@@ -665,6 +781,7 @@
                 </label>
                 <input
                   type="password"
+                  id="confirmPasswordInput"
                   class="form-input"
                   placeholder="••••••••"
                 />
@@ -712,23 +829,535 @@
 
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <script>
+      const API_BASE = 'http://localhost:5000/api';
+      let currentUser = null;
+
+      // Check authentication immediately - redirect if not logged in
+      const authToken = localStorage.getItem('accessToken');
+      if (!authToken) {
+        // Show auth modal instead of redirecting
+        document.body.classList.add('auth-required');
+        setTimeout(() => {
+          showAuthModal(() => {
+            // After login, reload to load user data
+            window.location.reload();
+          });
+        }, 500);
+      }
+
+      // Get token from localStorage
+      function getToken() {
+        return localStorage.getItem('accessToken');
+      }
+
+      // Load user data on page load
+      async function loadUserData() {
+        try {
+          const token = getToken();
+          if (!token) {
+            window.location.href = 'login.html';
+            return;
+          }
+
+          const response = await fetch(`${API_BASE}/auth/me`, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+
+          if (!response.ok) {
+            localStorage.clear();
+            window.location.href = 'login.html';
+            return;
+          }
+
+          const data = await response.json();
+          currentUser = data.user;
+
+          // Save fresh user data
+          localStorage.setItem('user', JSON.stringify(data.user));
+
+          populateUserData(data.user);
+
+        } catch (error) {
+          console.error('Error loading user data:', error);
+          showNotification('Error loading user data', 'error');
+        }
+      }
+
+      // Populate form fields with user data
+      function populateUserData(user) {
+        const emailInput = document.querySelector('input[placeholder="Enter your email"]');
+        if (emailInput) emailInput.value = user.email || '';
+
+        const usernameInput = document.querySelector('input[placeholder="Enter username"]');
+        if (usernameInput) usernameInput.value = user.username || '';
+      }
+
+      // Show notification
+      function showNotification(message, type = 'success') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        notification.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          padding: 16px 24px;
+          background: ${type === 'success' ? '#3b5d6d' : '#8b2020'};
+          color: #fff;
+          border-radius: 12px;
+          z-index: 10000;
+          animation: slideIn 0.3s ease;
+        `;
+        document.body.appendChild(notification);
+        setTimeout(() => {
+          notification.style.animation = 'slideOut 0.3s ease';
+          setTimeout(() => notification.remove(), 300);
+        }, 3000);
+      }
+
+      // Update Profile
+      async function updateProfile(event) {
+        event.preventDefault();
+        try {
+          const name = document.querySelector('input[placeholder="Enter your full name"]').value;
+
+          const response = await fetch(`${API_BASE}/users/profile`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${getToken()}`
+            },
+            body: JSON.stringify({ name })
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            currentUser = data.user;
+            localStorage.setItem('user', JSON.stringify(data.user));
+            showNotification('Profile updated successfully!', 'success');
+          } else {
+            showNotification(data.error || 'Failed to update profile', 'error');
+          }
+        } catch (error) {
+          console.error('Error updating profile:', error);
+          showNotification('Error updating profile', 'error');
+        }
+      }
+
+      // Change Password - Step 1: Request OTP
+      async function changePassword(event) {
+        event.preventDefault();
+        try {
+          const currentPassword = document.getElementById('currentPasswordInput').value;
+          const newPassword = document.getElementById('newPasswordInput').value;
+          const confirmPassword = document.getElementById('confirmPasswordInput').value;
+
+          if (!currentPassword) {
+            showNotification('Please enter your current password', 'error');
+            return;
+          }
+
+          if (!newPassword || !confirmPassword) {
+            showNotification('Please enter new password', 'error');
+            return;
+          }
+
+          if (newPassword !== confirmPassword) {
+            showNotification('New passwords do not match', 'error');
+            return;
+          }
+
+          if (newPassword.length < 8) {
+            showNotification('Password must be at least 8 characters', 'error');
+            return;
+          }
+
+          // Request OTP
+          const response = await fetch(`${API_BASE}/users/password/request`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${getToken()}`
+            },
+            body: JSON.stringify({ currentPassword })
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            showNotification('Verification code sent to your email!', 'success');
+            // Show OTP verification modal
+            showPasswordChangeVerifyModal(newPassword, confirmPassword);
+          } else {
+            showNotification(data.error || 'Failed to send verification code', 'error');
+          }
+        } catch (error) {
+          console.error('Error requesting password change:', error);
+          showNotification('Error requesting password change', 'error');
+        }
+      }
+
+      // Show password change verification modal
+      function showPasswordChangeVerifyModal(newPassword, confirmPassword) {
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 10000;
+        `;
+        modal.innerHTML = `
+          <div style="background: var(--card); padding: 32px; border-radius: 16px; max-width: 500px; width: 90%;">
+            <h3 style="margin: 0 0 16px; color: var(--foreground);">Verify Password Change</h3>
+            <p style="margin: 0 0 24px; color: var(--muted); font-size: 14px;">Enter the 6-digit code sent to your email</p>
+            <div style="margin-bottom: 24px;">
+              <input type="text" id="passwordChangeCode" placeholder="Enter 6-digit code" maxlength="6" style="width: 100%; padding: 12px; background: var(--input); border: 1px solid rgba(161, 211, 248, 0.1); border-radius: 8px; color: var(--foreground); font-size: 15px; text-align: center; letter-spacing: 8px; font-weight: 600;">
+            </div>
+            <div style="display: flex; gap: 12px;">
+              <button onclick="verifyPasswordChange('${newPassword}', '${confirmPassword}')" style="flex: 1; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 500;">Verify & Change Password</button>
+              <button onclick="closeModal()" style="padding: 12px 24px; background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 15px;">Cancel</button>
+            </div>
+          </div>
+        `;
+        modal.id = 'passwordChangeVerifyModal';
+        document.body.appendChild(modal);
+      }
+
+      // Verify password change - Step 2
+      async function verifyPasswordChange(newPassword, confirmPassword) {
+        try {
+          const code = document.getElementById('passwordChangeCode').value;
+
+          if (!code || code.length !== 6) {
+            showNotification('Please enter a valid 6-digit code', 'error');
+            return;
+          }
+
+          const response = await fetch(`${API_BASE}/users/password/verify`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${getToken()}`
+            },
+            body: JSON.stringify({ code, newPassword, confirmPassword })
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            closeModal();
+            showNotification('Password changed! You will be logged out.', 'success');
+            // Clear forms
+            document.getElementById('currentPasswordInput').value = '';
+            document.getElementById('newPasswordInput').value = '';
+            document.getElementById('confirmPasswordInput').value = '';
+            // Logout after 2 seconds
+            setTimeout(() => {
+              localStorage.clear();
+              window.location.href = 'login.html';
+            }, 2000);
+          } else {
+            showNotification(data.error || 'Failed to verify code', 'error');
+          }
+        } catch (error) {
+          console.error('Error verifying password change:', error);
+          showNotification('Error verifying password change', 'error');
+        }
+      }
+
+      // Change Username
+      async function changeUsername(event) {
+        event.preventDefault();
+        try {
+          const username = document.querySelector('.settings-section input[placeholder="Enter username"]').value;
+
+          if (!username) {
+            showNotification('Please enter a username', 'error');
+            return;
+          }
+
+          const response = await fetch(`${API_BASE}/users/username`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${getToken()}`
+            },
+            body: JSON.stringify({ username })
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            currentUser = data.user;
+            localStorage.setItem('user', JSON.stringify(data.user));
+            showNotification('Username updated successfully!', 'success');
+          } else {
+            showNotification(data.error || 'Failed to update username', 'error');
+          }
+        } catch (error) {
+          console.error('Error updating username:', error);
+          showNotification('Error updating username', 'error');
+        }
+      }
+
+      // Change Email - Show modal for password and new email
+      function showChangeEmailModal() {
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 10000;
+        `;
+        modal.innerHTML = `
+          <div style="background: var(--card); padding: 32px; border-radius: 16px; max-width: 500px; width: 90%;">
+            <h3 style="margin: 0 0 24px; color: var(--foreground);">Change Email Address</h3>
+            <div style="margin-bottom: 16px;">
+              <label style="display: block; margin-bottom: 8px; color: var(--foreground); font-size: 14px;">Current Password</label>
+              <input type="password" id="emailChangePassword" placeholder="Enter your password" style="width: 100%; padding: 12px; background: var(--input); border: 1px solid rgba(161, 211, 248, 0.1); border-radius: 8px; color: var(--foreground); font-size: 15px;">
+            </div>
+            <div style="margin-bottom: 24px;">
+              <label style="display: block; margin-bottom: 8px; color: var(--foreground); font-size: 14px;">New Email</label>
+              <input type="email" id="newEmailInput" placeholder="Enter new email" style="width: 100%; padding: 12px; background: var(--input); border: 1px solid rgba(161, 211, 248, 0.1); border-radius: 8px; color: var(--foreground); font-size: 15px;">
+            </div>
+            <div style="display: flex; gap: 12px;">
+              <button onclick="requestEmailChange()" style="flex: 1; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 500;">Send Verification Code</button>
+              <button onclick="closeModal()" style="padding: 12px 24px; background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 15px;">Cancel</button>
+            </div>
+          </div>
+        `;
+        modal.id = 'emailChangeModal';
+        document.body.appendChild(modal);
+      }
+
+      // Request email change
+      async function requestEmailChange() {
+        try {
+          const password = document.getElementById('emailChangePassword').value;
+          const newEmail = document.getElementById('newEmailInput').value;
+
+          if (!password || !newEmail) {
+            showNotification('Please fill all fields', 'error');
+            return;
+          }
+
+          const response = await fetch(`${API_BASE}/users/email`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${getToken()}`
+            },
+            body: JSON.stringify({ currentPassword: password, newEmail })
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            closeModal();
+            showNotification('Verification code sent to your new email!', 'success');
+            showVerifyEmailModal(newEmail);
+          } else {
+            showNotification(data.error || 'Failed to send verification code', 'error');
+          }
+        } catch (error) {
+          console.error('Error requesting email change:', error);
+          showNotification('Error requesting email change', 'error');
+        }
+      }
+
+      // Show verify email modal
+      function showVerifyEmailModal(newEmail) {
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 10000;
+        `;
+        modal.innerHTML = `
+          <div style="background: var(--card); padding: 32px; border-radius: 16px; max-width: 500px; width: 90%;">
+            <h3 style="margin: 0 0 16px; color: var(--foreground);">Verify New Email</h3>
+            <p style="margin: 0 0 24px; color: var(--muted); font-size: 14px;">Enter the 6-digit code sent to ${newEmail}</p>
+            <div style="margin-bottom: 24px;">
+              <input type="text" id="emailVerifyCode" placeholder="Enter 6-digit code" maxlength="6" style="width: 100%; padding: 12px; background: var(--input); border: 1px solid rgba(161, 211, 248, 0.1); border-radius: 8px; color: var(--foreground); font-size: 15px; text-align: center; letter-spacing: 8px; font-weight: 600;">
+            </div>
+            <div style="display: flex; gap: 12px;">
+              <button onclick="verifyEmailChange('${newEmail}')" style="flex: 1; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 500;">Verify & Update Email</button>
+              <button onclick="closeModal()" style="padding: 12px 24px; background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 15px;">Cancel</button>
+            </div>
+          </div>
+        `;
+        modal.id = 'emailVerifyModal';
+        document.body.appendChild(modal);
+      }
+
+      // Verify email change
+      async function verifyEmailChange(newEmail) {
+        try {
+          const code = document.getElementById('emailVerifyCode').value;
+
+          if (!code || code.length !== 6) {
+            showNotification('Please enter a valid 6-digit code', 'error');
+            return;
+          }
+
+          const response = await fetch(`${API_BASE}/users/email/verify`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${getToken()}`
+            },
+            body: JSON.stringify({ newEmail, code })
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            currentUser = data.user;
+            localStorage.setItem('user', JSON.stringify(data.user));
+            closeModal();
+            showNotification('Email updated successfully!', 'success');
+            populateUserData(data.user);
+          } else {
+            showNotification(data.error || 'Failed to verify code', 'error');
+          }
+        } catch (error) {
+          console.error('Error verifying email change:', error);
+          showNotification('Error verifying email change', 'error');
+        }
+      }
+
+      // Close modal
+      function closeModal() {
+        const modals = document.querySelectorAll('#emailChangeModal, #emailVerifyModal, #deleteAccountModal');
+        modals.forEach(modal => modal.remove());
+      }
+
+      // Delete Account
+      function showDeleteAccountModal() {
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 10000;
+        `;
+        modal.innerHTML = `
+          <div style="background: var(--card); padding: 32px; border-radius: 16px; max-width: 500px; width: 90%;">
+            <h3 style="margin: 0 0 16px; color: #ff6b6b;">Delete Account</h3>
+            <p style="margin: 0 0 24px; color: var(--muted); font-size: 14px;">This action cannot be undone. All your poems, collections, and data will be permanently deleted.</p>
+            <div style="margin-bottom: 24px;">
+              <label style="display: block; margin-bottom: 8px; color: var(--foreground); font-size: 14px;">Confirm Password</label>
+              <input type="password" id="deleteAccountPassword" placeholder="Enter your password" style="width: 100%; padding: 12px; background: var(--input); border: 1px solid rgba(161, 211, 248, 0.1); border-radius: 8px; color: var(--foreground); font-size: 15px;">
+            </div>
+            <div style="display: flex; gap: 12px;">
+              <button onclick="confirmDeleteAccount()" style="flex: 1; padding: 12px; background: #8b2020; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 500;">Delete My Account</button>
+              <button onclick="closeModal()" style="padding: 12px 24px; background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 15px;">Cancel</button>
+            </div>
+          </div>
+        `;
+        modal.id = 'deleteAccountModal';
+        document.body.appendChild(modal);
+      }
+
+      // Confirm delete account
+      async function confirmDeleteAccount() {
+        try {
+          const password = document.getElementById('deleteAccountPassword').value;
+
+          if (!password) {
+            showNotification('Please enter your password', 'error');
+            return;
+          }
+
+          const response = await fetch(`${API_BASE}/users/me`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${getToken()}`
+            },
+            body: JSON.stringify({ password })
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            showNotification('Account deleted successfully', 'success');
+            setTimeout(() => {
+              localStorage.clear();
+              window.location.href = 'signup.html';
+            }, 2000);
+          } else {
+            showNotification(data.error || 'Failed to delete account', 'error');
+          }
+        } catch (error) {
+          console.error('Error deleting account:', error);
+          showNotification('Error deleting account', 'error');
+        }
+      }
+
       function toggleDropdown() {
         const dropdown = document.getElementById('profileDropdown');
         dropdown.classList.toggle('show');
       }
 
       // Handle logout
-      function handleLogout(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        
-        // Clear all auth data
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('user');
-        
-        // Redirect to login page
-        window.location.href = 'login.html';
+      async function handleLogout(event) {
+        if (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+
+        const refreshToken = localStorage.getItem("refreshToken");
+
+        try {
+          if (refreshToken) {
+            await fetch("http://localhost:5000/api/auth/logout", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+              },
+              body: JSON.stringify({ refreshToken })
+            });
+          }
+        } catch (err) {
+          console.error("Logout API failed:", err);
+        }
+
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("user");
+
+        window.location.href = "login.html";
       }
 
       // Close dropdown when clicking outside
@@ -738,7 +1367,114 @@
           dropdown.classList.remove('show');
         }
       });
+
+      // Add event listeners on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        loadUserData();
+
+        // Password save button
+        const passwordSaveBtn = document.querySelector('.save-btn');
+        if (passwordSaveBtn) {
+          passwordSaveBtn.addEventListener('click', changePassword);
+        }
+
+        // Username change button
+        const usernameBtn = document.querySelector('.change-username-btn');
+        if (usernameBtn) {
+          usernameBtn.addEventListener('click', changeUsername);
+        }
+
+        // Change email link
+        const changeEmailLink = document.querySelector('.change-link');
+        if (changeEmailLink) {
+          changeEmailLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showChangeEmailModal();
+          });
+        }
+
+        // Delete account button
+        const deleteBtn = document.querySelector('.delete-btn');
+        if (deleteBtn) {
+          deleteBtn.addEventListener('click', showDeleteAccountModal);
+        }
+      });
     </script>
+
+    <!-- Auth Modal -->
+    <div id="authModal">
+      <div class="auth-box">
+        <h3>Login to manage account</h3>
+        <p>Please log in to access your account settings.</p>
+        <div class="auth-box-buttons">
+          <button class="btn-primary" onclick="goToLogin()">Login</button>
+          <button class="btn-secondary" onclick="goToSignup()">Create Account</button>
+          <button class="btn-close" onclick="goToHome()">Go Back</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Auth Modal Management
+      let pendingAction = null;
+
+      function requireAuth(actionCallback) {
+        const token = localStorage.getItem('accessToken');
+        
+        if (!token) {
+          showAuthModal(actionCallback);
+          return false;
+        }
+        
+        return true;
+      }
+
+      function showAuthModal(callback) {
+        pendingAction = callback;
+        const modal = document.getElementById('authModal');
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeAuthModal() {
+        const modal = document.getElementById('authModal');
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        pendingAction = null;
+      }
+
+      function goToLogin() {
+        if (pendingAction) {
+          localStorage.setItem('pendingAction', 'true');
+          localStorage.setItem('returnUrl', window.location.href);
+        }
+        window.location.href = 'login.html';
+      }
+
+      function goToSignup() {
+        if (pendingAction) {
+          localStorage.setItem('pendingAction', 'true');
+          localStorage.setItem('returnUrl', window.location.href);
+        }
+        window.location.href = 'signup.html';
+      }
+
+      function goToHome() {
+        window.location.href = 'index.html';
+      }
+
+      // Check if returning from login with pending action
+      window.addEventListener('DOMContentLoaded', function() {
+        if (localStorage.getItem('pendingAction') === 'true') {
+          localStorage.removeItem('pendingAction');
+          if (pendingAction) {
+            pendingAction();
+            pendingAction = null;
+          }
+        }
+      });
+    </script>
+
     <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
     <script src="background.js"></script>
   </body>

@@ -3,6 +3,11 @@ const router = express.Router();
 const { body } = require('express-validator');
 const authController = require('../controllers/auth.controller');
 const { protect } = require('../middleware/auth');
+const { 
+  authLimiter, 
+  passwordResetLimiter, 
+  otpVerifyLimiter 
+} = require('../middleware/rateLimiter');
 
 // Validation middleware
 const signupValidation = [
@@ -85,11 +90,11 @@ const resetPasswordValidation = [
 ];
 
 // Routes
-router.post('/signup', signupValidation, authController.signup);
-router.post('/verify-email', verifyEmailValidation, authController.verifyEmail);
-router.post('/login', loginValidation, authController.login);
-router.post('/request-password-reset', requestPasswordResetValidation, authController.requestPasswordReset);
-router.post('/reset-password', resetPasswordValidation, authController.resetPassword);
+router.post('/signup', authLimiter, signupValidation, authController.signup);
+router.post('/verify-email', otpVerifyLimiter, verifyEmailValidation, authController.verifyEmail);
+router.post('/login', authLimiter, loginValidation, authController.login);
+router.post('/request-password-reset', passwordResetLimiter, requestPasswordResetValidation, authController.requestPasswordReset);
+router.post('/reset-password', otpVerifyLimiter, resetPasswordValidation, authController.resetPassword);
 router.post('/refresh', authController.refreshToken);
 router.post('/logout', protect, authController.logout);
 router.get('/me', protect, authController.getMe);

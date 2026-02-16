@@ -26,6 +26,14 @@ const protect = async (req, res, next) => {
         return res.status(401).json({ error: 'User not found' });
       }
 
+      // Check if password was changed after token was issued
+      if (req.user.passwordChangedAt) {
+        const changedTimestamp = parseInt(req.user.passwordChangedAt.getTime() / 1000, 10);
+        if (decoded.iat < changedTimestamp) {
+          return res.status(401).json({ error: 'Password was changed. Please login again.' });
+        }
+      }
+
       next();
     } catch (error) {
       return res.status(401).json({ error: 'Not authorized, token failed' });
@@ -71,4 +79,20 @@ const authorize = (req, res, next) => {
   }
 };
 
-module.exports = { protect, optionalAuth, authorize };
+// Require email verification
+const requireEmailVerified = (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({ error: 'Authentication required' });
+  }
+
+  if (!req.user.isEmailVerified) {
+    return res.status(403).json({ 
+      error: 'Email verification required. Please verify your email to publish poems.',
+      requiresEmailVerification: true 
+    });
+  }
+
+  next();
+};
+
+module.exports = { protect, optionalAuth, authorize, requireEmailVerified };

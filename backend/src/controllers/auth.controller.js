@@ -101,9 +101,8 @@ exports.verifyEmail = async (req, res) => {
     // Find matching OTP
     const otp = await Otp.findOne({ 
       email: email.toLowerCase(),
-      code,
       type: 'verification'
-    });
+    }).select('+code');
 
     // Check if OTP exists
     if (!otp) {
@@ -124,6 +123,24 @@ exports.verifyEmail = async (req, res) => {
     if (otp.used) {
       return res.status(400).json({ 
         error: 'Verification code has already been used' 
+      });
+    }
+
+    // Check max attempts
+    if (otp.attempts >= 5) {
+      await Otp.deleteOne({ _id: otp._id });
+      return res.status(400).json({ 
+        error: 'Too many failed attempts. Please request a new code.' 
+      });
+    }
+
+    // Verify code using bcrypt
+    const isValidCode = await otp.compareCode(code);
+    if (!isValidCode) {
+      otp.attempts += 1;
+      await otp.save();
+      return res.status(400).json({ 
+        error: 'Invalid verification code' 
       });
     }
 
@@ -396,9 +413,8 @@ exports.resetPassword = async (req, res) => {
     // Find matching OTP
     const otp = await Otp.findOne({ 
       email: email.toLowerCase(),
-      code,
       type: 'password-reset'
-    });
+    }).select('+code');
 
     // Check if OTP exists
     if (!otp) {
@@ -419,6 +435,24 @@ exports.resetPassword = async (req, res) => {
     if (otp.used) {
       return res.status(400).json({ 
         error: 'Reset code has already been used' 
+      });
+    }
+
+    // Check max attempts
+    if (otp.attempts >= 5) {
+      await Otp.deleteOne({ _id: otp._id });
+      return res.status(400).json({ 
+        error: 'Too many failed attempts. Please request a new code.' 
+      });
+    }
+
+    // Verify code using bcrypt
+    const isValidCode = await otp.compareCode(code);
+    if (!isValidCode) {
+      otp.attempts += 1;
+      await otp.save();
+      return res.status(400).json({ 
+        error: 'Invalid reset code' 
       });
     }
 
