@@ -19,6 +19,8 @@ exports.getFeed = async (page = 1, limit = 10, userId = null) => {
 
     const total = await Poem.countDocuments(query);
 
+    console.log("Feed poems:", poems.length, "Total:", total);
+
     return {
       poems,
       pagination: {

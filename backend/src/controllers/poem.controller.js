@@ -226,10 +226,23 @@ exports.sharePoem = async (req, res) => {
 // Save or update draft
 exports.saveDraft = async (req, res) => {
   try {
+    console.log('[SAVE DRAFT CONTROLLER] Request received');
+    console.log('[SAVE DRAFT] User:', {
+      id: req.user._id,
+      username: req.user.username,
+      isEmailVerified: req.user.isEmailVerified
+    });
+    console.log('[SAVE DRAFT] Body:', { 
+      hasTitle: !!req.body.title, 
+      hasContent: !!req.body.content,
+      contentLength: req.body.content?.length || 0
+    });
+
     const { title, content } = req.body;
     const userId = req.user._id;
 
     const draft = await poemService.saveDraft(userId, title, content);
+    console.log('[SAVE DRAFT] ✅ Draft saved successfully, ID:', draft._id);
 
     res.status(200).json({
       success: true,
@@ -237,6 +250,8 @@ exports.saveDraft = async (req, res) => {
       draftId: draft._id
     });
   } catch (error) {
+    console.error('[SAVE DRAFT] ❌ Error:', error.message);
+    console.error('[SAVE DRAFT] Stack:', error.stack);
     res.status(500).json({ error: error.message });
   }
 };

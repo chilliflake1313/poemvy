@@ -1123,7 +1123,23 @@
             </div>
           </section>
 
-          <section class="poem-feed" aria-label="Recent poems">
+          <!-- Poem Feed -->
+          <section class="poem-feed" id="poemFeed" aria-label="Recent poems">
+            <!-- Loading State -->
+            <div id="loadingState" style="display: none; text-align: center; padding: 60px 20px; color: rgba(161, 211, 248, 0.6);">
+              <div style="font-size: 20px; margin-bottom: 12px;">Loading poems...</div>
+              <div style="font-size: 14px;">Fetching the latest from the community</div>
+            </div>
+
+            <!-- Empty State (hidden by default, shown if no poems) -->
+            <div id="emptyState" style="display: none; text-align: center; padding: 80px 20px;">
+              <iconify-icon icon="lucide:feather" style="font-size: 48px; color: rgba(161, 211, 248, 0.3); margin-bottom: 16px;"></iconify-icon>
+              <div style="font-size: 20px; color: #a1d3f8; margin-bottom: 8px;">No poems yet</div>
+              <div style="font-size: 14px; color: rgba(161, 211, 248, 0.6); margin-bottom: 24px;">Be the first to share your soul's whisper</div>
+              <a href="write.html" style="display: inline-block; padding: 12px 24px; background: rgba(53, 118, 162, 0.3); border: 1px solid rgba(53, 118, 162, 0.5); border-radius: 8px; color: #a1d3f8; text-decoration: none; font-size: 14px;">Write a Poem</a>
+            </div>
+
+            <!-- Hardcoded poems (will be replaced by dynamic content) -->
             <article class="poem-card" data-media-type="banani-button" data-poem-id="poem1">
               <div class="poem-header-row">
                 <div class="poem-author-block">
@@ -1728,6 +1744,169 @@
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <script src="api.js"></script>
     <script>
+      // API_BASE_URL is already defined in api.js
+
+      // Load and render feed on page load
+      async function loadFeed() {
+        const loadingState = document.getElementById('loadingState');
+        const emptyState = document.getElementById('emptyState');
+        const feedContainer = document.getElementById('poemFeed');
+
+        // Clear any existing hardcoded poems
+        const hardcodedPoems = feedContainer.querySelectorAll('article.poem-card');
+        hardcodedPoems.forEach(poem => poem.remove());
+
+        // Show loading state
+        if (loadingState) loadingState.style.display = 'block';
+
+        try {
+          const response = await fetch(`${API_BASE_URL}/poems/feed`);
+          const data = await response.json();
+
+          // Hide loading state
+          if (loadingState) loadingState.style.display = 'none';
+
+          if (!data.poems || data.poems.length === 0) {
+            // Show empty state
+            if (emptyState) emptyState.style.display = 'block';
+            return;
+          }
+
+          // Render poems
+          data.poems.forEach(poem => {
+            const poemCard = createPoemCard(poem);
+            feedContainer.appendChild(poemCard);
+          });
+
+        } catch (error) {
+          console.error('Failed to load feed:', error);
+          if (loadingState) {
+            loadingState.innerHTML = `
+              <div style="color: #ff6b6b; font-size: 16px; margin-bottom: 8px;">Failed to load poems</div>
+              <div style="font-size: 14px; color: rgba(161, 211, 248, 0.6);">${error.message}</div>
+              <div style="font-size: 14px; margin-top: 12px;">
+                <button onclick="location.reload()" style="padding: 8px 16px; border-radius: 6px; background: rgba(53, 118, 162, 0.3); border: 1px solid rgba(53, 118, 162, 0.5); color: #a1d3f8; cursor: pointer;">Retry</button>
+              </div>
+            `;
+          }
+        }
+      }
+
+      // Create poem card HTML
+      function createPoemCard(poem) {
+        const article = document.createElement('article');
+        article.className = 'poem-card';
+        article.setAttribute('data-media-type', 'banani-button');
+        article.setAttribute('data-poem-id', poem._id);
+
+        const authorName = poem.author?.name || poem.author?.username || 'Anonymous';
+        const authorHandle = poem.author?.username ? `@${poem.author.username}` : '@user';
+        const authorAvatar = poem.author?.avatar || 'https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F18-25%2FEast%20Asian%2F3';
+        const timestamp = poem.publishedAt ? getTimeAgo(new Date(poem.publishedAt)) : 'Just now';
+        const likesCount = poem.likesCount || 0;
+        const commentsCount = poem.comments?.length || 0;
+
+        article.innerHTML = `
+          <div class="poem-header-row">
+            <div class="poem-author-block">
+              <div class="avatar-circle" onclick="window.location.href='profile.html'">
+                <img src="${authorAvatar}" alt="${authorName}" />
+              </div>
+              <div class="author-meta">
+                <div class="author-name-row">
+                  <span class="author-name">${authorName}</span>
+                  <button class="follow-btn" data-media-type="banani-button">Follow</button>
+                </div>
+                <span class="author-handle">${authorHandle}</span>
+              </div>
+            </div>
+            <div class="poem-header-right">
+              <div class="poem-timestamp">${timestamp}</div>
+            </div>
+          </div>
+          <div class="poem-body">${poem.content || ''}</div>
+          <div class="poem-footer-row">
+            <div class="poem-actions">
+              <div class="poem-action-item like-btn" data-media-type="banani-button">
+                <div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">
+                  <iconify-icon icon="lucide:heart" style="font-size: 16px; color: currentColor"></iconify-icon>
+                </div>
+                <span class="poem-action-count">${likesCount}</span>
+              </div>
+              <div class="poem-action-item comment-toggle-btn" data-media-type="banani-button">
+                <div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">
+                  <iconify-icon icon="lucide:message-circle" style="font-size: 16px; color: currentColor"></iconify-icon>
+                </div>
+                <span class="poem-action-count">${commentsCount}</span>
+              </div>
+              <div class="poem-action-item bookmark-btn" data-media-type="banani-button">
+                <div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">
+                  <iconify-icon icon="lucide:bookmark" style="font-size: 16px; color: currentColor"></iconify-icon>
+                </div>
+                <span class="poem-action-count">Save</span>
+              </div>
+              <div class="share-menu-container">
+                <div class="poem-action-item share-btn" data-media-type="banani-button">
+                  <div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">
+                    <iconify-icon icon="lucide:share-2" style="font-size: 16px; color: currentColor"></iconify-icon>
+                  </div>
+                  <span class="poem-action-count">Share</span>
+                </div>
+                <div class="share-menu">
+                  <button class="share-menu-item copy-link-btn">
+                    <iconify-icon icon="lucide:link"></iconify-icon>
+                    Copy Link
+                  </button>
+                  <div class="share-menu-divider"></div>
+                  <a class="share-menu-item" data-share="whatsapp">
+                    <iconify-icon icon="mdi:whatsapp"></iconify-icon>
+                    WhatsApp
+                  </a>
+                  <a class="share-menu-item" data-share="instagram">
+                    <iconify-icon icon="mdi:instagram"></iconify-icon>
+                    Instagram
+                  </a>
+                  <a class="share-menu-item" data-share="twitter">
+                    <iconify-icon icon="mdi:twitter"></iconify-icon>
+                    X (Twitter)
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="poem-tagline">${poem.tags?.map(t => t.name || t).join(' · ') || 'poetry'}</div>
+          </div>
+          <div class="comments-section">
+            <div class="comment-input-wrapper">
+              <div class="avatar-circle">
+                <img src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FEuropean%2F2" alt="Your avatar" />
+              </div>
+              <input type="text" class="comment-input" placeholder="Write a comment..." />
+              <button class="comment-submit-btn">Post</button>
+            </div>
+            <div class="comments-list"></div>
+          </div>
+        `;
+
+        return article;
+      }
+
+      // Helper function to format time ago
+      function getTimeAgo(date) {
+        const seconds = Math.floor((new Date() - date) / 1000);
+        if (seconds < 60) return 'Just now';
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return `${minutes}m ago`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours}h ago`;
+        const days = Math.floor(hours / 24);
+        if (days === 1) return 'Yesterday';
+        if (days < 30) return `${days}d ago`;
+        return date.toLocaleDateString();
+      }
+
+      // Load feed on page load
+      window.addEventListener('DOMContentLoaded', loadFeed);
+
       function toggleDropdown() {
         const dropdown = document.getElementById('profileDropdown');
         dropdown.classList.toggle('show');

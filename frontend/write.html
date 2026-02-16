@@ -1648,23 +1648,52 @@
       const publishBtn = document.querySelector('.btn-primary');
       if (publishBtn) {
         publishBtn.addEventListener('click', async function() {
-          if (!currentDraftId) {
+          // Get title and content from DOM
+          const title = titleInput.value.trim();
+          const content = editorContent.innerHTML.trim();
+          
+          // Debug logging
+          console.log("TITLE:", title);
+          console.log("CONTENT (raw HTML):", content);
+          console.log("CONTENT (text only):", content.replace(/<[^>]*>/g, '').trim());
+          
+          // Check if content is empty (strip HTML tags to check actual text)
+          const textContent = content.replace(/<[^>]*>/g, '').trim();
+          
+          if (!textContent) {
             alert('Please write something before publishing');
             return;
           }
 
-          const title = titleInput.value.trim();
-          const content = editorContent.innerHTML.trim();
-
-          if (!title || !content) {
-            alert('Please add both title and content before publishing');
+          if (!title) {
+            alert('Please add a title before publishing');
             return;
+          }
+
+          // If no draft saved yet, save it first
+          if (!currentDraftId) {
+            console.log('No draft ID found, auto-saving...');
+            try {
+              updateStatus('saving');
+              const result = await saveDraft(title, sanitizeHTML(content));
+              if (result.success && result.draftId) {
+                currentDraftId = result.draftId;
+                console.log('Draft saved with ID:', currentDraftId);
+              } else {
+                throw new Error('Failed to save draft');
+              }
+            } catch (error) {
+              console.error('Failed to save draft:', error);
+              alert('Failed to save draft. Please try again.');
+              return;
+            }
           }
 
           try {
             publishBtn.disabled = true;
             publishBtn.textContent = 'Publishing...';
             
+            console.log('Publishing draft ID:', currentDraftId);
             const result = await publishDraft(currentDraftId);
             
             if (result.success) {

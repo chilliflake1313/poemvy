@@ -3,7 +3,32 @@ const API_BASE_URL = 'http://localhost:5000/api';
 
 // Token management
 function getAuthToken() {
-  return localStorage.getItem('accessToken');
+  const token = localStorage.getItem('accessToken');
+  
+  if (!token) {
+    console.log('[AUTH TOKEN CHECK] ❌ NO TOKEN FOUND');
+    return null;
+  }
+  
+  // Check if token is expired
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const isExpired = Date.now() > payload.exp * 1000;
+    
+    if (isExpired) {
+      console.error('[AUTH TOKEN CHECK] ❌ TOKEN EXPIRED at', new Date(payload.exp * 1000).toLocaleString());
+      console.log('Attempting to refresh token...');
+      // Token is expired, but return it anyway - let the refresh logic handle it
+      // Or we could trigger a refresh here
+    } else {
+      const expiresIn = Math.floor((payload.exp * 1000 - Date.now()) / 1000 / 60);
+      console.log('[AUTH TOKEN CHECK] ✅ Token valid, expires in', expiresIn, 'minutes');
+    }
+  } catch (e) {
+    console.warn('[AUTH TOKEN CHECK] ⚠️ Could not decode token:', e.message);
+  }
+  
+  return token;
 }
 
 function getRefreshToken() {
@@ -25,6 +50,45 @@ function clearTokens() {
 function isAuthenticated() {
   return !!getAuthToken();
 }
+
+// Debug helper - call from console to check auth status
+function debugAuthStatus() {
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
+  const user = localStorage.getItem('user');
+  
+  console.log('=== AUTH STATUS DEBUG ===');
+  console.log('Access Token:', accessToken ? `EXISTS (${accessToken.length} chars)` : '❌ MISSING');
+  console.log('Refresh Token:', refreshToken ? `EXISTS (${refreshToken.length} chars)` : '❌ MISSING');
+  console.log('User Data:', user ? JSON.parse(user) : '❌ MISSING');
+  console.log('Is Authenticated:', !!accessToken);
+  
+  if (accessToken) {
+    console.log('Token Preview:', accessToken.substring(0, 30) + '...');
+    
+    // Try to decode JWT (basic check, doesn't validate signature)
+    try {
+      const payload = JSON.parse(atob(accessToken.split('.')[1]));
+      console.log('Token Payload:', payload);
+      console.log('Token Expiry:', new Date(payload.exp * 1000).toLocaleString());
+      console.log('Token Expired:', Date.now() > payload.exp * 1000);
+    } catch (e) {
+      console.error('Failed to decode token:', e);
+    }
+  }
+  
+  console.log('========================');
+  return {
+    hasAccessToken: !!accessToken,
+    hasRefreshToken: !!refreshToken,
+    hasUser: !!user,
+    isAuthenticated: !!accessToken
+  };
+}
+
+// Make debugAuthStatus available globally for console access
+window.debugAuthStatus = debugAuthStatus;
+
 
 // Refresh access token
 async function refreshAccessToken() {
@@ -310,20 +374,42 @@ async function addComment(poemId, text) {
 // Save or update draft
 async function saveDraft(title, content) {
   try {
+    const token = getAuthToken();
+    
+    if (!token) {
+      console.error('[SAVE DRAFT] ❌ NO TOKEN - User must be logged in');
+      throw new Error('You must be logged in to save drafts');
+    }
+    
+    console.log('[SAVE DRAFT] Request details:', {
+      url: `${API_BASE_URL}/poems/draft`,
+      method: 'PUT',
+      hasToken: !!token,
+      tokenPreview: token ? token.substring(0, 20) + '...' : 'NONE',
+      title: title,
+      contentLength: content?.length || 0
+    });
+
     const response = await fetch(`${API_BASE_URL}/poems/draft`, {
       method: 'PUT',
       headers: {
-        'Authorization': `Bearer ${getAuthToken()}`,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ title, content })
     });
 
+    console.log('[SAVE DRAFT] Response status:', response.status, response.statusText);
+
     if (!response.ok) {
-      throw new Error('Failed to save draft');
+      const errorData = await response.json().catch(() => ({}));
+      console.error('[SAVE DRAFT] Failed:', response.status, errorData);
+      throw new Error(`Failed to save draft: ${response.status} ${response.statusText}`);
     }
 
-    return await response.json();
+    const result = await response.json();
+    console.log('[SAVE DRAFT] Success:', result);
+    return result;
   } catch (error) {
     console.error('Error saving draft:', error);
     throw error;
@@ -353,19 +439,40 @@ async function getDraft() {
 // Publish draft
 async function publishDraft(poemId) {
   try {
+    const token = getAuthToken();
+    
+    if (!token) {
+      console.error('[PUBLISH DRAFT] ❌ NO TOKEN - User must be logged in');
+      throw new Error('You must be logged in to publish poems');
+    }
+    
+    console.log('[PUBLISH DRAFT] Request details:', {
+      url: `${API_BASE_URL}/poems/${poemId}/publish`,
+      method: 'PUT',
+      poemId: poemId,
+      hasToken: !!token,
+      tokenPreview: token ? token.substring(0, 20) + '...' : 'NONE'
+    });
+
     const response = await fetch(`${API_BASE_URL}/poems/${poemId}/publish`, {
       method: 'PUT',
       headers: {
-        'Authorization': `Bearer ${getAuthToken()}`,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       }
     });
 
+    console.log('[PUBLISH DRAFT] Response status:', response.status, response.statusText);
+
     if (!response.ok) {
-      throw new Error('Failed to publish poem');
+      const errorData = await response.json().catch(() => ({}));
+      console.error('[PUBLISH DRAFT] Failed:', response.status, errorData);
+      throw new Error(`Failed to publish poem: ${response.status} ${response.statusText}`);
     }
 
-    return await response.json();
+    const result = await response.json();
+    console.log('[PUBLISH DRAFT] Success:', result);
+    return result;
   } catch (error) {
     console.error('Error publishing poem:', error);
     throw error;
