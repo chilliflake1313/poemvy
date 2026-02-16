@@ -111,6 +111,14 @@
         top: 0;
         z-index: 20;
         backdrop-filter: blur(18px);
+        display: flex;
+        justify-content: center;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.96),
+          rgba(0, 0, 0, 0.9)
+        );
+        border-bottom: 1px solid rgba(110, 143, 153, 0.35);
       }
 
       .top-nav {
@@ -119,13 +127,8 @@
         justify-content: space-between;
         padding: 12px 0;
         height: 64px;
-        border-bottom: 1px solid rgba(110, 143, 153, 0.35);
-        border-radius: var(--radius-md);
-        background: linear-gradient(
-          to bottom,
-          rgba(0, 0, 0, 0.96),
-          rgba(0, 0, 0, 0.9)
-        );
+        width: 100%;
+        max-width: 720px;
       }
 
       .logo-mark {
@@ -156,8 +159,8 @@
 
       .search-container {
         flex: 1;
-        max-width: 480px;
-        margin: 0 32px;
+        max-width: 320px;
+        margin: 0 24px;
       }
 
       .search-bar {
@@ -213,17 +216,18 @@
         border-radius: 999px;
         transition: all 0.25s ease;
         background: transparent;
+        border: 1px solid transparent;
       }
 
       .nav-link:hover {
         color: rgba(161, 211, 248, 1);
-        background: rgba(53, 118, 162, 0.2);
+        background: transparent;
       }
 
       .nav-link[data-active="true"] {
-        color: #ffffff;
-        background: rgba(53, 118, 162, 0.4);
-        border: 1px solid rgba(53, 118, 162, 0.3);
+        color: rgba(161, 211, 248, 1);
+        background: transparent;
+        border: 1px solid transparent;
       }
 
       .nav-link-label {
@@ -860,6 +864,13 @@
         color: #e8f4fb;
       }
 
+      /* Logout item separator */
+      .dropdown-item[onclick*="handleLogout"] {
+        margin-top: 8px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(53, 118, 162, 0.2);
+      }
+
       /* Notification Bell */
       .notification-btn {
         position: relative;
@@ -948,6 +959,10 @@
                 <a href="#" class="dropdown-item">
                   <iconify-icon icon="lucide:sliders" width="16"></iconify-icon>
                   Settings
+                </a>
+                <a href="#" class="dropdown-item" onclick="handleLogout(event)" style="color: #ff6b6b;">
+                  <iconify-icon icon="lucide:log-out" width="16"></iconify-icon>
+                  Log Out
                 </a>
               </div>
             </div>
@@ -1072,6 +1087,20 @@
         dropdown.classList.toggle('show');
       }
 
+      // Handle logout
+      function handleLogout(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        // Clear all auth data
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user');
+        
+        // Redirect to login page
+        window.location.href = 'login.html';
+      }
+
       // Close dropdown when clicking outside
       window.addEventListener('click', function(e) {
         if (!e.target.closest('.profile-dropdown')) {
@@ -1087,6 +1116,12 @@
       const titleInput = document.querySelector('.title-input');
       const editorContent = document.getElementById('editorContent');
       const floatingToolbar = document.getElementById('floatingToolbar');
+      let currentDraftId = null;
+
+      // Check authentication
+      if (!localStorage.getItem('authToken')) {
+        window.location.href = 'login.html';
+      }
 
       // DOMPurify configuration - allowed tags only
       const ALLOWED_TAGS = ['p', 'h1', 'h2', 'h3', 'strong', 'em', 'blockquote', 'ul', 'ol', 'li', 'a', 'br'];
@@ -1144,48 +1179,31 @@
         }
       }
 
-      function autoSave() {
+      async function autoSave() {
         updateStatus('saving');
         
         // Sanitize content before save
         const title = titleInput.value.trim();
-        const body = sanitizeHTML(editorContent.innerHTML.trim());
+        const content = sanitizeHTML(editorContent.innerHTML.trim());
         
-        if (title || body) {
-          const draft = {
-            id: Date.now(),
-            title: title || 'Untitled',
-            body: body,
-            date: new Date().toISOString()
-          };
-          
-          // Get existing drafts
-          let drafts = JSON.parse(localStorage.getItem('poemDrafts') || '[]');
-          
-          // If this is an existing draft (editing), update it
-          const currentDraftId = localStorage.getItem('currentDraftId');
-          if (currentDraftId) {
-            const index = drafts.findIndex(d => d.id == currentDraftId);
-            if (index !== -1) {
-              drafts[index] = { ...draft, id: parseInt(currentDraftId) };
-            } else {
-              drafts.unshift(draft);
-              localStorage.setItem('currentDraftId', draft.id);
-            }
-          } else {
-            // New draft
-            drafts.unshift(draft);
-            localStorage.setItem('currentDraftId', draft.id);
-          }
-          
-          // Keep only last 50 drafts
-          drafts = drafts.slice(0, 50);
-          localStorage.setItem('poemDrafts', JSON.stringify(drafts));
-        }
-        
-        setTimeout(() => {
+        if (!title && !content) {
           updateStatus('saved');
-        }, 500);
+          return;
+        }
+
+        try {
+          const result = await saveDraft(title || 'Untitled', content);
+          if (result.success && result.draftId) {
+            currentDraftId = result.draftId;
+          }
+          setTimeout(() => {
+            updateStatus('saved');
+          }, 500);
+        } catch (error) {
+          console.error('Failed to save draft:', error);
+          statusText.textContent = 'Failed to save';
+          statusDot.style.backgroundColor = 'rgba(255, 87, 87, 0.8)'; // Red
+        }
       }
 
       function handleInput() {
@@ -1196,10 +1214,10 @@
           clearTimeout(autoSaveTimer);
         }
         
-        // Set new timer to save after 8 seconds of no typing
+        // Set new timer to save after 2 seconds of no typing
         autoSaveTimer = setTimeout(() => {
           autoSave();
-        }, 8000);
+        }, 2000);
       }
 
       // Attach event listeners
@@ -1491,6 +1509,49 @@
         draftsBtn.addEventListener('click', toggleDraftsDropdown);
       }
 
+      // Add click handler for publish button
+      const publishBtn = document.querySelector('.btn-primary');
+      if (publishBtn) {
+        publishBtn.addEventListener('click', async function() {
+          if (!currentDraftId) {
+            alert('Please write something before publishing');
+            return;
+          }
+
+          const title = titleInput.value.trim();
+          const content = editorContent.innerHTML.trim();
+
+          if (!title || !content) {
+            alert('Please add both title and content before publishing');
+            return;
+          }
+
+          try {
+            publishBtn.disabled = true;
+            publishBtn.textContent = 'Publishing...';
+            
+            const result = await publishDraft(currentDraftId);
+            
+            if (result.success) {
+              alert('Poem published successfully!');
+              // Clear the draft
+              currentDraftId = null;
+              titleInput.value = '';
+              editorContent.innerHTML = '';
+              updateStatus('saved');
+              // Redirect to home or profile
+              window.location.href = 'index.html';
+            }
+          } catch (error) {
+            console.error('Failed to publish:', error);
+            alert('Failed to publish poem. Please try again.');
+          } finally {
+            publishBtn.disabled = false;
+            publishBtn.textContent = 'Publish';
+          }
+        });
+      }
+
       // Add click handler for close button in drafts dropdown
       const closeBtn = document.querySelector('.drafts-dropdown .close-btn');
       if (closeBtn) {
@@ -1508,15 +1569,18 @@
       });
 
       // Load current draft on page load if exists
-      window.addEventListener('DOMContentLoaded', function() {
-        const currentDraftId = localStorage.getItem('currentDraftId');
-        if (currentDraftId) {
-          const drafts = JSON.parse(localStorage.getItem('poemDrafts') || '[]');
-          const draft = drafts.find(d => d.id == currentDraftId);
-          if (draft) {
+      window.addEventListener('DOMContentLoaded', async function() {
+        try {
+          const result = await getDraft();
+          if (result.success && result.draft) {
+            const draft = result.draft;
             titleInput.value = draft.title === 'Untitled' ? '' : draft.title;
-            editorContent.innerHTML = draft.body || '';
+            editorContent.innerHTML = draft.content || '';
+            currentDraftId = draft._id;
+            updateStatus('saved');
           }
+        } catch (error) {
+          console.error('Failed to load draft:', error);
         }
       });
 
@@ -1623,6 +1687,7 @@
         });
       }
     </script>
+    <script src="api.js"></script>
     <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
     <script src="background.js"></script>
   </body>

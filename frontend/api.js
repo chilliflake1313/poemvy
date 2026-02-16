@@ -219,3 +219,68 @@ async function addComment(poemId, text) {
     throw error;
   }
 }
+
+// Save or update draft
+async function saveDraft(title, content) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/poems/draft`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${getAuthToken()}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ title, content })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to save draft');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error saving draft:', error);
+    throw error;
+  }
+}
+
+// Get latest draft
+async function getDraft() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/poems/draft`, {
+      headers: {
+        'Authorization': `Bearer ${getAuthToken()}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to get draft');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error getting draft:', error);
+    throw error;
+  }
+}
+
+// Publish draft
+async function publishDraft(poemId) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/poems/${poemId}/publish`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${getAuthToken()}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to publish poem');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error publishing poem:', error);
+    throw error;
+  }
+}

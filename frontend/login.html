@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Poemvy – Login</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --background: #000000;
+        --foreground: #a1d3f8;
+        --border: #00000014;
+        --input: #0b2b3a;
+        --primary: #3576a2;
+        --primary-foreground: #001b2e;
+        --secondary: #3b5d6d;
+        --secondary-foreground: #a1d3f8;
+        --muted: #6e8f99;
+        --muted-foreground: #6e8f99;
+        --success: #3b5d6d;
+        --success-foreground: #a1d3f8;
+        --accent: #a1d3f8;
+        --accent-foreground: #001b2e;
+        --destructive: #2b4756;
+        --destructive-foreground: #a1d3f8;
+        --warning: #3b5d6d;
+        --warning-foreground: #a1d3f8;
+        --card: #0b2b3a;
+        --card-foreground: #cfeffb;
+        --sidebar: #071826;
+        --sidebar-foreground: #a1d3f8;
+        --sidebar-primary: #062233;
+        --sidebar-primary-foreground: #a1d3f8;
+        --radius-sm: 4px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 24px;
+        --font-family-body: Inter;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background: #000000;
+        overflow-x: hidden;
+        color: #c1d9e8;
+        font-size: 15px;
+        line-height: 1.6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+        padding: 40px 0;
+      }
+
+      #bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      button,
+      input {
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+
+      .container {
+        text-align: center;
+        width: 100%;
+        max-width: 440px;
+        padding: 0 20px;
+        z-index: 10;
+      }
+
+      h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #a1d3f8;
+        margin-bottom: 8px;
+      }
+
+      .subtitle {
+        color: #6e8f99;
+        margin-bottom: 32px;
+        font-size: 15px;
+      }
+
+      .form-card {
+        background: #0b2b3a;
+        padding: 40px 32px;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        margin-bottom: 24px;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+        text-align: left;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #a1d3f8;
+      }
+
+      input {
+        width: 100%;
+        padding: 14px 16px;
+        background: #001b2e;
+        border: 1px solid #3b5d6d;
+        border-radius: 8px;
+        color: #cfeffb;
+        font-size: 15px;
+        transition: all 0.2s;
+        outline: none;
+      }
+
+      input:focus {
+        border-color: #3576a2;
+        box-shadow: 0 0 0 2px rgba(53, 118, 162, 0.2);
+      }
+
+      input::placeholder {
+        color: #6e8f99;
+      }
+
+      button {
+        width: 100%;
+        padding: 14px 24px;
+        background: #3576a2;
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: 8px;
+      }
+
+      button:hover:not(:disabled) {
+        background: #2a5f85;
+        transform: translateY(-1px);
+      }
+
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .message {
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        text-align: left;
+      }
+
+      .message.error {
+        background: rgba(255, 59, 48, 0.1);
+        border: 1px solid rgba(255, 59, 48, 0.3);
+        color: #ff6b6b;
+      }
+
+      .message.success {
+        background: rgba(52, 199, 89, 0.1);
+        border: 1px solid rgba(52, 199, 89, 0.3);
+        color: #4caf50;
+      }
+
+      .link {
+        color: #3576a2;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .link:hover {
+        text-decoration: underline;
+      }
+
+      .footer-text {
+        color: #6e8f99;
+        font-size: 14px;
+        margin-top: 24px;
+      }
+
+      .forgot-password {
+        text-align: right;
+        margin-top: -10px;
+        margin-bottom: 16px;
+      }
+
+      .forgot-link {
+        color: #6e8f99;
+        font-size: 13px;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .forgot-link:hover {
+        color: #3576a2;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="bg"></canvas>
+
+    <div class="container">
+      <h1>Welcome back</h1>
+      <p class="subtitle">Sign in to your Poemvy account</p>
+
+      <div class="form-card">
+        <div id="message"></div>
+
+        <form id="loginForm">
+          <div class="input-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              required
+              minlength="8"
+            />
+          </div>
+
+          <div class="forgot-password">
+            <a href="forgot-password.html" class="forgot-link">Forgot password?</a>
+          </div>
+
+          <button type="submit" id="loginBtn">Log In</button>
+        </form>
+      </div>
+
+      <p class="footer-text">
+        Don't have an account?
+        <a href="signup.html" class="link">Sign up</a>
+      </p>
+    </div>
+
+    <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
+    <script src="background.js"></script>
+    <script>
+      const API_BASE = "http://localhost:5000/api";
+
+      const loginForm = document.getElementById("loginForm");
+      const loginBtn = document.getElementById("loginBtn");
+      const messageDiv = document.getElementById("message");
+
+      // Show message
+      function showMessage(text, type = "error") {
+        messageDiv.innerHTML = `<div class="message ${type}">${text}</div>`;
+        messageDiv.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      // Clear message
+      function clearMessage() {
+        messageDiv.innerHTML = "";
+      }
+
+      // Check if already logged in
+      if (localStorage.getItem("token")) {
+        window.location.href = "index.html";
+      }
+
+      // Handle login
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        clearMessage();
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        if (!email || !password) {
+          showMessage("Please enter both email and password");
+          return;
+        }
+
+        loginBtn.disabled = true;
+        loginBtn.textContent = "Logging in...";
+
+        try {
+          const response = await fetch(`${API_BASE}/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            // Store tokens
+            localStorage.setItem("token", data.accessToken);
+            localStorage.setItem("refreshToken", data.refreshToken);
+            localStorage.setItem("user", JSON.stringify(data.user));
+
+            showMessage("Login successful! Redirecting...", "success");
+
+            // Redirect to home
+            setTimeout(() => {
+              window.location.href = "index.html";
+            }, 1000);
+          } else if (response.status === 403 && data.requiresVerification) {
+            // User needs to verify email
+            showMessage(data.error);
+            
+            // Store email for verification redirect
+            sessionStorage.setItem("pendingVerificationEmail", data.email);
+            
+            // Optionally redirect to verification page after a delay
+            setTimeout(() => {
+              window.location.href = `signup.html?verify=${encodeURIComponent(data.email)}`;
+            }, 2000);
+          } else {
+            showMessage(data.error || "Login failed. Please try again.");
+            loginBtn.disabled = false;
+            loginBtn.textContent = "Log In";
+          }
+        } catch (error) {
+          console.error("Login error:", error);
+          showMessage("Network error. Please check your connection.");
+          loginBtn.disabled = false;
+          loginBtn.textContent = "Log In";
+        }
+      });
+    </script>
+  </body>
+</html>

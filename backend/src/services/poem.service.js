@@ -332,3 +332,72 @@ exports.sharePoem = async (poemId) => {
     throw error;
   }
 };
+
+// Save or update draft
+exports.saveDraft = async (userId, title, content) => {
+  try {
+    // Find existing draft by this author
+    let draft = await Poem.findOne({
+      author: userId,
+      isDraft: true
+    });
+
+    if (draft) {
+      // Update existing draft
+      draft.title = title || 'Untitled';
+      draft.content = content || '';
+      draft.updatedAt = new Date();
+      await draft.save();
+    } else {
+      // Create new draft
+      draft = await Poem.create({
+        title: title || 'Untitled',
+        content: content || '',
+        author: userId,
+        isDraft: true
+      });
+    }
+
+    return draft;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Get latest draft
+exports.getDraft = async (userId) => {
+  try {
+    const draft = await Poem.findOne({
+      author: userId,
+      isDraft: true
+    }).sort({ updatedAt: -1 });
+
+    return draft;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Publish draft
+exports.publishDraft = async (poemId, userId) => {
+  try {
+    const poem = await Poem.findById(poemId);
+
+    if (!poem) {
+      throw new Error('Poem not found');
+    }
+
+    if (poem.author.toString() !== userId.toString()) {
+      throw new Error('Not authorized');
+    }
+
+    poem.isDraft = false;
+    poem.isPublic = true;
+    poem.publishedAt = new Date();
+    await poem.save();
+
+    return poem;
+  } catch (error) {
+    throw error;
+  }
+};
