@@ -36,6 +36,25 @@ const updatePasswordValidation = [
     .withMessage('New password must be at least 8 characters')
 ];
 
+const requestPasswordChangeValidation = [
+  body('currentPassword')
+    .notEmpty()
+    .withMessage('Current password is required')
+];
+
+const verifyPasswordChangeValidation = [
+  body('code')
+    .trim()
+    .isLength({ min: 6, max: 6 })
+    .withMessage('Code must be 6 digits'),
+  body('newPassword')
+    .isLength({ min: 8 })
+    .withMessage('New password must be at least 8 characters'),
+  body('confirmPassword')
+    .notEmpty()
+    .withMessage('Please confirm your password')
+];
+
 const updateUsernameValidation = [
   body('username')
     .trim()
@@ -45,6 +64,35 @@ const updateUsernameValidation = [
     .withMessage('Username can only contain lowercase letters, numbers, and underscores')
 ];
 
+const requestEmailUpdateValidation = [
+  body('currentPassword')
+    .notEmpty()
+    .withMessage('Current password is required'),
+  body('newEmail')
+    .trim()
+    .isEmail()
+    .withMessage('Please provide a valid email')
+    .normalizeEmail()
+];
+
+const verifyEmailUpdateValidation = [
+  body('newEmail')
+    .trim()
+    .isEmail()
+    .withMessage('Please provide a valid email')
+    .normalizeEmail(),
+  body('code')
+    .trim()
+    .isLength({ min: 6, max: 6 })
+    .withMessage('Code must be 6 digits')
+];
+
+const deleteAccountValidation = [
+  body('password')
+    .notEmpty()
+    .withMessage('Password is required for account deletion')
+];
+
 // Routes
 router.get('/profile/:username', userController.getProfile);
 router.get('/search', userController.searchUsers);
@@ -52,13 +100,17 @@ router.get('/search', userController.searchUsers);
 // Protected routes
 router.put('/profile', protect, updateProfileValidation, userController.updateProfile);
 router.put('/password', protect, updatePasswordValidation, userController.updatePassword);
+router.put('/password/request', protect, requestPasswordChangeValidation, userController.requestPasswordChange);
+router.put('/password/verify', protect, verifyPasswordChangeValidation, userController.verifyPasswordChange);
 router.put('/username', protect, updateUsernameValidation, userController.updateUsername);
+router.put('/email', protect, requestEmailUpdateValidation, userController.requestEmailUpdate);
+router.put('/email/verify', protect, verifyEmailUpdateValidation, userController.verifyEmailUpdate);
 router.post('/follow/:userId', protect, userController.followUser);
 router.post('/unfollow/:userId', protect, userController.unfollowUser);
 router.post('/bookmark/:poemId', protect, userController.bookmarkPoem);
 router.post('/unbookmark/:poemId', protect, userController.unbookmarkPoem);
 router.get('/bookmarks', protect, userController.getBookmarkedPoems);
 router.get('/likes', protect, userController.getLikedPoems);
-router.delete('/account', protect, userController.deleteAccount);
+router.delete('/me', protect, deleteAccountValidation, userController.deleteAccount);
 
 module.exports = router;
