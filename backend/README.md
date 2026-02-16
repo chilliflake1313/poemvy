@@ -10,6 +10,8 @@ Production-ready REST API for Poemvy - a poetry sharing platform built with Node
 - **Mongoose** - ODM
 - **JWT** - Authentication
 - **bcryptjs** - Password hashing
+- **Cloudinary** - Image hosting
+- **Multer** - File upload handling
 - **Helmet** - Security headers
 - **CORS** - Cross-origin resource sharing
 - **express-rate-limit** - Rate limiting
@@ -130,6 +132,14 @@ backend/
 - `DELETE /api/collections/:collectionId/poems/:poemId` - Remove poem from collection (protected)
 - `POST /api/collections/:collectionId/follow` - Follow collection (protected)
 - `POST /api/collections/:collectionId/unfollow` - Unfollow collection (protected)
+
+### Tags
+- `GET /api/tags/popular` - Get popular tags
+- `GET /api/tags/search?q=query` - Search tags by name
+
+### Upload
+- `POST /api/upload/poem-image` - Upload image for poem (protected)
+- `POST /api/upload/avatar` - Upload user avatar (protected)
 
 ## Authentication
 

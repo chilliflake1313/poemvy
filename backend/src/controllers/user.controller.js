@@ -149,3 +149,67 @@ exports.deleteAccount = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// Bookmark poem
+exports.bookmarkPoem = async (req, res) => {
+  try {
+    const { poemId } = req.params;
+
+    await userService.bookmarkPoem(req.user._id, poemId);
+
+    res.status(200).json({
+      success: true,
+      message: 'Poem bookmarked successfully'
+    });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+// Unbookmark poem
+exports.unbookmarkPoem = async (req, res) => {
+  try {
+    const { poemId } = req.params;
+
+    await userService.unbookmarkPoem(req.user._id, poemId);
+
+    res.status(200).json({
+      success: true,
+      message: 'Poem unbookmarked successfully'
+    });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+// Get bookmarked poems
+exports.getBookmarkedPoems = async (req, res) => {
+  try {
+    const { page = 1, limit = 10 } = req.query;
+
+    const result = await userService.getBookmarkedPoems(req.user._id, parseInt(page), parseInt(limit));
+
+    res.status(200).json({
+      success: true,
+      ...result
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Get liked poems
+exports.getLikedPoems = async (req, res) => {
+  try {
+    const { page = 1, limit = 10 } = req.query;
+
+    const result = await userService.getLikedPoems(req.user._id, parseInt(page), parseInt(limit));
+
+    res.status(200).json({
+      success: true,
+      ...result
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
