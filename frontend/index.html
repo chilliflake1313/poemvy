@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -1123,612 +1123,8 @@
             </div>
           </section>
 
-          <!-- Poem Feed -->
           <section class="poem-feed" id="poemFeed" aria-label="Recent poems">
-            <!-- Loading State -->
-            <div id="loadingState" style="display: none; text-align: center; padding: 60px 20px; color: rgba(161, 211, 248, 0.6);">
-              <div style="font-size: 20px; margin-bottom: 12px;">Loading poems...</div>
-              <div style="font-size: 14px;">Fetching the latest from the community</div>
-            </div>
-
-            <!-- Empty State (hidden by default, shown if no poems) -->
-            <div id="emptyState" style="display: none; text-align: center; padding: 80px 20px;">
-              <iconify-icon icon="lucide:feather" style="font-size: 48px; color: rgba(161, 211, 248, 0.3); margin-bottom: 16px;"></iconify-icon>
-              <div style="font-size: 20px; color: #a1d3f8; margin-bottom: 8px;">No poems yet</div>
-              <div style="font-size: 14px; color: rgba(161, 211, 248, 0.6); margin-bottom: 24px;">Be the first to share your soul's whisper</div>
-              <a href="write.html" style="display: inline-block; padding: 12px 24px; background: rgba(53, 118, 162, 0.3); border: 1px solid rgba(53, 118, 162, 0.5); border-radius: 8px; color: #a1d3f8; text-decoration: none; font-size: 14px;">Write a Poem</a>
-            </div>
-
-            <!-- Hardcoded poems (will be replaced by dynamic content) -->
-            <article class="poem-card" data-media-type="banani-button" data-poem-id="poem1">
-              <div class="poem-header-row">
-                <div class="poem-author-block">
-                  <div class="avatar-circle" onclick="window.location.href='profile.html'">
-                    <img
-                      src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F18-25%2FEast%20Asian%2F3"
-                      alt="Mei Ling"
-                    />
-                  </div>
-                  <div class="author-meta">
-                    <div class="author-name-row">
-                      <span class="author-name">Mei Ling</span>
-                      <button
-                        class="follow-btn"
-                        data-media-type="banani-button"
-                      >
-                        Follow
-                      </button>
-                    </div>
-                    <span class="author-handle">@meiwrites</span>
-                  </div>
-                </div>
-                <div class="poem-header-right">
-                  <div class="poem-timestamp">2 hours ago</div>
-                </div>
-              </div>
-              <div class="poem-body">
-                The forest breathes a mist so deep, where distant peaks in
-                silence sleep. I leave my worries by the stream, and walk
-                inside a waking dream.
-              </div>
-              <div class="poem-footer-row">
-                <div class="poem-actions">
-                  <div
-                    class="poem-action-item like-btn"
-                    data-media-type="banani-button"
-                  >
-                    <div
-                      style="
-                        width: 20px;
-                        height: 20px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                      "
-                    >
-                      <iconify-icon
-                        icon="lucide:heart"
-                        style="font-size: 16px; color: currentColor"
-                      ></iconify-icon>
-                    </div>
-                    <span class="poem-action-count">108</span>
-                  </div>
-                  <div
-                    class="poem-action-item comment-toggle-btn"
-                    data-media-type="banani-button"
-                  >
-                    <div
-                      style="
-                        width: 20px;
-                        height: 20px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                      "
-                    >
-                      <iconify-icon
-                        icon="lucide:message-circle"
-                        style="font-size: 16px; color: currentColor"
-                      ></iconify-icon>
-                    </div>
-                    <span class="poem-action-count">14</span>
-                  </div>
-                  <div
-                    class="poem-action-item bookmark-btn"
-                    data-media-type="banani-button"
-                  >
-                    <div
-                      style="
-                        width: 20px;
-                        height: 20px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                      "
-                    >
-                      <iconify-icon
-                        icon="lucide:bookmark"
-                        style="font-size: 16px; color: currentColor"
-                      ></iconify-icon>
-                    </div>
-                    <span class="poem-action-count">Save</span>
-                  </div>
-                  <div class="share-menu-container">
-                    <div
-                      class="poem-action-item share-btn"
-                      data-media-type="banani-button"
-                    >
-                      <div
-                        style="
-                          width: 20px;
-                          height: 20px;
-                          display: flex;
-                          align-items: center;
-                          justify-content: center;
-                        "
-                      >
-                        <iconify-icon
-                          icon="lucide:share-2"
-                          style="font-size: 16px; color: currentColor"
-                        ></iconify-icon>
-                      </div>
-                      <span class="poem-action-count">Share</span>
-                    </div>
-                    <div class="share-menu">
-                      <button class="share-menu-item copy-link-btn">
-                        <iconify-icon icon="lucide:link"></iconify-icon>
-                        Copy Link
-                      </button>
-                      <div class="share-menu-divider"></div>
-                      <a class="share-menu-item" data-share="whatsapp">
-                        <iconify-icon icon="mdi:whatsapp"></iconify-icon>
-                        WhatsApp
-                      </a>
-                      <a class="share-menu-item" data-share="instagram">
-                        <iconify-icon icon="mdi:instagram"></iconify-icon>
-                        Instagram
-                      </a>
-                      <a class="share-menu-item" data-share="twitter">
-                        <iconify-icon icon="mdi:twitter"></iconify-icon>
-                        X (Twitter)
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="poem-tagline">forest mist · quiet awakening</div>
-              </div>
-              
-              <!-- Comments Section -->
-              <div class="comments-section">
-                <div class="comments-container">
-                  <!-- Comment Input -->
-                  <div class="comment-input-wrapper">
-                    <div class="avatar-circle">
-                      <img
-                        src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FEuropean%2F2"
-                        alt="Your avatar"
-                      />
-                    </div>
-                    <input type="text" class="comment-input" placeholder="Write a comment..." />
-                    <button class="comment-submit-btn">Post</button>
-                  </div>
-                  
-                  <!-- Comment 1 -->
-                  <div class="comment-item">
-                    <div class="avatar-circle">
-                      <img
-                        src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FMiddle%20Eastern%2F3"
-                        alt="Alex"
-                      />
-                    </div>
-                    <div class="comment-content">
-                      <div class="comment-header">
-                        <span class="comment-author">Alex Rivers</span>
-                        <span class="comment-time">2h ago</span>
-                      </div>
-                      <div class="comment-text">Beautiful imagery! This really captures the essence of forest solitude.</div>
-                      <div class="comment-actions">
-                        <span class="comment-action">Reply</span>
-                      </div>
-                      
-                      <!-- Nested Reply -->
-                      <div class="comment-replies">
-                        <div class="comment-item">
-                          <div class="avatar-circle">
-                            <img
-                              src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F18-25%2FEast%20Asian%2F3"
-                              alt="Mei Ling"
-                            />
-                          </div>
-                          <div class="comment-content">
-                            <div class="comment-header">
-                              <span class="comment-author">Mei Ling</span>
-                              <span class="comment-time">1h ago</span>
-                            </div>
-                            <div class="comment-text">Thank you so much! 💙</div>
-                            <div class="comment-actions">
-                              <span class="comment-action">Reply</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <!-- Comment 2 -->
-                  <div class="comment-item">
-                    <div class="avatar-circle">
-                      <img
-                        src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F35-50%2FEuropean%2F4"
-                        alt="Sarah"
-                      />
-                    </div>
-                    <div class="comment-content">
-                      <div class="comment-header">
-                        <span class="comment-author">Sarah Chen</span>
-                        <span class="comment-time">3h ago</span>
-                      </div>
-                      <div class="comment-text">The mist metaphor is so evocative. Reminds me of early morning hikes in the mountains.</div>
-                      <div class="comment-actions">
-                        <span class="comment-action">Reply</span>
-                      </div>
-                      
-                      <!-- Nested Replies -->
-                      <div class="comment-replies">
-                        <div class="comment-item">
-                          <div class="avatar-circle">
-                            <img
-                              src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F18-25%2FAfrican%2F2"
-                              alt="Marcus"
-                            />
-                          </div>
-                          <div class="comment-content">
-                            <div class="comment-header">
-                              <span class="comment-author">Marcus J.</span>
-                              <span class="comment-time">2h ago</span>
-                            </div>
-                            <div class="comment-text">Same here! Nature poetry hits different 🌲</div>
-                            <div class="comment-actions">
-                              <span class="comment-action">Reply</span>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div class="comment-item">
-                          <div class="avatar-circle">
-                            <img
-                              src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F18-25%2FEast%20Asian%2F3"
-                              alt="Mei Ling"
-                            />
-                          </div>
-                          <div class="comment-content">
-                            <div class="comment-header">
-                              <span class="comment-author">Mei Ling</span>
-                              <span class="comment-time">1h ago</span>
-                            </div>
-                            <div class="comment-text">I'm so glad it resonates with you both! 🌿</div>
-                            <div class="comment-actions">
-                              <span class="comment-action">Reply</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <!-- Comment 3 -->
-                  <div class="comment-item">
-                    <div class="avatar-circle">
-                      <img
-                        src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F25-35%2FSouth%20Asian%2F1"
-                        alt="Raj"
-                      />
-                    </div>
-                    <div class="comment-content">
-                      <div class="comment-header">
-                        <span class="comment-author">Raj Patel</span>
-                        <span class="comment-time">4h ago</span>
-                      </div>
-                      <div class="comment-text">This is going in my favorites collection!</div>
-                      <div class="comment-actions">
-                        <span class="comment-action">Reply</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <article class="poem-card" data-media-type="banani-button" data-poem-id="poem2">
-              <div class="poem-header-row">
-                <div class="poem-author-block">
-                  <div class="avatar-circle" onclick="window.location.href='profile.html'">
-                    <img
-                      src="https://storage.googleapis.com/banani-avatars/avatar%2Fmale%2F35-50%2FEuropean%2F5"
-                      alt="Julian Thorne"
-                    />
-                  </div>
-                  <div class="author-meta">
-                    <div class="author-name-row">
-                      <span class="author-name">Julian Thorne</span>
-                      <button
-                        class="follow-btn"
-                        data-media-type="banani-button"
-                      >
-                        Follow
-                      </button>
-                    </div>
-                    <span class="author-handle">@jthorne_poet</span>
-                  </div>
-                </div>
-                <div class="poem-header-right">
-                  <div class="poem-timestamp">5 hours ago</div>
-                </div>
-              </div>
-              <div class="poem-body">
-                Between each thought, a distant bell, a single note in
-                midnight blue. I learn to rest inside its swell, where every
-                silence feels like dew.
-              </div>
-              <div class="poem-footer-row">
-                <div class="poem-actions">
-                  <div
-                    class="poem-action-item like-btn"
-                    data-media-type="banani-button"
-                  >
-                    <div
-                      style="
-                        width: 20px;
-                        height: 20px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                      "
-                    >
-                      <iconify-icon
-                        icon="lucide:heart"
-                        style="font-size: 16px; color: currentColor"
-                      ></iconify-icon>
-                    </div>
-                    <span class="poem-action-count">264</span>
-                  </div>
-                  <div
-                    class="poem-action-item comment-toggle-btn"
-                    data-media-type="banani-button"
-                  >
-                    <div
-                      style="
-                        width: 20px;
-                        height: 20px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                      "
-                    >
-                      <iconify-icon
-                        icon="lucide:message-circle"
-                        style="font-size: 16px; color: currentColor"
-                      ></iconify-icon>
-                    </div>
-                    <span class="poem-action-count">32</span>
-                  </div>
-                  <div
-                    class="poem-action-item bookmark-btn"
-                    data-media-type="banani-button"
-                  >
-                    <div
-                      style="
-                        width: 20px;
-                        height: 20px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                      "
-                    >
-                      <iconify-icon
-                        icon="lucide:bookmark"
-                        style="font-size: 16px; color: currentColor"
-                      ></iconify-icon>
-                    </div>
-                    <span class="poem-action-count">Save</span>
-                  </div>
-                  <div class="share-menu-container">
-                    <div
-                      class="poem-action-item share-btn"
-                      data-media-type="banani-button"
-                    >
-                      <div
-                        style="
-                          width: 20px;
-                          height: 20px;
-                          display: flex;
-                          align-items: center;
-                          justify-content: center;
-                        "
-                      >
-                        <iconify-icon
-                          icon="lucide:share-2"
-                          style="font-size: 16px; color: currentColor"
-                        ></iconify-icon>
-                      </div>
-                      <span class="poem-action-count">Share</span>
-                    </div>
-                    <div class="share-menu">
-                      <button class="share-menu-item copy-link-btn">
-                        <iconify-icon icon="lucide:link"></iconify-icon>
-                        Copy Link
-                      </button>
-                      <div class="share-menu-divider"></div>
-                      <a class="share-menu-item" data-share="whatsapp">
-                        <iconify-icon icon="mdi:whatsapp"></iconify-icon>
-                        WhatsApp
-                      </a>
-                      <a class="share-menu-item" data-share="instagram">
-                        <iconify-icon icon="mdi:instagram"></iconify-icon>
-                        Instagram
-                      </a>
-                      <a class="share-menu-item" data-share="twitter">
-                        <iconify-icon icon="mdi:twitter"></iconify-icon>
-                        X (Twitter)
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="poem-tagline">stillness · inner echo</div>
-              </div>
-              
-              <!-- Comments Section -->
-              <div class="comments-section">
-                <div class="comment-input-wrapper">
-                  <div class="avatar-circle">
-                    <img
-                      src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FEuropean%2F2"
-                      alt="Your avatar"
-                    />
-                  </div>
-                  <input type="text" class="comment-input" placeholder="Write a comment..." />
-                  <button class="comment-submit-btn">Post</button>
-                </div>
-                <div class="comments-list">
-                  <!-- Comments will be added here dynamically -->
-                </div>
-              </div>
-            </article>
-
-            <article class="poem-card" data-media-type="banani-button" data-poem-id="poem3">
-              <div class="poem-header-row">
-                <div class="poem-author-block">
-                  <div class="avatar-circle" onclick="window.location.href='profile.html'">
-                    <img
-                      src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FAfrican%2F1"
-                      alt="Zara N."
-                    />
-                  </div>
-                  <div class="author-meta">
-                    <div class="author-name-row">
-                      <span class="author-name">Zara N.</span>
-                      <button
-                        class="follow-btn"
-                        data-media-type="banani-button"
-                      >
-                        Follow
-                      </button>
-                    </div>
-                    <span class="author-handle">@zara_moon</span>
-                  </div>
-                </div>
-                <div class="poem-header-right">
-                  <div class="poem-timestamp">Yesterday</div>
-                </div>
-              </div>
-              <div class="poem-body">
-                A river made of midnight glass wanders through my quiet chest;
-                every breath, a current passed, every pause, a place to rest.
-              </div>
-              <div class="poem-footer-row">
-                <div class="poem-actions">
-                  <div
-                    class="poem-action-item like-btn"
-                    data-media-type="banani-button"
-                  >
-                    <div
-                      style="
-                        width: 20px;
-                        height: 20px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                      "
-                    >
-                      <iconify-icon
-                        icon="lucide:heart"
-                        style="font-size: 16px; color: currentColor"
-                      ></iconify-icon>
-                    </div>
-                    <span class="poem-action-count">412</span>
-                  </div>
-                  <div
-                    class="poem-action-item comment-toggle-btn"
-                    data-media-type="banani-button"
-                  >
-                    <div
-                      style="
-                        width: 20px;
-                        height: 20px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                      "
-                    >
-                      <iconify-icon
-                        icon="lucide:message-circle"
-                        style="font-size: 16px; color: currentColor"
-                      ></iconify-icon>
-                    </div>
-                    <span class="poem-action-count">51</span>
-                  </div>
-                  <div
-                    class="poem-action-item bookmark-btn"
-                    data-media-type="banani-button"
-                  >
-                    <div
-                      style="
-                        width: 20px;
-                        height: 20px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                      "
-                    >
-                      <iconify-icon
-                        icon="lucide:bookmark"
-                        style="font-size: 16px; color: currentColor"
-                      ></iconify-icon>
-                    </div>
-                    <span class="poem-action-count">Save</span>
-                  </div>
-                  <div class="share-menu-container">
-                    <div
-                      class="poem-action-item share-btn"
-                      data-media-type="banani-button"
-                    >
-                      <div
-                        style="
-                          width: 20px;
-                          height: 20px;
-                          display: flex;
-                          align-items: center;
-                          justify-content: center;
-                        "
-                      >
-                        <iconify-icon
-                          icon="lucide:share-2"
-                          style="font-size: 16px; color: currentColor"
-                        ></iconify-icon>
-                      </div>
-                      <span class="poem-action-count">Share</span>
-                    </div>
-                    <div class="share-menu">
-                      <button class="share-menu-item copy-link-btn">
-                        <iconify-icon icon="lucide:link"></iconify-icon>
-                        Copy Link
-                      </button>
-                      <div class="share-menu-divider"></div>
-                      <a class="share-menu-item" data-share="whatsapp">
-                        <iconify-icon icon="mdi:whatsapp"></iconify-icon>
-                        WhatsApp
-                      </a>
-                      <a class="share-menu-item" data-share="instagram">
-                        <iconify-icon icon="mdi:instagram"></iconify-icon>
-                        Instagram
-                      </a>
-                      <a class="share-menu-item" data-share="twitter">
-                        <iconify-icon icon="mdi:twitter"></iconify-icon>
-                        X (Twitter)
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="poem-tagline">river · gentle courage</div>
-              </div>
-              
-              <!-- Comments Section -->
-              <div class="comments-section">
-                <div class="comment-input-wrapper">
-                  <div class="avatar-circle">
-                    <img
-                      src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FEuropean%2F2"
-                      alt="Your avatar"
-                    />
-                  </div>
-                  <input type="text" class="comment-input" placeholder="Write a comment..." />
-                  <button class="comment-submit-btn">Post</button>
-                </div>
-                <div class="comments-list">
-                  <!-- Comments will be added here dynamically -->
-                </div>
-              </div>
-            </article>
+            <div class="loading">Loading poems...</div>
           </section>
         </section>
       </main>
@@ -1744,168 +1140,173 @@
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <script src="api.js"></script>
     <script>
-      // API_BASE_URL is already defined in api.js
+      console.log('[INDEX] Page loaded');
 
-      // Load and render feed on page load
+      // Load feed from backend
       async function loadFeed() {
-        const loadingState = document.getElementById('loadingState');
-        const emptyState = document.getElementById('emptyState');
         const feedContainer = document.getElementById('poemFeed');
-
-        // Clear any existing hardcoded poems
-        const hardcodedPoems = feedContainer.querySelectorAll('article.poem-card');
-        hardcodedPoems.forEach(poem => poem.remove());
-
-        // Show loading state
-        if (loadingState) loadingState.style.display = 'block';
-
+        
         try {
+          console.log('[FEED] Fetching from:', `${API_BASE_URL}/poems/feed`);
+          
           const response = await fetch(`${API_BASE_URL}/poems/feed`);
+          console.log('[FEED] Response status:', response.status);
+          
           const data = await response.json();
+          console.log('[FEED] Received data:', data);
 
-          // Hide loading state
-          if (loadingState) loadingState.style.display = 'none';
+          if (!response.ok) {
+            throw new Error(data.error || 'Failed to load feed');
+          }
 
-          if (!data.poems || data.poems.length === 0) {
-            // Show empty state
-            if (emptyState) emptyState.style.display = 'block';
+          const poems = data.poems || [];
+
+          if (poems.length === 0) {
+            feedContainer.innerHTML = '<div class="empty">No poems yet. <a href="/write.html">Write the first one!</a></div>';
             return;
           }
 
-          // Render poems
-          data.poems.forEach(poem => {
-            const poemCard = createPoemCard(poem);
-            feedContainer.appendChild(poemCard);
-          });
+          feedContainer.innerHTML = '';
 
-        } catch (error) {
-          console.error('Failed to load feed:', error);
-          if (loadingState) {
-            loadingState.innerHTML = `
-              <div style="color: #ff6b6b; font-size: 16px; margin-bottom: 8px;">Failed to load poems</div>
-              <div style="font-size: 14px; color: rgba(161, 211, 248, 0.6);">${error.message}</div>
-              <div style="font-size: 14px; margin-top: 12px;">
-                <button onclick="location.reload()" style="padding: 8px 16px; border-radius: 6px; background: rgba(53, 118, 162, 0.3); border: 1px solid rgba(53, 118, 162, 0.5); color: #a1d3f8; cursor: pointer;">Retry</button>
+          poems.forEach(poem => {
+            const article = document.createElement('article');
+            article.className = 'poem-card';
+            article.setAttribute('data-poem-id', poem._id);
+            article.setAttribute('data-media-type', 'banani-button');
+            
+            const author = escapeHtml(poem.author?.username || 'Anonymous');
+            const authorName = escapeHtml(poem.author?.name || author);
+            const content = escapeHtml(poem.content || '');
+            const likes = Array.isArray(poem.likes) ? poem.likes.length : 0;
+            const avatarUrl = poem.author?.avatar || 'https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FEuropean%2F2';
+            
+            article.innerHTML = `
+              <div class="poem-header-row">
+                <div class="poem-author-block">
+                  <div class="avatar-circle" onclick="window.location.href='profile.html'">
+                    <img src="${avatarUrl}" alt="${authorName}" />
+                  </div>
+                  <div class="author-meta">
+                    <div class="author-name-row">
+                      <span class="author-name">${authorName}</span>
+                      <button class="follow-btn" data-media-type="banani-button">Follow</button>
+                    </div>
+                    <span class="author-handle">@${author}</span>
+                  </div>
+                </div>
+                <div class="poem-header-right">
+                  <div class="poem-timestamp">Just now</div>
+                </div>
+              </div>
+              <div class="poem-body">${content}</div>
+              <div class="poem-footer-row">
+                <div class="poem-actions">
+                  <div class="poem-action-item like-btn" data-media-type="banani-button">
+                    <div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">
+                      <iconify-icon icon="lucide:heart" style="font-size: 16px; color: currentColor"></iconify-icon>
+                    </div>
+                    <span class="poem-action-count">${likes}</span>
+                  </div>
+                  <div class="poem-action-item bookmark-btn" data-media-type="banani-button">
+                    <div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">
+                      <iconify-icon icon="lucide:bookmark" style="font-size: 16px; color: currentColor"></iconify-icon>
+                    </div>
+                    <span class="poem-action-count">Save</span>
+                  </div>
+                  <div class="share-menu-container">
+                    <div class="poem-action-item share-btn" data-media-type="banani-button">
+                      <div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">
+                        <iconify-icon icon="lucide:share-2" style="font-size: 16px; color: currentColor"></iconify-icon>
+                      </div>
+                      <span class="poem-action-count">Share</span>
+                    </div>
+                    <div class="share-menu">
+                      <button class="share-menu-item copy-link-btn">
+                        <iconify-icon icon="lucide:link"></iconify-icon>
+                        Copy Link
+                      </button>
+                      <div class="share-menu-divider"></div>
+                      <a class="share-menu-item" data-share="whatsapp">
+                        <iconify-icon icon="mdi:whatsapp"></iconify-icon>
+                        WhatsApp
+                      </a>
+                      <a class="share-menu-item" data-share="instagram">
+                        <iconify-icon icon="mdi:instagram"></iconify-icon>
+                        Instagram
+                      </a>
+                      <a class="share-menu-item" data-share="twitter">
+                        <iconify-icon icon="mdi:twitter"></iconify-icon>
+                        X (Twitter)
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="poem-tagline">poetry · soul whispers</div>
               </div>
             `;
-          }
+            
+            feedContainer.appendChild(article);
+          });
+
+          console.log('[FEED] ✅ Rendered', poems.length, 'poems');
+
+        } catch (error) {
+          console.error('[FEED] ❌ Error loading feed:', error);
+          feedContainer.innerHTML = `<div class="error">Failed to load poems: ${error.message}</div>`;
         }
       }
 
-      // Create poem card HTML
-      function createPoemCard(poem) {
-        const article = document.createElement('article');
-        article.className = 'poem-card';
-        article.setAttribute('data-media-type', 'banani-button');
-        article.setAttribute('data-poem-id', poem._id);
-
-        const authorName = poem.author?.name || poem.author?.username || 'Anonymous';
-        const authorHandle = poem.author?.username ? `@${poem.author.username}` : '@user';
-        const authorAvatar = poem.author?.avatar || 'https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F18-25%2FEast%20Asian%2F3';
-        const timestamp = poem.publishedAt ? getTimeAgo(new Date(poem.publishedAt)) : 'Just now';
-        const likesCount = poem.likesCount || 0;
-        const commentsCount = poem.comments?.length || 0;
-
-        article.innerHTML = `
-          <div class="poem-header-row">
-            <div class="poem-author-block">
-              <div class="avatar-circle" onclick="window.location.href='profile.html'">
-                <img src="${authorAvatar}" alt="${authorName}" />
-              </div>
-              <div class="author-meta">
-                <div class="author-name-row">
-                  <span class="author-name">${authorName}</span>
-                  <button class="follow-btn" data-media-type="banani-button">Follow</button>
-                </div>
-                <span class="author-handle">${authorHandle}</span>
-              </div>
-            </div>
-            <div class="poem-header-right">
-              <div class="poem-timestamp">${timestamp}</div>
-            </div>
-          </div>
-          <div class="poem-body">${poem.content || ''}</div>
-          <div class="poem-footer-row">
-            <div class="poem-actions">
-              <div class="poem-action-item like-btn" data-media-type="banani-button">
-                <div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">
-                  <iconify-icon icon="lucide:heart" style="font-size: 16px; color: currentColor"></iconify-icon>
-                </div>
-                <span class="poem-action-count">${likesCount}</span>
-              </div>
-              <div class="poem-action-item comment-toggle-btn" data-media-type="banani-button">
-                <div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">
-                  <iconify-icon icon="lucide:message-circle" style="font-size: 16px; color: currentColor"></iconify-icon>
-                </div>
-                <span class="poem-action-count">${commentsCount}</span>
-              </div>
-              <div class="poem-action-item bookmark-btn" data-media-type="banani-button">
-                <div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">
-                  <iconify-icon icon="lucide:bookmark" style="font-size: 16px; color: currentColor"></iconify-icon>
-                </div>
-                <span class="poem-action-count">Save</span>
-              </div>
-              <div class="share-menu-container">
-                <div class="poem-action-item share-btn" data-media-type="banani-button">
-                  <div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">
-                    <iconify-icon icon="lucide:share-2" style="font-size: 16px; color: currentColor"></iconify-icon>
-                  </div>
-                  <span class="poem-action-count">Share</span>
-                </div>
-                <div class="share-menu">
-                  <button class="share-menu-item copy-link-btn">
-                    <iconify-icon icon="lucide:link"></iconify-icon>
-                    Copy Link
-                  </button>
-                  <div class="share-menu-divider"></div>
-                  <a class="share-menu-item" data-share="whatsapp">
-                    <iconify-icon icon="mdi:whatsapp"></iconify-icon>
-                    WhatsApp
-                  </a>
-                  <a class="share-menu-item" data-share="instagram">
-                    <iconify-icon icon="mdi:instagram"></iconify-icon>
-                    Instagram
-                  </a>
-                  <a class="share-menu-item" data-share="twitter">
-                    <iconify-icon icon="mdi:twitter"></iconify-icon>
-                    X (Twitter)
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="poem-tagline">${poem.tags?.map(t => t.name || t).join(' · ') || 'poetry'}</div>
-          </div>
-          <div class="comments-section">
-            <div class="comment-input-wrapper">
-              <div class="avatar-circle">
-                <img src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FEuropean%2F2" alt="Your avatar" />
-              </div>
-              <input type="text" class="comment-input" placeholder="Write a comment..." />
-              <button class="comment-submit-btn">Post</button>
-            </div>
-            <div class="comments-list"></div>
-          </div>
-        `;
-
-        return article;
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
       }
 
-      // Helper function to format time ago
-      function getTimeAgo(date) {
-        const seconds = Math.floor((new Date() - date) / 1000);
-        if (seconds < 60) return 'Just now';
-        const minutes = Math.floor(seconds / 60);
-        if (minutes < 60) return `${minutes}m ago`;
-        const hours = Math.floor(minutes / 60);
-        if (hours < 24) return `${hours}h ago`;
-        const days = Math.floor(hours / 24);
-        if (days === 1) return 'Yesterday';
-        if (days < 30) return `${days}d ago`;
-        return date.toLocaleDateString();
-      }
-
-      // Load feed on page load
-      window.addEventListener('DOMContentLoaded', loadFeed);
+      // Call loadFeed on page load
+      window.addEventListener('DOMContentLoaded', async function() {
+        console.log('[INDEX] DOMContentLoaded - loading feed');
+        
+        // First load the feed
+        await loadFeed();
+        
+        // Then restore user interactions if authenticated
+        if (isAuthenticated()) {
+          await loadUserInteractions();
+          
+          // Restore liked and bookmarked states
+          document.querySelectorAll('[data-poem-id]').forEach(poemCard => {
+            const poemId = poemCard.getAttribute('data-poem-id');
+            
+            // Restore like state
+            if (isPoemLiked(poemId)) {
+              const likeBtn = poemCard.querySelector('.like-btn');
+              if (likeBtn) {
+                likeBtn.classList.add('liked');
+                const icon = likeBtn.querySelector('iconify-icon');
+                if (icon) {
+                  icon.setAttribute('icon', 'mdi:heart');
+                }
+              }
+            }
+            
+            // Restore bookmark state
+            if (isPoemBookmarked(poemId)) {
+              const bookmarkBtn = poemCard.querySelector('.bookmark-btn');
+              if (bookmarkBtn) {
+                bookmarkBtn.classList.add('bookmarked');
+                const icon = bookmarkBtn.querySelector('iconify-icon');
+                if (icon) {
+                  icon.setAttribute('icon', 'mdi:bookmark');
+                }
+                const textSpan = bookmarkBtn.querySelector('.poem-action-count');
+                if (textSpan) {
+                  textSpan.textContent = 'Saved';
+                }
+              }
+            }
+          });
+        }
+      });
 
       function toggleDropdown() {
         const dropdown = document.getElementById('profileDropdown');
@@ -2082,46 +1483,6 @@
             }
             console.error('Failed to update bookmark status');
           }
-        }
-      });
-      
-      // Load user interactions and restore state on page load
-      window.addEventListener('DOMContentLoaded', async function() {
-        if (isAuthenticated()) {
-          await loadUserInteractions();
-          
-          // Restore liked and bookmarked states
-          document.querySelectorAll('[data-poem-id]').forEach(poemCard => {
-            const poemId = poemCard.getAttribute('data-poem-id');
-            
-            // Restore like state
-            if (isPoemLiked(poemId)) {
-              const likeBtn = poemCard.querySelector('.like-btn');
-              if (likeBtn) {
-                likeBtn.classList.add('liked');
-                const icon = likeBtn.querySelector('iconify-icon');
-                if (icon) {
-                  icon.setAttribute('icon', 'mdi:heart');
-                }
-              }
-            }
-            
-            // Restore bookmark state
-            if (isPoemBookmarked(poemId)) {
-              const bookmarkBtn = poemCard.querySelector('.bookmark-btn');
-              if (bookmarkBtn) {
-                bookmarkBtn.classList.add('bookmarked');
-                const icon = bookmarkBtn.querySelector('iconify-icon');
-                if (icon) {
-                  icon.setAttribute('icon', 'mdi:bookmark');
-                }
-                const textSpan = bookmarkBtn.querySelector('.poem-action-count');
-                if (textSpan) {
-                  textSpan.textContent = 'Saved';
-                }
-              }
-            }
-          });
         }
       });
       

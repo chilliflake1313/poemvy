@@ -7,19 +7,24 @@ exports.getFeed = async (page = 1, limit = 10, userId = null) => {
   try {
     const skip = (page - 1) * limit;
 
-    const query = { isDraft: false, isPublic: true };
-
-    const poems = await Poem.find(query)
+    const poems = await Poem.find({ 
+      isDraft: false, 
+      isPublic: true,
+      author: { $exists: true, $ne: null }
+    })
       .sort({ publishedAt: -1 })
       .skip(skip)
       .limit(limit)
       .populate('author', 'username name avatar')
-      .populate('collection', 'name')
-      .populate('tags', 'name slug');
+      .lean();
 
-    const total = await Poem.countDocuments(query);
+    const total = await Poem.countDocuments({ 
+      isDraft: false, 
+      isPublic: true,
+      author: { $exists: true, $ne: null }
+    });
 
-    console.log("Feed poems:", poems.length, "Total:", total);
+    console.log("Feed poems: - poem.service.js:27", poems.length, "Total:", total);
 
     return {
       poems,
@@ -31,6 +36,7 @@ exports.getFeed = async (page = 1, limit = 10, userId = null) => {
       }
     };
   } catch (error) {
+    console.error("FEED ERROR: - poem.service.js:39", error.message);
     throw error;
   }
 };
