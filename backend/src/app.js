@@ -11,7 +11,10 @@ app.use(helmet());
 
 // CORS configuration
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: [
+    process.env.FRONTEND_URL || 'http://localhost:3000',
+    'http://localhost:5500'
+  ],
   credentials: true
 }));
 
@@ -30,9 +33,18 @@ app.use('/api/collections', require('./routes/collection.routes'));
 app.use('/api/tags', require('./routes/tag.routes'));
 app.use('/api/upload', require('./routes/upload.routes'));
 
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', message: 'Server is running' });
+});
+
+// Base API route
+app.get('/api', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Poemvy API is running'
+  });
 });
 
 // 404 handler
