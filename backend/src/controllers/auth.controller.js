@@ -245,6 +245,8 @@ exports.login = async (req, res) => {
     // Update last login
     user.lastLogin = new Date();
 
+    // Print JWT secret for debug
+    console.log("LOGIN SECRET:", process.env.JWT_SECRET);
     // Generate tokens
     const accessToken = jwt.sign(
       { id: user._id },

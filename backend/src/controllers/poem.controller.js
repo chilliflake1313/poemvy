@@ -1,20 +1,17 @@
+// Alias for RESTful clarity
+exports.getPoemById = exports.getPoem;
 const { validationResult } = require('express-validator');
 const poemService = require('../services/poem.service');
 
-// Get feed of poems
+// Minimal debug version of getFeed
+const Poem = require('../models/Poem');
 exports.getFeed = async (req, res) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
-    const userId = req.user?._id;
-
-    const result = await poemService.getFeed(parseInt(page), parseInt(limit), userId);
-
-    res.status(200).json({
-      success: true,
-      ...result
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    const poems = await Poem.find({});
+    res.json(poems);
+  } catch (err) {
+    console.error("GET FEED ERROR:", err);
+    res.status(500).json({ error: err.message });
   }
 };
 
@@ -79,6 +76,8 @@ exports.getPoemsByTag = async (req, res) => {
 // Create poem
 exports.createPoem = async (req, res) => {
   try {
+    console.log("REQ.USER:", req.user);
+    console.log("REQ.BODY:", req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -94,7 +93,8 @@ exports.createPoem = async (req, res) => {
       poem
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.log("CREATE ERROR:", error);
+    res.status(500).json({ message: error.message });
   }
 };
 
