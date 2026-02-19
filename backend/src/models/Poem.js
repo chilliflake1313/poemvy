@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 
 const poemSchema = new mongoose.Schema({
@@ -22,13 +23,7 @@ const poemSchema = new mongoose.Schema({
     ref: 'Tag'
   }],
   images: [{
-    type: String,
-    validate: {
-      validator: function(v) {
-        return /^https?:\/\/.+/.test(v);
-      },
-      message: 'Image must be a valid URL'
-    }
+    type: String
   }],
   collection: {
     type: mongoose.Schema.Types.ObjectId,
@@ -62,27 +57,18 @@ const poemSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  isDraft: {
-    type: Boolean,
-    default: false
-  },
   isPublic: {
     type: Boolean,
     default: true
-  },
-  publishedAt: Date,
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
   }
 }, {
-  timestamps: true,
-  toJSON: { virtuals: true },
-  toObject: { virtuals: true }
+  timestamps: true
+});
+
+poemSchema.index({ author: 1, createdAt: -1 });
+poemSchema.index({ createdAt: -1 });
+
+module.exports = mongoose.model('Poem', poemSchema);
 });
 
 // Indexes

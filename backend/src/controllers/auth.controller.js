@@ -69,7 +69,7 @@ exports.signup = async (req, res) => {
         email: email.toLowerCase()
       });
     } catch (emailError) {
-      console.error('Email sending failed:', emailError);
+      console.error('Email sending failed: - auth.controller.js:72', emailError);
       // Delete the user and OTP if email fails
       await User.deleteOne({ _id: user._id });
       await Otp.deleteMany({ email: email.toLowerCase() });
@@ -79,7 +79,7 @@ exports.signup = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error('Signup error:', error);
+    console.error('Signup error: - auth.controller.js:82', error);
     if (error.code === 11000) {
       return res.status(400).json({ error: 'Username or email already exists' });
     }
@@ -203,7 +203,7 @@ exports.verifyEmail = async (req, res) => {
       refreshToken
     });
   } catch (error) {
-    console.error('Verify email error:', error);
+    console.error('Verify email error: - auth.controller.js:206', error);
     res.status(500).json({ error: 'An error occurred. Please try again.' });
   }
 };
@@ -245,6 +245,8 @@ exports.login = async (req, res) => {
     // Update last login
     user.lastLogin = new Date();
 
+    // Print JWT secret for debug
+    console.log("LOGIN SECRET: - auth.controller.js:249", process.env.JWT_SECRET);
     // Generate tokens
     const accessToken = jwt.sign(
       { id: user._id },
@@ -276,7 +278,7 @@ exports.login = async (req, res) => {
       refreshToken
     });
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('Login error: - auth.controller.js:281', error);
     res.status(500).json({ error: 'An error occurred. Please try again.' });
   }
 };
@@ -373,7 +375,7 @@ exports.requestPasswordReset = async (req, res) => {
       try {
         await sendOTPEmail(email, code, 'Password Reset');
       } catch (emailError) {
-        console.error('Email sending failed:', emailError);
+        console.error('Email sending failed: - auth.controller.js:378', emailError);
         // Don't reveal email failure to user for security
       }
     }
@@ -384,7 +386,7 @@ exports.requestPasswordReset = async (req, res) => {
       message: 'If your email is registered, you will receive a password reset code.'
     });
   } catch (error) {
-    console.error('Request password reset error:', error);
+    console.error('Request password reset error: - auth.controller.js:389', error);
     res.status(500).json({ error: 'An error occurred. Please try again.' });
   }
 };
@@ -485,7 +487,7 @@ exports.resetPassword = async (req, res) => {
       message: 'Password reset successfully! Please login with your new password.'
     });
   } catch (error) {
-    console.error('Reset password error:', error);
+    console.error('Reset password error: - auth.controller.js:490', error);
     res.status(500).json({ error: 'An error occurred. Please try again.' });
   }
 };
