@@ -90,9 +90,6 @@ const userSchema = new mongoose.Schema({
   toObject: { virtuals: true }
 });
 
-// Indexes
-userSchema.index({ username: 1 });
-userSchema.index({ email: 1 });
 userSchema.index({ createdAt: -1 });
 
 // Virtual for follower count

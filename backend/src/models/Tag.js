@@ -28,9 +28,6 @@ const tagSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Indexes
-tagSchema.index({ name: 1 });
-tagSchema.index({ slug: 1 });
 tagSchema.index({ usageCount: -1 });
 
 // Create slug from name before saving
