@@ -264,37 +264,6 @@ Backend automatically validates:
 
 ---
 
-## 5. Draft System
-
-### Save as Draft
-
-Set `isDraft: true` when creating/updating poem:
-
-```json
-{
-  "title": "Work in Progress",
-  "content": "<p>Incomplete poem...</p>",
-  "isDraft": true
-}
-```
-
-**Draft Behavior:**
-- Not visible in public feed
-- Only visible to author
-- Can be updated anytime
-- Publish by setting `isDraft: false`
-
-### Get User Drafts
-
-**Endpoint:**
-```
-GET /api/poems/user/:username?drafts=true
-Authorization: Bearer <access_token>
-```
-
-**Note:** Only returns drafts if requesting user is the owner.
-
----
 
 ## 6. Update Poem
 
