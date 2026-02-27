@@ -33,7 +33,7 @@ Authorization: Bearer <access_token>
 }
 ```
 
-### Important Notes
+### Important Note
 - **Content sanitization**: Use DOMPurify on frontend before sending
 - **Content field**: Accepts sanitized HTML (max 10,000 characters)
 - **tagNames**: Array of strings (max 10 tags, 30 chars each)
