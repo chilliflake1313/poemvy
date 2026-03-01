@@ -1,1569 +1,662 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Poemvy – Write</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100;200;300;400;500;600;700;800;900&family=Geist:wght@100;200;300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900&family=PT+Serif:wght@400;700&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Shantell+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-
-    <style>
-      :root {
-        --background: #000000;
-        --foreground: #a1d3f8;
-        --border: #00000014;
-        --input: #0b2b3a;
-        --primary: #3576a2;
-        --primary-foreground: #001b2e;
-        --secondary: #3b5d6d;
-        --secondary-foreground: #a1d3f8;
-        --muted: #6e8f99;
-        --muted-foreground: #6e8f99;
-        --success: #3b5d6d;
-        --success-foreground: #a1d3f8;
-        --accent: #a1d3f8;
-        --accent-foreground: #001b2e;
-        --destructive: #2b4756;
-        --destructive-foreground: #a1d3f8;
-        --warning: #3b5d6d;
-        --warning-foreground: #a1d3f8;
-        --card: #0b2b3a;
-        --card-foreground: #cfeffb;
-        --sidebar: #071826;
-        --sidebar-foreground: #a1d3f8;
-        --sidebar-primary: #062233;
-        --sidebar-primary-foreground: #a1d3f8;
-        --radius-sm: 4px;
-        --radius-md: 12px;
-        --radius-lg: 16px;
-        --radius-xl: 24px;
-        --font-family-body: Inter;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        padding: 0;
-        background: #000000;
-        overflow-x: hidden;
-        color: #c1d9e8;
-        font-size: 15px;
-        line-height: 1.6;
-        display: flex;
-        justify-content: center;
-        min-height: 100vh;
-        font-family:
-          Inter,
-          system-ui,
-          -apple-system,
-          BlinkMacSystemFont,
-          "Segoe UI",
-          Roboto,
-          Helvetica,
-          Arial,
-          sans-serif;
-      }
-
-      #bg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        pointer-events: none;
-      }
-
-      button,
-      input,
-      textarea {
-        font-family:
-          Inter,
-          system-ui,
-          -apple-system,
-          BlinkMacSystemFont,
-          "Segoe UI",
-          Roboto,
-          Helvetica,
-          Arial,
-          sans-serif;
-      }
-
-      .app-shell {
-        width: 100%;
-        max-width: 1440px;
-        padding: 0 24px 48px;
-        display: flex;
-        flex-direction: column;
-      }
-
-      /* Header Styles */
-      header {
-        position: sticky;
-        top: 0;
-        z-index: 20;
-        backdrop-filter: blur(18px);
-        display: flex;
-        justify-content: center;
-        background: linear-gradient(
-          to bottom,
-          rgba(0, 0, 0, 0.96),
-          rgba(0, 0, 0, 0.9)
-        );
-        border-bottom: 1px solid rgba(110, 143, 153, 0.35);
-      }
-
-      .top-nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 12px 0;
-        height: 64px;
-        width: 100%;
-        max-width: 720px;
-      }
-
-      .logo-mark {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-        text-decoration: none;
-      }
-
-      .logo-icon-wrap {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(53, 118, 162, 0.2);
-      }
-
-      .logo-text {
-        font-size: 18px;
-        font-weight: 500;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: #a1d3f8;
-      }
-
-      .search-container {
-        flex: 1;
-        max-width: 320px;
-        margin: 0 24px;
-      }
-
-      .search-bar {
-        width: 100%;
-        padding: 8px 16px 8px 40px;
-        background: rgba(11, 43, 58, 0.6);
-        border: 1px solid rgba(53, 118, 162, 0.3);
-        border-radius: 999px;
-        color: rgba(193, 217, 232, 0.95);
-        font-size: 14px;
-        outline: none;
-        transition: all 0.2s;
-        position: relative;
-      }
-
-      .search-bar::placeholder {
-        color: rgba(110, 143, 153, 0.7);
-      }
-
-      .search-bar:focus {
-        border-color: rgba(53, 118, 162, 0.6);
-        background: rgba(11, 43, 58, 0.8);
-      }
-
-      .search-wrapper {
-        position: relative;
-      }
-
-      .search-icon {
-        position: absolute;
-        left: 14px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: rgba(110, 143, 153, 0.7);
-        pointer-events: none;
-      }
-
-      .nav-links {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-size: 14px;
-        font-weight: 500;
-      }
-
-      .nav-link {
-        position: relative;
-        color: rgba(161, 211, 248, 0.7);
-        text-decoration: none;
-        cursor: pointer;
-        white-space: nowrap;
-        padding: 8px 20px;
-        border-radius: 999px;
-        transition: all 0.25s ease;
-        background: transparent;
-        border: 1px solid transparent;
-      }
-
-      .nav-link:hover {
-        color: rgba(161, 211, 248, 1);
-        background: transparent;
-      }
-
-      .nav-link[data-active="true"] {
-        color: rgba(161, 211, 248, 1);
-        background: transparent;
-        border: 1px solid transparent;
-      }
-
-      .nav-link-label {
-        position: relative;
-        z-index: 1;
-      }
-
-      /* Main Layout */
-      main {
-        display: flex;
-        justify-content: center;
-        padding-top: 40px;
-        flex: 1;
-      }
-
-      .editor-container {
-        width: 100%;
-        max-width: 720px;
-        display: flex;
-        flex-direction: column;
-        gap: 32px;
-        background: rgba(11, 43, 58, 0.4);
-        border: 1px solid rgba(53, 118, 162, 0.2);
-        border-radius: var(--radius-lg);
-        padding: 32px;
-      }
-
-      .editor-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 16px;
-      }
-
-      .editor-status {
-        font-size: 13px;
-        color: rgba(161, 211, 248, 0.7);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .status-text {
-        transition: opacity 0.2s ease;
-      }
-
-      .status-dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background-color: rgba(53, 118, 162, 0.8);
-        transition: background-color 0.3s ease;
-      }
-
-      .editor-actions {
-        display: flex;
-        gap: 12px;
-      }
-
-      .btn-secondary {
-        padding: 8px 16px;
-        border-radius: 999px;
-        font-size: 14px;
-        font-weight: 500;
-        color: rgba(161, 211, 248, 0.8);
-        background: transparent;
-        border: 1px solid rgba(110, 143, 153, 0.3);
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-
-      .btn-secondary:hover {
-        border-color: rgba(53, 118, 162, 0.5);
-        color: rgba(161, 211, 248, 1);
-        background: rgba(53, 118, 162, 0.1);
-      }
-
-      .btn-primary {
-        padding: 8px 24px;
-        border-radius: 999px;
-        font-size: 14px;
-        font-weight: 500;
-        color: rgba(161, 211, 248, 0.9);
-        background: rgba(53, 118, 162, 0.4);
-        border: 1px solid rgba(53, 118, 162, 0.3);
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-
-      .btn-primary:hover {
-        background: #a1d3f8;
-        color: #001b2e;
-        border-color: #a1d3f8;
-      }
-
-
-      .writing-surface {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-        background: rgba(11, 43, 58, 0.3);
-        padding: 24px;
-        border-radius: var(--radius-md);
-        border: 1px solid rgba(53, 118, 162, 0.15);
-      }
-
-      .title-input {
-        width: 100%;
-        background: transparent;
-        border: none;
-        font-size: 32px;
-        font-weight: 500;
-        color: #e8f4fb;
-        outline: none;
-        padding: 0;
-        font-family: inherit;
-      }
-
-      .title-input::placeholder {
-        color: rgba(161, 211, 248, 0.4);
-      }
-
-      .toolbar {
-        display: flex;
-        gap: 16px;
-        padding: 12px 0;
-        border-top: 1px solid rgba(110, 143, 153, 0.3);
-        border-bottom: 1px solid rgba(110, 143, 153, 0.3);
-      }
-
-      .tool-btn {
-        background: transparent;
-        border: none;
-        color: rgba(161, 211, 248, 0.6);
-        cursor: pointer;
-        padding: 4px;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: color 0.2s;
-      }
-
-      .tool-btn:hover {
-        color: rgba(161, 211, 248, 1);
-      }
-
-      .toolbar-divider {
-        width: 1px;
-        height: 20px;
-        background: rgba(110, 143, 153, 0.3);
-        margin: 0 4px;
-      }
-
-      .editor-content {
-        width: 100%;
-        min-height: 400px;
-        background: transparent;
-        border: none;
-        font-size: 18px;
-        line-height: 1.8;
-        color: #d4e8f3;
-        outline: none;
-        padding: 0;
-        font-family: inherit;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        overflow-y: auto;
-      }
-
-      .editor-content::-webkit-scrollbar {
-        display: none;
-      }
-
-      .editor-content:empty:before {
-        content: attr(data-placeholder);
-        color: rgba(161, 211, 248, 0.35);
-        pointer-events: none;
-      }
-
-      .editor-content h1 {
-        font-size: 32px;
-        font-weight: 600;
-        margin: 16px 0;
-        color: #e8f4f8;
-      }
-
-      .editor-content h2 {
-        font-size: 24px;
-        font-weight: 600;
-        margin: 14px 0;
-        color: #e8f4f8;
-      }
-
-      .editor-content strong {
-        font-weight: 600;
-        color: #e8f4f8;
-      }
-
-      .editor-content em {
-        font-style: italic;
-        color: rgba(161, 211, 248, 0.95);
-      }
-
-      .editor-content blockquote {
-        border-left: 3px solid rgba(161, 211, 248, 0.4);
-        padding-left: 20px;
-        margin: 16px 0;
-        color: rgba(161, 211, 248, 0.85);
-        font-style: italic;
-      }
-
-      .floating-toolbar {
-        position: absolute;
-        display: none;
-        background: rgba(26, 35, 53, 0.98);
-        border: 1px solid rgba(161, 211, 248, 0.2);
-        border-radius: 8px;
-        padding: 6px;
-        gap: 4px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        z-index: 10000;
-        backdrop-filter: blur(10px);
-      }
-
-      .floating-toolbar.show {
-        display: flex;
-      }
-
-      .toolbar-btn {
-        width: 32px;
-        height: 32px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: transparent;
-        border: none;
-        border-radius: 4px;
-        color: rgba(161, 211, 248, 0.8);
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: 600;
-        transition: all 0.2s ease;
-      }
-
-      .toolbar-btn:hover {
-        background: rgba(53, 118, 162, 0.3);
-        color: rgba(161, 211, 248, 1);
-      }
-
-      .toolbar-btn.active {
-        background: rgba(53, 118, 162, 0.5);
-        color: rgba(161, 211, 248, 1);
-      }
-
-      .meta-section {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        padding-top: 24px;
-        border-top: 1px solid rgba(110, 143, 153, 0.3);
-      }
-
-      .meta-row {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-      }
-
-      .meta-label {
-        font-size: 13px;
-        color: rgba(161, 211, 248, 0.7);
-        width: 80px;
-      }
-
-      .tags-input-container {
-        flex: 1;
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        align-items: center;
-      }
-
-      .tag-chip {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 10px;
-        background: rgba(59, 93, 109, 0.5);
-        border-radius: 999px;
-        font-size: 13px;
-        color: rgba(161, 211, 248, 0.9);
-        max-width: 200px;
-      }
-
-      .tag-chip span {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .tag-chip iconify-icon {
-        cursor: pointer;
-        transition: color 0.2s;
-      }
-
-      .tag-chip iconify-icon:hover {
-        color: #ffffff;
-      }
-
-      .add-tag-btn {
-        background: transparent;
-        border: 1px dashed rgba(161, 211, 248, 0.4);
-        color: rgba(161, 211, 248, 0.7);
-        padding: 4px 10px;
-        border-radius: 999px;
-        font-size: 13px;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-
-      .add-tag-btn:hover {
-        border-color: rgba(161, 211, 248, 0.7);
-        color: rgba(161, 211, 248, 1);
-      }
-
-      /* Tag Dialog */
-      .tag-dialog-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        z-index: 10000;
-      }
-
-      .tag-dialog-overlay.show {
-        display: flex;
-      }
-
-      .tag-dialog {
-        background: rgba(25, 43, 54, 0.98);
-        border: 1px solid rgba(161, 211, 248, 0.2);
-        border-radius: 16px;
-        padding: 24px;
-        width: 400px;
-        max-width: 90%;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-      }
-
-      .tag-dialog-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-      }
-
-      .tag-dialog-title {
-        font-size: 18px;
-        font-weight: 600;
-        color: #e8f4fb;
-      }
-
-      .tag-dialog-close {
-        background: none;
-        border: none;
-        color: rgba(161, 211, 248, 0.6);
-        cursor: pointer;
-        padding: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: color 0.2s;
-      }
-
-      .tag-dialog-close:hover {
-        color: rgba(161, 211, 248, 1);
-      }
-
-      .tag-input-wrapper {
-        margin-bottom: 8px;
-      }
-
-      .tag-input {
-        width: 100%;
-        background: rgba(59, 93, 109, 0.3);
-        border: 1px solid rgba(161, 211, 248, 0.2);
-        border-radius: 8px;
-        padding: 12px 16px;
-        color: #e8f4fb;
-        font-size: 14px;
-        outline: none;
-        transition: border-color 0.2s;
-      }
-
-      .tag-input:focus {
-        border-color: rgba(161, 211, 248, 0.5);
-      }
-
-      .tag-input::placeholder {
-        color: rgba(161, 211, 248, 0.4);
-      }
-
-      .tag-dialog-actions {
-        display: flex;
-        gap: 8px;
-        justify-content: flex-end;
-      }
-
-      .tag-dialog-btn {
-        padding: 8px 16px;
-        border-radius: 8px;
-        font-size: 14px;
-        cursor: pointer;
-        transition: all 0.2s;
-        border: none;
-      }
-
-      .tag-dialog-btn.cancel {
-        background: rgba(59, 93, 109, 0.4);
-        color: rgba(161, 211, 248, 0.8);
-      }
-
-      .tag-dialog-btn.cancel:hover {
-        background: rgba(59, 93, 109, 0.6);
-      }
-
-      .tag-dialog-btn.add {
-        background: rgba(53, 118, 162, 0.8);
-        color: #ffffff;
-      }
-
-      .tag-dialog-btn.add:hover {
-        background: rgba(53, 118, 162, 1);
-      }
-
-      .image-dialog-btn.upload:disabled {
-        background: rgba(59, 93, 109, 0.4);
-        color: rgba(161, 211, 248, 0.4);
-        cursor: not-allowed;
-      }
-
-      /* Profile Dropdown */
-      .profile-dropdown {
-        position: relative;
-      }
-
-      .profile-btn {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
-        white-space: nowrap;
-        padding: 6px 12px 6px 6px;
-        border-radius: 999px;
-        transition: all 0.25s ease;
-        background: transparent;
-        border: none;
-        color: rgba(161, 211, 248, 0.7);
-      }
-
-      .profile-btn:hover {
-        background: rgba(53, 118, 162, 0.2);
-        color: rgba(161, 211, 248, 1);
-      }
-
-      .profile-btn img {
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid rgba(53, 118, 162, 0.4);
-      }
-
-      .dropdown-menu {
-        position: absolute;
-        top: calc(100% + 8px);
-        right: 0;
-        min-width: 180px;
-        background: rgba(11, 43, 58, 0.95);
-        border: 1px solid rgba(53, 118, 162, 0.3);
-        border-radius: var(--radius-md);
-        padding: 8px;
-        display: none;
-        flex-direction: column;
-        gap: 4px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(12px);
-        z-index: 1000;
-      }
-
-      .dropdown-menu.show {
-        display: flex;
-      }
-
-      .dropdown-item {
-        padding: 10px 14px;
-        border-radius: var(--radius-sm);
-        color: rgba(161, 211, 248, 0.9);
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .dropdown-item:hover {
-        background: rgba(53, 118, 162, 0.3);
-        color: #e8f4fb;
-      }
-
-      /* Logout item separator */
-      .dropdown-item[onclick*="handleLogout"] {
-        margin-top: 8px;
-        padding-top: 16px;
-        border-top: 1px solid rgba(53, 118, 162, 0.2);
-      }
-
-      /* Notification Bell */
-      .notification-btn {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: rgba(161, 211, 248, 0.7);
-        cursor: pointer;
-        white-space: nowrap;
-        padding: 8px 20px;
-        border-radius: 999px;
-        transition: all 0.25s ease;
-        background: transparent;
-        border: none;
-      }
-
-      .notification-btn:hover {
-        color: rgba(161, 211, 248, 1);
-        background: rgba(53, 118, 162, 0.2);
-      }
-
-      .notification-badge {
-        position: absolute;
-        top: 8px;
-        right: 16px;
-        width: 8px;
-        height: 8px;
-        background: #ff6b6b;
-        border-radius: 50%;
-        border: 2px solid rgba(0, 0, 0, 0.96);
-      }
-
-      /* Auth Modal */
-      #authModal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.75);
-        backdrop-filter: blur(8px);
-        z-index: 10000;
-        align-items: center;
-        justify-content: center;
-        animation: fadeIn 0.2s ease;
-      }
-
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-
-      @keyframes slideUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .auth-box {
-        background: linear-gradient(135deg, rgba(15, 32, 45, 0.95), rgba(25, 45, 62, 0.95));
-        border: 1px solid rgba(53, 118, 162, 0.3);
-        border-radius: 16px;
-        padding: 40px;
-        max-width: 400px;
-        width: 90%;
-        text-align: center;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        animation: slideUp 0.3s ease;
-      }
-
-      .auth-box h3 {
-        color: #a1d3f8;
-        font-size: 24px;
-        margin: 0 0 12px 0;
-        font-weight: 600;
-      }
-
-      .auth-box p {
-        color: rgba(161, 211, 248, 0.7);
-        font-size: 15px;
-        margin: 0 0 32px 0;
-        line-height: 1.5;
-      }
-
-      .auth-box-buttons {
-        display: flex;
-        gap: 12px;
-        flex-direction: column;
-      }
-
-      .auth-box button {
-        padding: 14px 28px;
-        border-radius: 8px;
-        font-size: 15px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        border: none;
-        width: 100%;
-      }
-
-      .auth-box .btn-primary {
-        background: linear-gradient(135deg, #3576a2, #2d6b94);
-        color: white;
-      }
-
-      .auth-box .btn-primary:hover {
-        background: linear-gradient(135deg, #4086b8, #3576a2);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(53, 118, 162, 0.4);
-      }
-
-      .auth-box .btn-secondary {
-        background: transparent;
-        border: 1px solid rgba(53, 118, 162, 0.4);
-        color: #a1d3f8;
-      }
-
-      .auth-box .btn-secondary:hover {
-        background: rgba(53, 118, 162, 0.2);
-        border-color: rgba(53, 118, 162, 0.6);
-      }
-
-      .auth-box .btn-close {
-        background: transparent;
-        border: none;
-        color: rgba(161, 211, 248, 0.5);
-        margin-top: 8px;
-        padding: 8px;
-        font-size: 14px;
-      }
-
-      .auth-box .btn-close:hover {
-        color: rgba(161, 211, 248, 0.8);
-      }
-
-      /* Disable editor when not authenticated */
-      body.auth-required .editor-container {
-        pointer-events: none;
-        opacity: 0.6;
-      }
-    </style>
-  </head>
-  <body>
-    <canvas id="bg"></canvas>
-    <div class="app-shell">
-      <header>
-        <div class="top-nav">
-          <a href="index.html" class="logo-mark">
-            <div class="logo-text">P❆EMVY</div>
-          </a>
-          <div class="search-container">
-            <div class="search-wrapper">
-              <iconify-icon
-                icon="lucide:search"
-                class="search-icon"
-                style="font-size: 16px"
-              ></iconify-icon>
-              <input
-                type="text"
-                class="search-bar"
-                placeholder="Search poems, poets, or themes..."
-              />
-            </div>
-          </div>
-          <nav class="nav-links">
-            <a href="index.html" class="nav-link">
-              <span class="nav-link-label">Home</span>
-            </a>
-            <button class="notification-btn" title="Notifications">
-              <iconify-icon icon="lucide:bell" width="20"></iconify-icon>
-              <span class="notification-badge"></span>
-            </button>
-            <div class="profile-dropdown">
-              <button class="profile-btn" onclick="toggleDropdown()">
-                <img
-                  src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FEuropean%2F2"
-                  alt="Your profile"
-                />
-              </button>
-              <div class="dropdown-menu" id="profileDropdown">
-                <a href="profile.html" class="dropdown-item">
-                  <iconify-icon icon="lucide:user" width="16"></iconify-icon>
-                  Profile
-                </a>
-                <a href="account.html" class="dropdown-item">
-                  <iconify-icon icon="lucide:settings" width="16"></iconify-icon>
-                  Account
-                </a>
-                <a href="#" class="dropdown-item">
-                  <iconify-icon icon="lucide:sliders" width="16"></iconify-icon>
-                  Settings
-                </a>
-                <a href="#" class="dropdown-item" onclick="handleLogout(event)" style="color: #ff6b6b;">
-                  <iconify-icon icon="lucide:log-out" width="16"></iconify-icon>
-                  Log Out
-                </a>
-              </div>
-            </div>
-          </nav>
-        </div>
-      </header>
-
-      <main>
-        <div class="editor-container">
-          <div class="editor-header">
-            <div class="editor-actions">
-              <button class="btn-primary">Publish</button>
-            </div>
-          </div>
-
-          <div class="writing-surface">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Poemvy – Write a Poem</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100;200;300;400;500;600;700;800;900&family=Geist:wght@100;200;300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900&family=PT+Serif:wght@400;700&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Shantell+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --background: #000000;
+      --foreground: #a1d3f8;
+      --border: #00000014;
+      --input: #0b2b3a;
+      --primary: #3576a2;
+      --primary-foreground: #001b2e;
+      --secondary: #3b5d6d;
+      --secondary-foreground: #a1d3f8;
+      --muted: #6e8f99;
+      --muted-foreground: #6e8f99;
+      --success: #3b5d6d;
+      --success-foreground: #a1d3f8;
+      --accent: #a1d3f8;
+      --accent-foreground: #001b2e;
+      --destructive: #2b4756;
+      --destructive-foreground: #a1d3f8;
+      --warning: #3b5d6d;
+      --warning-foreground: #a1d3f8;
+      --card: #0b2b3a;
+      --card-foreground: #cfeffb;
+      --sidebar: #071826;
+      --sidebar-foreground: #a1d3f8;
+      --sidebar-primary: #062233;
+      --sidebar-primary-foreground: #a1d3f8;
+      --radius-sm: 4px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --font-family-body: Inter;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000000;
+      overflow-x: hidden;
+      color: #c1d9e8;
+      font-size: 15px;
+      line-height: 1.6;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+    }
+
+    #bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 1440px;
+      padding: 0 24px 48px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header Styles */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      display: flex;
+      justify-content: center;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.96),
+        rgba(0, 0, 0, 0.9)
+      );
+      border-bottom: 1px solid rgba(110, 143, 153, 0.35);
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      height: 64px;
+      width: 100%;
+      max-width: 720px;
+    }
+
+    .logo-mark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .logo-icon-wrap {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(53, 118, 162, 0.2);
+    }
+
+    .logo-text {
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #a1d3f8;
+    }
+
+    .search-container {
+      flex: 1;
+      max-width: 320px;
+      margin: 0 24px;
+    }
+
+    .search-wrapper {
+      position: relative;
+    }
+
+    .search-bar {
+      width: 100%;
+      padding: 8px 16px 8px 40px;
+      background: rgba(11, 43, 58, 0.6);
+      border: 1px solid rgba(53, 118, 162, 0.3);
+      border-radius: 999px;
+      color: rgba(193, 217, 232, 0.95);
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-bar::placeholder {
+      color: rgba(110, 143, 153, 0.7);
+    }
+
+    .search-bar:focus {
+      border-color: rgba(53, 118, 162, 0.6);
+      background: rgba(11, 43, 58, 0.8);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(110, 143, 153, 0.7);
+      pointer-events: none;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .nav-link {
+      position: relative;
+      color: rgba(161, 211, 248, 0.7);
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+      padding: 8px 20px;
+      border-radius: 999px;
+      transition: all 0.25s ease;
+      background: transparent;
+      border: 1px solid transparent;
+    }
+
+    .nav-link:hover {
+      color: rgba(161, 211, 248, 1);
+      background: transparent;
+    }
+
+    .nav-link[data-active="true"] {
+      color: rgba(161, 211, 248, 1);
+      background: transparent;
+      border: 1px solid transparent;
+    }
+
+    /* Main Layout */
+    main {
+      display: flex;
+      justify-content: center;
+      padding-top: 32px;
+    }
+
+    .write-shell {
+      width: 100%;
+      max-width: 720px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Profile Dropdown */
+    .profile-dropdown {
+      position: relative;
+    }
+
+    .profile-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+      padding: 6px 12px 6px 6px;
+      border-radius: 999px;
+      transition: all 0.25s ease;
+      background: transparent;
+      border: none;
+      color: rgba(161, 211, 248, 0.7);
+    }
+
+    .profile-btn:hover {
+      background: rgba(53, 118, 162, 0.2);
+      color: rgba(161, 211, 248, 1);
+    }
+
+    .profile-btn img {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(53, 118, 162, 0.4);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      min-width: 180px;
+      background: rgba(11, 43, 58, 0.95);
+      border: 1px solid rgba(53, 118, 162, 0.3);
+      border-radius: var(--radius-md);
+      padding: 8px;
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+    }
+
+    .dropdown-menu.show {
+      display: flex;
+    }
+
+    .dropdown-item {
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      color: rgba(161, 211, 248, 0.9);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dropdown-item:hover {
+      background: rgba(53, 118, 162, 0.3);
+      color: #e8f4fb;
+    }
+
+    .dropdown-item[onclick*="handleLogout"] {
+      margin-top: 8px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(53, 118, 162, 0.2);
+    }
+
+    /* Notification Bell */
+    .notification-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(161, 211, 248, 0.7);
+      cursor: pointer;
+      white-space: nowrap;
+      padding: 8px 20px;
+      border-radius: 999px;
+      transition: all 0.25s ease;
+      background: transparent;
+      border: none;
+    }
+
+    .notification-btn:hover {
+      color: rgba(161, 211, 248, 1);
+      background: rgba(53, 118, 162, 0.2);
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: 8px;
+      right: 16px;
+      width: 8px;
+      height: 8px;
+      background: #ff6b6b;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 0, 0, 0.96);
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: rgba(161, 211, 248, 0.9);
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 12px;
+      background: rgba(11, 43, 58, 0.6);
+      border: 1px solid rgba(53, 118, 162, 0.3);
+      border-radius: var(--radius-lg);
+      color: rgba(193, 217, 232, 0.95);
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: rgba(53, 118, 162, 0.6);
+      background: rgba(11, 43, 58, 0.8);
+    }
+
+    input[type="text"]::placeholder,
+    textarea::placeholder {
+      color: rgba(110, 143, 153, 0.7);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 300px;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    button {
+      padding: 12px 28px;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+      border: none;
+    }
+
+    .cancel-btn {
+      background: transparent;
+      color: rgba(161, 211, 248, 0.9);
+      border: 1px solid rgba(53, 118, 162, 0.3);
+    }
+
+    .cancel-btn:hover {
+      border-color: rgba(53, 118, 162, 0.6);
+      background: rgba(53, 118, 162, 0.1);
+    }
+
+    .publish-btn {
+      background: linear-gradient(135deg, rgba(53, 118, 162, 0.8), rgba(53, 118, 162, 0.6));
+      color: #ffffff;
+      border: 1px solid rgba(53, 118, 162, 0.5);
+    }
+
+    .publish-btn:hover {
+      background: linear-gradient(135deg, rgba(53, 118, 162, 1), rgba(53, 118, 162, 0.8));
+    }
+
+    .publish-btn:disabled {
+      background: rgba(110, 143, 153, 0.4);
+      cursor: not-allowed;
+    }
+
+    .message {
+      padding: 12px 16px;
+      border-radius: var(--radius-lg);
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .message.error {
+      color: #ff6b6b;
+      background: rgba(255, 107, 107, 0.1);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+
+    .message.success {
+      color: #51cf66;
+      background: rgba(81, 207, 102, 0.1);
+      border: 1px solid rgba(81, 207, 102, 0.3);
+    }
+
+    .message.hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div class="app-shell">
+    <!-- Header with Navigation -->
+    <header>
+      <div class="top-nav">
+        <a href="index.html" class="logo-mark">
+          <div class="logo-text">P❆EMVY</div>
+        </a>
+        <div class="search-container">
+          <div class="search-wrapper">
+            <iconify-icon
+              icon="lucide:search"
+              class="search-icon"
+              style="font-size: 16px"
+            ></iconify-icon>
             <input
               type="text"
-              class="title-input"
-              placeholder="Title of your poem"
+              class="search-bar"
+              placeholder="Search poems, poets, or themes..."
             />
-
-
-
-            <div
-              id="editorContent"
-              class="editor-content"
-              contenteditable="true"
-              data-placeholder="What is your soul whispering today..."
-            ></div>
           </div>
-
-          <!-- Floating Toolbar -->
-          <div id="floatingToolbar" class="floating-toolbar">
-            <button class="toolbar-btn" data-cmd="bold" title="Bold (Ctrl+B)">
-              <strong>B</strong>
+        </div>
+        <nav class="nav-links">
+          <a href="index.html" class="nav-link">
+            <span class="nav-link-label">Home</span>
+          </a>
+          <button class="notification-btn" title="Notifications">
+            <iconify-icon icon="lucide:bell" width="20"></iconify-icon>
+            <span class="notification-badge"></span>
+          </button>
+          <div class="profile-dropdown">
+            <button class="profile-btn" onclick="toggleDropdown()">
+              <img
+                src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FEuropean%2F2"
+                alt="Your profile"
+              />
             </button>
-            <button class="toolbar-btn" data-cmd="italic" title="Italic (Ctrl+I)">
-              <em>I</em>
-            </button>
-            <button class="toolbar-btn" data-cmd="h1" title="Heading 1">
-              H1
-            </button>
-            <button class="toolbar-btn" data-cmd="h2" title="Heading 2">
-              H2
-            </button>
-            <button class="toolbar-btn" data-cmd="quote" title="Quote">
-              &ldquo;&rdquo;
-            </button>
-          </div>
-
-          <div class="meta-section">
-            <div class="meta-row">
-              <div class="meta-label">Tags</div>
-              <div class="tags-input-container" id="tagsContainer">
-                <button class="add-tag-btn" id="addTagBtn">+ Add tag</button>
-              </div>
+            <div class="dropdown-menu" id="profileDropdown">
+              <a href="profile.html" class="dropdown-item">
+                <iconify-icon icon="lucide:user" width="16"></iconify-icon>
+                Profile
+              </a>
+              <a href="account.html" class="dropdown-item">
+                <iconify-icon icon="lucide:settings" width="16"></iconify-icon>
+                Account
+              </a>
+              <a href="#" class="dropdown-item">
+                <iconify-icon icon="lucide:sliders" width="16"></iconify-icon>
+                Settings
+              </a>
+              <a href="#" class="dropdown-item" onclick="handleLogout(event)" style="color: #ff6b6b;">
+                <iconify-icon icon="lucide:log-out" width="16"></iconify-icon>
+                Log Out
+              </a>
             </div>
           </div>
-        </div>
-      </main>
-    </div>
-
-    <!-- Tag Dialog -->
-    <div class="tag-dialog-overlay" id="tagDialogOverlay">
-      <div class="tag-dialog">
-        <div class="tag-dialog-header">
-          <div class="tag-dialog-title">Add Tag</div>
-          <button class="tag-dialog-close" id="closeTagDialog">
-            <iconify-icon icon="lucide:x" style="font-size: 18px"></iconify-icon>
-          </button>
-        </div>
-        <div class="tag-input-wrapper">
-          <input
-            type="text"
-            class="tag-input"
-            id="tagInput"
-            placeholder="Enter tag (e.g., #nature, #poetry)"
-            maxlength="50"
-          />
-        </div>
-        <div class="tag-dialog-actions">
-          <button class="tag-dialog-btn cancel" id="cancelTagBtn">Cancel</button>
-          <button class="tag-dialog-btn add" id="addTagSubmitBtn">Add</button>
-        </div>
+        </nav>
       </div>
-    </div>
+    </header>
 
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
-    <script>
-      function toggleDropdown() {
+    <!-- Main Write Form -->
+    <main>
+      <div class="write-shell">
+        <form id="poemForm">
+          <div id="message" class="message hidden"></div>
+
+          <div class="form-group">
+            <label for="title">Poem Title</label>
+            <input
+              type="text"
+              id="title"
+              placeholder="Enter your poem title..."
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="content">Poem Content</label>
+            <textarea
+              id="content"
+              placeholder="Write your poem here..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="cancel-btn" onclick="goBack()">Cancel</button>
+            <button type="submit" class="publish-btn">Publish Poem</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <script>
+    const API_URL = 'http://localhost:5000/api/poems';
+
+    // Toggle profile dropdown
+    function toggleDropdown() {
+      const dropdown = document.getElementById('profileDropdown');
+      dropdown.classList.toggle('show');
+    }
+
+    // Handle logout
+    async function handleLogout(event) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      const refreshToken = localStorage.getItem("refreshToken");
+
+      try {
+        if (refreshToken) {
+          await fetch("http://localhost:5000/api/auth/logout", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            },
+            body: JSON.stringify({ refreshToken })
+          });
+        }
+      } catch (err) {
+        console.error("Logout API failed:", err);
+      }
+
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("user");
+
+      window.location.href = "index.html";
+    }
+
+    // Close dropdown when clicking outside
+    window.addEventListener('click', function(e) {
+      if (!e.target.closest('.profile-dropdown')) {
         const dropdown = document.getElementById('profileDropdown');
-        dropdown.classList.toggle('show');
+        dropdown.classList.remove('show');
       }
+    });
 
-      // Handle logout
-      async function handleLogout(event) {
-        if (event) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
+    // Go back to home
+    function goBack() {
+      window.location.href = '/index.html';
+    }
 
-        const refreshToken = localStorage.getItem("refreshToken");
+    // Show message
+    function showMessage(text, isError = false) {
+      const messageDiv = document.getElementById('message');
+      messageDiv.textContent = text;
+      messageDiv.classList.remove('hidden', 'error', 'success');
+      messageDiv.classList.add(isError ? 'error' : 'success');
+    }
 
-        try {
-          if (refreshToken) {
-            await fetch("http://localhost:5000/api/auth/logout", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
-              },
-              body: JSON.stringify({ refreshToken })
-            });
-          }
-        } catch (err) {
-          console.error("Logout API failed:", err);
-        }
+    // Hide message
+    function hideMessage() {
+      const messageDiv = document.getElementById('message');
+      messageDiv.classList.add('hidden');
+    }
 
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        localStorage.removeItem("user");
+    // Handle form submission
+    document.getElementById('poemForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-        window.location.href = "index.html";
-      }
+      const title = document.getElementById('title').value.trim();
+      const content = document.getElementById('content').value.trim();
 
-      // Close dropdown when clicking outside
-      window.addEventListener('click', function(e) {
-        if (!e.target.closest('.profile-dropdown')) {
-          const dropdown = document.getElementById('profileDropdown');
-          dropdown.classList.remove('show');
-        }
-      });
-
-      // Editor references
-      const titleInput = document.querySelector('.title-input');
-      const editorContent = document.getElementById('editorContent');
-      const floatingToolbar = document.getElementById('floatingToolbar');
-
-      // Authentication checks disabled during development
-
-      // DOMPurify configuration - allowed tags only
-      const ALLOWED_TAGS = ['p', 'h1', 'h2', 'h3', 'strong', 'em', 'blockquote', 'ul', 'ol', 'li', 'a', 'br'];
-      const ALLOWED_ATTR = ['href', 'target'];
-
-      function sanitizeHTML(html) {
-        return DOMPurify.sanitize(html, {
-          ALLOWED_TAGS: ALLOWED_TAGS,
-          ALLOWED_ATTR: ALLOWED_ATTR,
-          KEEP_CONTENT: true,
-          ALLOW_DATA_ATTR: false
-        });
-      }
-
-      function stripInlineStyles(element) {
-        // Remove all inline styles from element and children
-        const all = element.querySelectorAll('*');
-        all.forEach(el => {
-          el.removeAttribute('style');
-          el.removeAttribute('class');
-        });
-      }
-
-      function normalizeContent() {
-        // Sanitize and normalize content
-        const content = editorContent.innerHTML;
-        const sanitized = sanitizeHTML(content);
-        editorContent.innerHTML = sanitized;
-        stripInlineStyles(editorContent);
-      }
-
-      function saveSelection() {
-        const selection = window.getSelection();
-        if (selection.rangeCount > 0) {
-          return selection.getRangeAt(0);
-        }
-        return null;
-      }
-
-      function restoreSelection(range) {
-        if (range) {
-          const selection = window.getSelection();
-          selection.removeAllRanges();
-          selection.addRange(range);
-        }
-      }
-
-      function handleInput() {
+      if (!title || !content) {
+        showMessage('Please fill in both title and content', true);
         return;
       }
 
-      // Attach event listeners
-      if (titleInput) {
-        titleInput.addEventListener('input', handleInput);
-      }
-      
-      if (editorContent) {
-        editorContent.addEventListener('input', handleInput);
-        
-        // Sanitize on paste
-        editorContent.addEventListener('paste', (e) => {
-          e.preventDefault();
-          const text = e.clipboardData.getData('text/html') || e.clipboardData.getData('text/plain');
-          const sanitized = sanitizeHTML(text);
-          document.execCommand('insertHTML', false, sanitized);
-          handleInput();
+      const publishBtn = document.querySelector('.publish-btn');
+      const originalText = publishBtn.textContent;
+      publishBtn.disabled = true;
+      publishBtn.textContent = 'Publishing...';
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ title, content }),
         });
-        
-        // Normalize content on blur
-        editorContent.addEventListener('blur', () => {
-          setTimeout(() => {
-            normalizeContent();
-          }, 100);
-        });
-      }
 
-      // Rich Text Editor Functionality
-      function wrapSelection(tag) {
-        const selection = window.getSelection();
-        if (!selection.rangeCount) return;
+        const data = await response.json();
 
-        const range = selection.getRangeAt(0);
-        const selectedText = range.toString();
-        
-        if (selectedText.length === 0) return;
-
-        // Check if already wrapped in same tag (prevent nesting)
-        const parentElement = range.commonAncestorContainer.parentElement;
-        if (parentElement && parentElement.tagName && parentElement.tagName.toLowerCase() === tag.toLowerCase()) {
-          // Already wrapped, unwrap instead
-          const content = parentElement.innerHTML;
-          const textNode = document.createTextNode(parentElement.textContent);
-          parentElement.parentNode.replaceChild(textNode, parentElement);
-          floatingToolbar.classList.remove('show');
-          handleInput();
-          return;
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to publish poem');
         }
 
-        // Save cursor position
-        const savedRange = range.cloneRange();
-        
-        // Create wrapper and insert
-        const wrapper = document.createElement(tag);
-        const contents = range.extractContents();
-        
-        // Strip nested same tags
-        const nestedTags = contents.querySelectorAll(tag);
-        nestedTags.forEach(nested => {
-          const textNode = document.createTextNode(nested.textContent);
-          nested.parentNode.replaceChild(textNode, nested);
-        });
-        
-        wrapper.appendChild(contents);
-        range.insertNode(wrapper);
-        
-        // Restore selection around the new wrapper
-        const newRange = document.createRange();
-        newRange.selectNodeContents(wrapper);
-        selection.removeAllRanges();
-        selection.addRange(newRange);
-        
-        // Hide toolbar after a moment
+        showMessage('✓ Poem published! Redirecting...');
         setTimeout(() => {
-          floatingToolbar.classList.remove('show');
-        }, 100);
-        
-        // Trigger editor update
-        handleInput();
+          window.location.href = '/index.html';
+        }, 1500);
+      } catch (error) {
+        showMessage(`Error: ${error.message}`, true);
+        publishBtn.disabled = false;
+        publishBtn.textContent = originalText;
       }
+    });
+  </script>
 
-      // Selection detection for floating toolbar
-      document.addEventListener('selectionchange', () => {
-        const selection = window.getSelection();
-        if (!selection.rangeCount) {
-          floatingToolbar.classList.remove('show');
-          return;
-        }
-
-        const range = selection.getRangeAt(0);
-        const selectedText = selection.toString();
-
-        // Check if selection is within editor
-        const container = range.commonAncestorContainer;
-        const isInEditor = editorContent.contains(container.nodeType === 3 ? container.parentNode : container);
-
-        if (selectedText.length > 0 && isInEditor) {
-          const rect = range.getBoundingClientRect();
-          
-          // Position toolbar above selection
-          const toolbarHeight = 44;
-          const toolbarWidth = floatingToolbar.offsetWidth || 180;
-          
-          let top = rect.top + window.scrollY - toolbarHeight - 8;
-          let left = rect.left + window.scrollX + (rect.width / 2) - (toolbarWidth / 2);
-          
-          // Keep toolbar in viewport
-          if (top < window.scrollY) {
-            top = rect.bottom + window.scrollY + 8;
-          }
-          if (left < 10) left = 10;
-          if (left + toolbarWidth > window.innerWidth - 10) {
-            left = window.innerWidth - toolbarWidth - 10;
-          }
-
-          floatingToolbar.style.top = top + 'px';
-          floatingToolbar.style.left = left + 'px';
-          floatingToolbar.classList.add('show');
-        } else {
-          floatingToolbar.classList.remove('show');
-        }
-      });
-
-      // Toolbar button handlers
-      document.querySelector('[data-cmd="bold"]').addEventListener('click', () => wrapSelection('strong'));
-      document.querySelector('[data-cmd="italic"]').addEventListener('click', () => wrapSelection('em'));
-      document.querySelector('[data-cmd="h1"]').addEventListener('click', () => wrapSelection('h1'));
-      document.querySelector('[data-cmd="h2"]').addEventListener('click', () => wrapSelection('h2'));
-      document.querySelector('[data-cmd="quote"]').addEventListener('click', () => wrapSelection('blockquote'));
-
-      // Keyboard shortcuts and special behaviors
-      editorContent.addEventListener('keydown', (e) => {
-        // Ctrl+B for bold, Ctrl+I for italic
-        if (e.ctrlKey || e.metaKey) {
-          if (e.key === 'b') {
-            e.preventDefault();
-            wrapSelection('strong');
-          } else if (e.key === 'i') {
-            e.preventDefault();
-            wrapSelection('em');
-          }
-          return;
-        }
-
-        // Enter key in heading converts to paragraph
-        if (e.key === 'Enter') {
-          const selection = window.getSelection();
-          if (selection.rangeCount > 0) {
-            const range = selection.getRangeAt(0);
-            const container = range.commonAncestorContainer;
-            const parentElement = container.nodeType === 3 ? container.parentElement : container;
-            
-            // Check if inside heading
-            const heading = parentElement.closest('h1, h2, h3');
-            if (heading) {
-              e.preventDefault();
-              
-              // Create new paragraph
-              const p = document.createElement('p');
-              p.innerHTML = '<br>';
-              
-              // Insert after heading
-              heading.parentNode.insertBefore(p, heading.nextSibling);
-              
-              // Move cursor to new paragraph
-              const newRange = document.createRange();
-              newRange.setStart(p, 0);
-              newRange.collapse(true);
-              selection.removeAllRanges();
-              selection.addRange(newRange);
-              
-              handleInput();
-              return;
-            }
-          }
-        }
-
-        // Backspace on empty heading converts to paragraph
-        if (e.key === 'Backspace') {
-          const selection = window.getSelection();
-          if (selection.rangeCount > 0) {
-            const range = selection.getRangeAt(0);
-            const container = range.commonAncestorContainer;
-            const parentElement = container.nodeType === 3 ? container.parentElement : container;
-            
-            // Check if inside empty heading
-            const heading = parentElement.closest('h1, h2, h3');
-            if (heading && (heading.textContent.trim() === '' || range.startOffset === 0)) {
-              e.preventDefault();
-              
-              // Convert to paragraph
-              const p = document.createElement('p');
-              p.innerHTML = heading.innerHTML || '<br>';
-              heading.parentNode.replaceChild(p, heading);
-              
-              // Move cursor to paragraph
-              const newRange = document.createRange();
-              newRange.setStart(p, 0);
-              newRange.collapse(true);
-              selection.removeAllRanges();
-              selection.addRange(newRange);
-              
-              handleInput();
-              return;
-            }
-          }
-        }
-      });
-
-      // Add click handler for publish button
-      const publishBtn = document.querySelector('.btn-primary');
-      if (publishBtn) {
-        publishBtn.addEventListener('click', async function() {
-          const title = titleInput.value.trim();
-          const content = editorContent.innerHTML.trim();
-
-          if (!title || !content) {
-            alert('Please add both title and content before publishing');
-            return;
-          }
-
-          try {
-            publishBtn.disabled = true;
-            publishBtn.textContent = 'Publishing...';
-
-            const response = await fetch('http://localhost:5000/api/poems', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ title, content })
-            });
-
-            if (!response.ok) {
-              let message = 'Failed to publish poem';
-              try {
-                const errorData = await response.json();
-                message = errorData.error || message;
-              } catch (parseError) {
-              }
-              throw new Error(message);
-            }
-
-            alert('Poem published successfully!');
-            titleInput.value = '';
-            editorContent.innerHTML = '';
-            window.location.href = 'index.html';
-          } catch (error) {
-            console.error('Failed to publish:', error);
-            alert('Failed to publish poem. Please try again.');
-          } finally {
-            publishBtn.disabled = false;
-            publishBtn.textContent = 'Publish';
-          }
-        });
-      }
-
-      // Tag functionality
-      const tagDialogOverlay = document.getElementById('tagDialogOverlay');
-      const tagInput = document.getElementById('tagInput');
-      const addTagBtn = document.getElementById('addTagBtn');
-      const closeTagDialog = document.getElementById('closeTagDialog');
-      const cancelTagBtn = document.getElementById('cancelTagBtn');
-      const addTagSubmitBtn = document.getElementById('addTagSubmitBtn');
-      const tagsContainer = document.getElementById('tagsContainer');
-      let tags = [];
-
-      function openTagDialog() {
-        tagDialogOverlay.classList.add('show');
-        tagInput.value = '';
-        tagInput.focus();
-      }
-
-      function closeTagDialogFn() {
-        tagDialogOverlay.classList.remove('show');
-        tagInput.value = '';
-      }
-
-      function addTag() {
-        let tagValue = tagInput.value.trim();
-        
-        // Add # prefix if not present
-        if (tagValue && !tagValue.startsWith('#')) {
-          tagValue = '#' + tagValue;
-        }
-        
-        // Check if tag is valid and not duplicate
-        if (tagValue && tagValue.length > 1 && !tags.includes(tagValue)) {
-          tags.push(tagValue);
-          renderTags();
-          closeTagDialogFn();
-        }
-      }
-
-      function removeTag(tagToRemove) {
-        tags = tags.filter(tag => tag !== tagToRemove);
-        renderTags();
-      }
-
-      function renderTags() {
-        tagsContainer.innerHTML = '';
-        
-        tags.forEach(tag => {
-          const tagChip = document.createElement('div');
-          tagChip.className = 'tag-chip';
-          tagChip.innerHTML = `
-            <span>${tag}</span>
-            <iconify-icon
-              icon="lucide:x"
-              style="font-size: 12px"
-            ></iconify-icon>
-          `;
-          
-          const removeIcon = tagChip.querySelector('iconify-icon');
-          removeIcon.addEventListener('click', () => removeTag(tag));
-          
-          tagsContainer.appendChild(tagChip);
-        });
-        
-        const addButton = document.createElement('button');
-        addButton.className = 'add-tag-btn';
-        addButton.id = 'addTagBtn';
-        addButton.textContent = '+ Add tag';
-        addButton.addEventListener('click', openTagDialog);
-        tagsContainer.appendChild(addButton);
-      }
-
-      if (addTagBtn) {
-        addTagBtn.addEventListener('click', openTagDialog);
-      }
-
-      if (closeTagDialog) {
-        closeTagDialog.addEventListener('click', closeTagDialogFn);
-      }
-
-      if (cancelTagBtn) {
-        cancelTagBtn.addEventListener('click', closeTagDialogFn);
-      }
-
-      if (addTagSubmitBtn) {
-        addTagSubmitBtn.addEventListener('click', addTag);
-      }
-
-      if (tagInput) {
-        tagInput.addEventListener('keypress', function(e) {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            addTag();
-          }
-        });
-      }
-
-      if (tagDialogOverlay) {
-        tagDialogOverlay.addEventListener('click', function(e) {
-          if (e.target === tagDialogOverlay) {
-            closeTagDialogFn();
-          }
-        });
-      }
-    </script>
-
-    <!-- Auth Modal -->
-    <div id="authModal">
-      <div class="auth-box">
-        <h3>Login to write</h3>
-        <p>Please log in to share your creative work with our community.</p>
-        <div class="auth-box-buttons">
-          <button class="btn-primary" onclick="goToLogin()">Login</button>
-          <button class="btn-secondary" onclick="goToSignup()">Create Account</button>
-          <button class="btn-close" onclick="goToHome()">Go Back</button>
-        </div>
-      </div>
-    </div>
-
-    <script>
-      // Auth Modal Management
-      let pendingAction = null;
-
-      function requireAuth(actionCallback) {
-        return true;
-      }
-
-      function showAuthModal(callback) {
-        pendingAction = callback || null;
-      }
-
-      function closeAuthModal() {
-        const modal = document.getElementById('authModal');
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-        pendingAction = null;
-      }
-
-      function goToLogin() {
-        window.location.href = 'index.html';
-      }
-
-      function goToSignup() {
-        window.location.href = 'index.html';
-      }
-
-      function goToHome() {
-        window.location.href = 'index.html';
-      }
-
-      // Check if returning from login with pending action
-      window.addEventListener('DOMContentLoaded', function() {
-        if (localStorage.getItem('pendingAction') === 'true') {
-          localStorage.removeItem('pendingAction');
-          if (pendingAction) {
-            pendingAction();
-            pendingAction = null;
-          }
-        }
-      });
-    </script>
-
-    <script src="api.js"></script>
-    <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
-    <script src="background.js"></script>
-  </body>
+  <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
+  <script src="background.js"></script>
+</body>
 </html>
