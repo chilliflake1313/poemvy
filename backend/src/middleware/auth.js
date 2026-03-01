@@ -1,7 +1,14 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// Verify JWT token
+// Verify JWT token - TEMPORARILY DISABLED FOR DEVELOPMENT
+const protect = async (req, res, next) => {
+  // Authentication disabled - pass through without checking
+  req.user = null;
+  next();
+};
+
+/* ORIGINAL CODE - TO BE RESTORED AFTER DEVELOPMENT
 const protect = async (req, res, next) => {
   try {
     let token;
@@ -42,8 +49,16 @@ const protect = async (req, res, next) => {
     res.status(500).json({ error: 'Server error in auth middleware' });
   }
 };
+*/
 
-// Optional auth - attach user if token exists but don't require it
+// Optional auth - TEMPORARILY DISABLED FOR DEVELOPMENT
+const optionalAuth = async (req, res, next) => {
+  // Authentication disabled - pass through without checking
+  req.user = null;
+  next();
+};
+
+/* ORIGINAL CODE - TO BE RESTORED AFTER DEVELOPMENT
 const optionalAuth = async (req, res, next) => {
   try {
     let token;
@@ -67,6 +82,7 @@ const optionalAuth = async (req, res, next) => {
     next();
   }
 };
+*/
 
 // Check if user is the owner of a resource
 const authorize = (req, res, next) => {

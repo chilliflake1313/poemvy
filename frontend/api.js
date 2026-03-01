@@ -21,9 +21,9 @@ function clearTokens() {
   localStorage.clear();
 }
 
-// Check if user is authenticated
+// Check if user is authenticated - DISABLED FOR DEVELOPMENT
 function isAuthenticated() {
-  return !!getAuthToken();
+  return false; // Always return false during development
 }
 
 // Refresh access token
@@ -56,45 +56,16 @@ async function refreshAccessToken() {
   }
 }
 
-// Global 401 handler - Force logout
+// Global 401 handler - DISABLED FOR DEVELOPMENT
 function handleUnauthorized() {
-  clearTokens();
-  // Redirect to login if not already there
-  if (!window.location.href.includes('login.html')) {
-    window.location.href = 'login.html';
-  }
+  // Do nothing during development - no login required
+  console.log('Auth disabled for development');
 }
 
-// Enhanced fetch with automatic token refresh
+// Enhanced fetch - TEMPORARILY DISABLED AUTH FOR DEVELOPMENT
 async function fetchWithAuth(url, options = {}) {
-  // Add auth header
-  options.headers = {
-    ...options.headers,
-    'Authorization': `Bearer ${getAuthToken()}`
-  };
-
+  // No auth headers during development
   let response = await fetch(url, options);
-
-  // Handle 401 - Try to refresh token
-  if (response.status === 401) {
-    try {
-      // Try refreshing the token
-      await refreshAccessToken();
-      
-      // Retry original request with new token
-      options.headers['Authorization'] = `Bearer ${getAuthToken()}`;
-      response = await fetch(url, options);
-      
-      // If still 401, force logout
-      if (response.status === 401) {
-        handleUnauthorized();
-      }
-    } catch (error) {
-      handleUnauthorized();
-      throw error;
-    }
-  }
-
   return response;
 }
 
@@ -104,7 +75,6 @@ async function likePoem(poemId) {
     const response = await fetch(`${API_BASE_URL}/poems/${poemId}/like`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${getAuthToken()}`,
         'Content-Type': 'application/json'
       }
     });
@@ -126,7 +96,6 @@ async function unlikePoem(poemId) {
     const response = await fetch(`${API_BASE_URL}/poems/${poemId}/unlike`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${getAuthToken()}`,
         'Content-Type': 'application/json'
       }
     });
@@ -148,7 +117,6 @@ async function bookmarkPoem(poemId) {
     const response = await fetch(`${API_BASE_URL}/users/bookmark/${poemId}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${getAuthToken()}`,
         'Content-Type': 'application/json'
       }
     });
@@ -170,7 +138,6 @@ async function unbookmarkPoem(poemId) {
     const response = await fetch(`${API_BASE_URL}/users/unbookmark/${poemId}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${getAuthToken()}`,
         'Content-Type': 'application/json'
       }
     });
@@ -191,7 +158,7 @@ async function getLikedPoems(page = 1, limit = 100) {
   try {
     const response = await fetch(`${API_BASE_URL}/users/likes?page=${page}&limit=${limit}`, {
       headers: {
-        'Authorization': `Bearer ${getAuthToken()}`
+        'Content-Type': 'application/json'
       }
     });
 
@@ -211,7 +178,7 @@ async function getBookmarkedPoems(page = 1, limit = 100) {
   try {
     const response = await fetch(`${API_BASE_URL}/users/bookmarks?page=${page}&limit=${limit}`, {
       headers: {
-        'Authorization': `Bearer ${getAuthToken()}`
+        'Content-Type': 'application/json'
       }
     });
 
@@ -289,7 +256,6 @@ async function addComment(poemId, text) {
     const response = await fetch(`${API_BASE_URL}/poems/${poemId}/comment`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${getAuthToken()}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ text })
@@ -303,71 +269,6 @@ async function addComment(poemId, text) {
     return await response.json();
   } catch (error) {
     console.error('Error adding comment:', error);
-    throw error;
-  }
-}
-
-// Save or update draft
-async function saveDraft(title, content) {
-  try {
-    const response = await fetch(`${API_BASE_URL}/poems/draft`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${getAuthToken()}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ title, content })
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to save draft');
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error('Error saving draft:', error);
-    throw error;
-  }
-}
-
-// Get latest draft
-async function getDraft() {
-  try {
-    const response = await fetch(`${API_BASE_URL}/poems/draft`, {
-      headers: {
-        'Authorization': `Bearer ${getAuthToken()}`
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to get draft');
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error('Error getting draft:', error);
-    throw error;
-  }
-}
-
-// Publish draft
-async function publishDraft(poemId) {
-  try {
-    const response = await fetch(`${API_BASE_URL}/poems/${poemId}/publish`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${getAuthToken()}`,
-        'Content-Type': 'application/json'
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to publish poem');
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error('Error publishing poem:', error);
     throw error;
   }
 }

@@ -2,35 +2,30 @@
 
 const express = require('express');
 const cors = require('cors');
+const poemRoutes = require('./routes/poem.routes');
+
 const app = express();
 
-// Enable CORS for all origins (or specify origin as needed)
+// Middleware
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'http://localhost:5000',
-    'file://'
-  ],
+  origin: ['http://localhost:3000', 'http://127.0.0.1:5500', 'http://localhost:5500'],
   credentials: true
 }));
-
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// API routes
+// Routes
+app.use('/api/poems', poemRoutes);
 
-
-app.use('/api/auth', require('./routes/auth.routes'));
-app.use('/api/poems', require('./routes/poem.routes'));
-
-// Root endpoint for health check or welcome
-app.get('/', (req, res) => {
-  res.json({ message: 'Poemvy backend is running!' });
+// Health check
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK' });
 });
 
-// Minimal 404 handler for API
-app.use((req, res) => {
-  res.status(404).json({ message: 'Route not found' });
+// Error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: err.message });
 });
 
 module.exports = app;
