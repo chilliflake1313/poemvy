@@ -1,0 +1,27 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start Poemvy Backend",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"start"
+			],
+			"isBackground": true,
+			"group": "build"
+		},
+		{
+			"label": "Start Poemvy Backend",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"backend",
+				"start"
+			],
+			"isBackground": true,
+			"group": "build"
+		}
+	]
+}

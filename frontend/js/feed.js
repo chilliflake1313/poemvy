@@ -1,6 +1,24 @@
 const API_URL = "http://localhost:5000/api";
 const feedContainer = document.getElementById("feedContainer");
 
+const normalizePoemTitle = (title) => {
+  if (!title) return "Untitled";
+  return String(title)
+    .replace(/\r\n/g, "\n")
+    .replace(/\n+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+};
+
+const normalizePoemBody = (content) => {
+  if (!content) return "";
+  return String(content)
+    .replace(/\r\n/g, "\n")
+    .replace(/\u00A0/g, " ")
+    .replace(/\t/g, "    ")
+    .trim();
+};
+
 const loadFeed = async () => {
   try {
     if (!feedContainer) {
@@ -40,12 +58,12 @@ const renderPoems = (poems) => {
     // Create title
     const title = document.createElement("h2");
     title.className = "poem-title";
-    title.textContent = poem.title;
+    title.textContent = normalizePoemTitle(poem.title);
 
     // Create body - CRITICAL: use textContent + pre-wrap
     const body = document.createElement("div");
     body.className = "poem-body";
-    body.textContent = poem.content; // ✅ Preserves line breaks
+    body.textContent = normalizePoemBody(poem.content); // ✅ Preserves line breaks
 
     // Create meta
     const meta = document.createElement("div");

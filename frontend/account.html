@@ -14,20 +14,20 @@
 
     <style>
       :root {
-        --background: #000000;
-        --foreground: #a1d3f8;
-        --border: #00000014;
-        --input: #0b2b3a;
-        --primary: #3576a2;
-        --primary-foreground: #001b2e;
-        --secondary: #3b5d6d;
-        --secondary-foreground: #a1d3f8;
-        --muted: #6e8f99;
-        --muted-foreground: #6e8f99;
-        --accent: #a1d3f8;
-        --accent-foreground: #001b2e;
-        --card: #0b2b3a;
-        --card-foreground: #cfeffb;
+        --background: #ffffff;
+        --foreground: #1a1a1a;
+        --border: #e5e5e5;
+        --input: #f5f5f5;
+        --primary: #000000;
+        --primary-foreground: #ffffff;
+        --secondary: #666666;
+        --secondary-foreground: #ffffff;
+        --muted: #999999;
+        --muted-foreground: #666666;
+        --accent: #1a1a1a;
+        --accent-foreground: #ffffff;
+        --card: #ffffff;
+        --card-foreground: #1a1a1a;
         --radius-sm: 4px;
         --radius-md: 12px;
         --radius-lg: 16px;
@@ -41,9 +41,9 @@
       body {
         margin: 0;
         padding: 0;
-        background: #000000;
+        background: #ffffff;
         overflow-x: hidden;
-        color: #c1d9e8;
+        color: #1a1a1a;
         font-size: 15px;
         line-height: 1.6;
         display: flex;
@@ -102,12 +102,8 @@
         backdrop-filter: blur(18px);
         display: flex;
         justify-content: center;
-        background: linear-gradient(
-          to bottom,
-          rgba(0, 0, 0, 0.96),
-          rgba(0, 0, 0, 0.9)
-        );
-        border-bottom: 1px solid rgba(110, 143, 153, 0.35);
+        background: rgba(255, 255, 255, 0.95);
+        border-bottom: 1px solid #e5e5e5;
       }
 
       .top-nav {
@@ -135,7 +131,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: rgba(53, 118, 162, 0.2);
+        background: #f5f5f5;
       }
 
       .logo-text {
@@ -143,7 +139,7 @@
         font-weight: 500;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        color: #a1d3f8;
+        color: #000000;
       }
 
       .search-container {
@@ -155,10 +151,10 @@
       .search-bar {
         width: 100%;
         padding: 8px 16px 8px 40px;
-        background: rgba(11, 43, 58, 0.6);
-        border: 1px solid rgba(53, 118, 162, 0.3);
+        background: #f5f5f5;
+        border: 1px solid #e5e5e5;
         border-radius: 999px;
-        color: rgba(193, 217, 232, 0.95);
+        color: #1a1a1a;
         font-size: 14px;
         outline: none;
         transition: all 0.2s;
@@ -166,12 +162,12 @@
       }
 
       .search-bar::placeholder {
-        color: rgba(110, 143, 153, 0.7);
+        color: #999999;
       }
 
       .search-bar:focus {
-        border-color: rgba(53, 118, 162, 0.6);
-        background: rgba(11, 43, 58, 0.8);
+        border-color: #cccccc;
+        background: #ffffff;
       }
 
       .search-wrapper {
@@ -183,7 +179,7 @@
         left: 14px;
         top: 50%;
         transform: translateY(-50%);
-        color: rgba(110, 143, 153, 0.7);
+        color: #999999;
         pointer-events: none;
       }
 
@@ -197,7 +193,7 @@
 
       .nav-link {
         position: relative;
-        color: rgba(161, 211, 248, 0.7);
+        color: #666666;
         text-decoration: none;
         cursor: pointer;
         white-space: nowrap;
@@ -209,7 +205,7 @@
       }
 
       .nav-link:hover {
-        color: rgba(161, 211, 248, 1);
+        color: #000000;
         background: transparent;
       }
 
@@ -229,12 +225,12 @@
         transition: all 0.25s ease;
         background: transparent;
         border: none;
-        color: rgba(161, 211, 248, 0.7);
+        color: #666666;
       }
 
       .profile-btn:hover {
-        background: rgba(53, 118, 162, 0.2);
-        color: rgba(161, 211, 248, 1);
+        background: #f5f5f5;
+        color: #000000;
       }
 
       .profile-btn img {
@@ -242,7 +238,7 @@
         height: 28px;
         border-radius: 50%;
         object-fit: cover;
-        border: 2px solid rgba(53, 118, 162, 0.4);
+        border: 2px solid #e5e5e5;
       }
 
       .dropdown-menu {
@@ -250,14 +246,14 @@
         top: calc(100% + 8px);
         right: 0;
         min-width: 180px;
-        background: rgba(11, 43, 58, 0.95);
-        border: 1px solid rgba(53, 118, 162, 0.3);
+        background: #ffffff;
+        border: 1px solid #e5e5e5;
         border-radius: var(--radius-md);
         padding: 8px;
         display: none;
         flex-direction: column;
         gap: 4px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
         backdrop-filter: blur(12px);
         z-index: 1000;
       }
@@ -269,7 +265,7 @@
       .dropdown-item {
         padding: 10px 14px;
         border-radius: var(--radius-sm);
-        color: rgba(161, 211, 248, 0.9);
+        color: #333333;
         font-size: 14px;
         font-weight: 500;
         cursor: pointer;
@@ -281,15 +277,15 @@
       }
 
       .dropdown-item:hover {
-        background: rgba(53, 118, 162, 0.3);
-        color: #e8f4fb;
+        background: #f5f5f5;
+        color: #000000;
       }
 
       /* Logout item separator */
       .dropdown-item[onclick*="handleLogout"] {
         margin-top: 8px;
         padding-top: 16px;
-        border-top: 1px solid rgba(53, 118, 162, 0.2);
+        border-top: 1px solid #e5e5e5;
       }
 
       /* Notification Bell */
@@ -298,7 +294,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: rgba(161, 211, 248, 0.7);
+        color: #666666;
         cursor: pointer;
         white-space: nowrap;
         padding: 8px 20px;
@@ -309,8 +305,8 @@
       }
 
       .notification-btn:hover {
-        color: rgba(161, 211, 248, 1);
-        background: rgba(53, 118, 162, 0.2);
+        color: #000000;
+        background: #f5f5f5;
       }
 
       .notification-badge {
@@ -319,9 +315,9 @@
         right: 16px;
         width: 8px;
         height: 8px;
-        background: #ff6b6b;
+        background: #000000;
         border-radius: 50%;
-        border: 2px solid rgba(0, 0, 0, 0.96);
+        border: 2px solid #ffffff;
       }
 
       /* Main Content */
@@ -344,13 +340,13 @@
         align-items: center;
         gap: 16px;
         padding-bottom: 12px;
-        border-bottom: 1px solid rgba(53, 118, 162, 0.2);
+        border-bottom: 1px solid #e5e5e5;
       }
 
       .page-title {
         font-size: 24px;
         font-weight: 600;
-        color: #e8f4fb;
+        color: #1a1a1a;
         margin: 0;
       }
 
@@ -359,8 +355,8 @@
         flex-direction: column;
         gap: 20px;
         padding: 24px;
-        background: rgba(11, 43, 58, 0.6);
-        border: 1px solid rgba(53, 118, 162, 0.2);
+        background: #f5f5f5;
+        border: 1px solid #e5e5e5;
         border-radius: var(--radius-lg);
       }
 
@@ -372,9 +368,9 @@
         font-weight: 600;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        color: rgba(161, 211, 248, 0.9);
+        color: #333333;
         padding-bottom: 12px;
-        border-bottom: 1px solid rgba(53, 118, 162, 0.15);
+        border-bottom: 1px solid #e5e5e5;
       }
 
       .form-row {
@@ -392,33 +388,33 @@
       .form-label {
         font-size: 13px;
         font-weight: 500;
-        color: rgba(161, 211, 248, 0.85);
+        color: #333333;
       }
 
       .form-label .required {
-        color: #ff6b6b;
+        color: #000000;
         margin-left: 2px;
       }
 
       .form-input {
         width: 100%;
         padding: 10px 14px;
-        background: rgba(11, 43, 58, 0.8);
-        border: 1px solid rgba(53, 118, 162, 0.3);
+        background: #ffffff;
+        border: 1px solid #e5e5e5;
         border-radius: var(--radius-sm);
-        color: rgba(193, 217, 232, 0.95);
+        color: #1a1a1a;
         font-size: 14px;
         outline: none;
         transition: all 0.2s;
       }
 
       .form-input::placeholder {
-        color: rgba(110, 143, 153, 0.6);
+        color: #999999;
       }
 
       .form-input:focus {
-        border-color: rgba(53, 118, 162, 0.6);
-        background: rgba(11, 43, 58, 0.9);
+        border-color: #cccccc;
+        background: #ffffff;
       }
 
       .form-input:disabled {
@@ -431,19 +427,19 @@
         align-items: center;
         gap: 6px;
         font-size: 13px;
-        color: rgba(161, 211, 248, 0.85);
+        color: #666666;
         text-decoration: none;
         cursor: pointer;
         margin-top: 4px;
       }
 
       .change-link:hover {
-        color: #a1d3f8;
+        color: #000000;
       }
 
       .form-hint {
         font-size: 12px;
-        color: rgba(110, 143, 153, 0.8);
+        color: #666666;
         margin-top: 4px;
       }
 
@@ -451,8 +447,8 @@
         align-self: flex-end;
         padding: 8px 20px;
         border-radius: var(--radius-sm);
-        background: rgba(255, 255, 255, 0.95);
-        color: #001b2e;
+        background: #000000;
+        color: #ffffff;
         font-size: 14px;
         font-weight: 500;
         cursor: pointer;
@@ -461,7 +457,7 @@
       }
 
       .save-btn:hover {
-        background: #ffffff;
+        background: #1a1a1a;
         transform: translateY(-1px);
       }
 
@@ -469,8 +465,8 @@
         align-self: flex-end;
         padding: 8px 20px;
         border-radius: var(--radius-sm);
-        background: rgba(255, 255, 255, 0.95);
-        color: #001b2e;
+        background: #000000;
+        color: #ffffff;
         font-size: 14px;
         font-weight: 500;
         cursor: pointer;
@@ -479,23 +475,23 @@
       }
 
       .change-username-btn:hover {
-        background: #ffffff;
+        background: #1a1a1a;
         transform: translateY(-1px);
       }
 
       .danger-zone {
-        border-color: rgba(239, 68, 68, 0.3);
-        background: rgba(20, 14, 14, 0.4);
+        border-color: #e5e5e5;
+        background: #f5f5f5;
       }
 
       .danger-zone .section-header {
-        color: rgba(239, 68, 68, 0.9);
-        border-bottom-color: rgba(239, 68, 68, 0.2);
+        color: #333333;
+        border-bottom-color: #e5e5e5;
       }
 
       .danger-description {
         font-size: 14px;
-        color: rgba(193, 217, 232, 0.85);
+        color: #666666;
         line-height: 1.6;
       }
 
@@ -503,7 +499,7 @@
         align-self: flex-start;
         padding: 10px 20px;
         border-radius: var(--radius-sm);
-        background: #ef4444;
+        background: #000000;
         color: #ffffff;
         font-size: 14px;
         font-weight: 600;
@@ -513,7 +509,7 @@
       }
 
       .delete-btn:hover {
-        background: #dc2626;
+        background: #1a1a1a;
         transform: translateY(-1px);
       }
 
@@ -548,7 +544,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.75);
+        background: rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(8px);
         z-index: 10000;
         align-items: center;
@@ -573,26 +569,26 @@
       }
 
       .auth-box {
-        background: linear-gradient(135deg, rgba(15, 32, 45, 0.95), rgba(25, 45, 62, 0.95));
-        border: 1px solid rgba(53, 118, 162, 0.3);
+        background: #ffffff;
+        border: 1px solid #e5e5e5;
         border-radius: 16px;
         padding: 40px;
         max-width: 400px;
         width: 90%;
         text-align: center;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
         animation: slideUp 0.3s ease;
       }
 
       .auth-box h3 {
-        color: #a1d3f8;
+        color: #1a1a1a;
         font-size: 24px;
         margin: 0 0 12px 0;
         font-weight: 600;
       }
 
       .auth-box p {
-        color: rgba(161, 211, 248, 0.7);
+        color: #666666;
         font-size: 15px;
         margin: 0 0 32px 0;
         line-height: 1.5;
@@ -616,38 +612,38 @@
       }
 
       .auth-box .btn-primary {
-        background: linear-gradient(135deg, #3576a2, #2d6b94);
-        color: white;
+        background: #000000;
+        color: #ffffff;
       }
 
       .auth-box .btn-primary:hover {
-        background: linear-gradient(135deg, #4086b8, #3576a2);
+        background: #1a1a1a;
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(53, 118, 162, 0.4);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       }
 
       .auth-box .btn-secondary {
         background: transparent;
-        border: 1px solid rgba(53, 118, 162, 0.4);
-        color: #a1d3f8;
+        border: 1px solid #e5e5e5;
+        color: #333333;
       }
 
       .auth-box .btn-secondary:hover {
-        background: rgba(53, 118, 162, 0.2);
-        border-color: rgba(53, 118, 162, 0.6);
+        background: #f5f5f5;
+        border-color: #cccccc;
       }
 
       .auth-box .btn-close {
         background: transparent;
         border: none;
-        color: rgba(161, 211, 248, 0.5);
+        color: #999999;
         margin-top: 8px;
         padding: 8px;
         font-size: 14px;
       }
 
       .auth-box .btn-close:hover {
-        color: rgba(161, 211, 248, 0.8);
+        color: #666666;
       }
 
       /* Disable content when not authenticated */
@@ -707,7 +703,7 @@
                   <iconify-icon icon="lucide:sliders" width="16"></iconify-icon>
                   Settings
                 </a>
-                <a href="#" class="dropdown-item" onclick="handleLogout(event)" style="color: #ff6b6b;">
+                <a href="#" class="dropdown-item" onclick="handleLogout(event)">
                   <iconify-icon icon="lucide:log-out" width="16"></iconify-icon>
                   Log Out
                 </a>
@@ -905,7 +901,7 @@
           top: 20px;
           right: 20px;
           padding: 16px 24px;
-          background: ${type === 'success' ? '#3b5d6d' : '#8b2020'};
+          background: ${type === 'success' ? '#000000' : '#1a1a1a'};
           color: #fff;
           border-radius: 12px;
           z-index: 10000;
@@ -1010,22 +1006,22 @@
           left: 0;
           width: 100%;
           height: 100%;
-          background: rgba(0, 0, 0, 0.8);
+          background: rgba(0, 0, 0, 0.5);
           display: flex;
           align-items: center;
           justify-content: center;
           z-index: 10000;
         `;
         modal.innerHTML = `
-          <div style="background: var(--card); padding: 32px; border-radius: 16px; max-width: 500px; width: 90%;">
-            <h3 style="margin: 0 0 16px; color: var(--foreground);">Verify Password Change</h3>
-            <p style="margin: 0 0 24px; color: var(--muted); font-size: 14px;">Enter the 6-digit code sent to your email</p>
+          <div style="background: #ffffff; padding: 32px; border-radius: 16px; max-width: 500px; width: 90%; border: 1px solid #e5e5e5;">
+            <h3 style="margin: 0 0 16px; color: #1a1a1a;">Verify Password Change</h3>
+            <p style="margin: 0 0 24px; color: #666666; font-size: 14px;">Enter the 6-digit code sent to your email</p>
             <div style="margin-bottom: 24px;">
-              <input type="text" id="passwordChangeCode" placeholder="Enter 6-digit code" maxlength="6" style="width: 100%; padding: 12px; background: var(--input); border: 1px solid rgba(161, 211, 248, 0.1); border-radius: 8px; color: var(--foreground); font-size: 15px; text-align: center; letter-spacing: 8px; font-weight: 600;">
+              <input type="text" id="passwordChangeCode" placeholder="Enter 6-digit code" maxlength="6" style="width: 100%; padding: 12px; background: #f5f5f5; border: 1px solid #e5e5e5; border-radius: 8px; color: #1a1a1a; font-size: 15px; text-align: center; letter-spacing: 8px; font-weight: 600;">
             </div>
             <div style="display: flex; gap: 12px;">
-              <button onclick="verifyPasswordChange('${newPassword}', '${confirmPassword}')" style="flex: 1; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 500;">Verify & Change Password</button>
-              <button onclick="closeModal()" style="padding: 12px 24px; background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 15px;">Cancel</button>
+              <button onclick="verifyPasswordChange('${newPassword}', '${confirmPassword}')" style="flex: 1; padding: 12px; background: #000000; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 500;">Verify & Change Password</button>
+              <button onclick="closeModal()" style="padding: 12px 24px; background: transparent; color: #666666; border: 1px solid #e5e5e5; border-radius: 8px; cursor: pointer; font-size: 15px;">Cancel</button>
             </div>
           </div>
         `;
@@ -1119,26 +1115,26 @@
           left: 0;
           width: 100%;
           height: 100%;
-          background: rgba(0, 0, 0, 0.8);
+          background: rgba(0, 0, 0, 0.5);
           display: flex;
           align-items: center;
           justify-content: center;
           z-index: 10000;
         `;
         modal.innerHTML = `
-          <div style="background: var(--card); padding: 32px; border-radius: 16px; max-width: 500px; width: 90%;">
-            <h3 style="margin: 0 0 24px; color: var(--foreground);">Change Email Address</h3>
+          <div style="background: #ffffff; padding: 32px; border-radius: 16px; max-width: 500px; width: 90%; border: 1px solid #e5e5e5;">
+            <h3 style="margin: 0 0 24px; color: #1a1a1a;">Change Email Address</h3>
             <div style="margin-bottom: 16px;">
-              <label style="display: block; margin-bottom: 8px; color: var(--foreground); font-size: 14px;">Current Password</label>
-              <input type="password" id="emailChangePassword" placeholder="Enter your password" style="width: 100%; padding: 12px; background: var(--input); border: 1px solid rgba(161, 211, 248, 0.1); border-radius: 8px; color: var(--foreground); font-size: 15px;">
+              <label style="display: block; margin-bottom: 8px; color: #1a1a1a; font-size: 14px;">Current Password</label>
+              <input type="password" id="emailChangePassword" placeholder="Enter your password" style="width: 100%; padding: 12px; background: #f5f5f5; border: 1px solid #e5e5e5; border-radius: 8px; color: #1a1a1a; font-size: 15px;">
             </div>
             <div style="margin-bottom: 24px;">
-              <label style="display: block; margin-bottom: 8px; color: var(--foreground); font-size: 14px;">New Email</label>
-              <input type="email" id="newEmailInput" placeholder="Enter new email" style="width: 100%; padding: 12px; background: var(--input); border: 1px solid rgba(161, 211, 248, 0.1); border-radius: 8px; color: var(--foreground); font-size: 15px;">
+              <label style="display: block; margin-bottom: 8px; color: #1a1a1a; font-size: 14px;">New Email</label>
+              <input type="email" id="newEmailInput" placeholder="Enter new email" style="width: 100%; padding: 12px; background: #f5f5f5; border: 1px solid #e5e5e5; border-radius: 8px; color: #1a1a1a; font-size: 15px;">
             </div>
             <div style="display: flex; gap: 12px;">
-              <button onclick="requestEmailChange()" style="flex: 1; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 500;">Send Verification Code</button>
-              <button onclick="closeModal()" style="padding: 12px 24px; background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 15px;">Cancel</button>
+              <button onclick="requestEmailChange()" style="flex: 1; padding: 12px; background: #000000; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 500;">Send Verification Code</button>
+              <button onclick="closeModal()" style="padding: 12px 24px; background: transparent; color: #666666; border: 1px solid #e5e5e5; border-radius: 8px; cursor: pointer; font-size: 15px;">Cancel</button>
             </div>
           </div>
         `;
@@ -1190,22 +1186,22 @@
           left: 0;
           width: 100%;
           height: 100%;
-          background: rgba(0, 0, 0, 0.8);
+          background: rgba(0, 0, 0, 0.5);
           display: flex;
           align-items: center;
           justify-content: center;
           z-index: 10000;
         `;
         modal.innerHTML = `
-          <div style="background: var(--card); padding: 32px; border-radius: 16px; max-width: 500px; width: 90%;">
-            <h3 style="margin: 0 0 16px; color: var(--foreground);">Verify New Email</h3>
-            <p style="margin: 0 0 24px; color: var(--muted); font-size: 14px;">Enter the 6-digit code sent to ${newEmail}</p>
+          <div style="background: #ffffff; padding: 32px; border-radius: 16px; max-width: 500px; width: 90%; border: 1px solid #e5e5e5;">
+            <h3 style="margin: 0 0 16px; color: #1a1a1a;">Verify New Email</h3>
+            <p style="margin: 0 0 24px; color: #666666; font-size: 14px;">Enter the 6-digit code sent to ${newEmail}</p>
             <div style="margin-bottom: 24px;">
-              <input type="text" id="emailVerifyCode" placeholder="Enter 6-digit code" maxlength="6" style="width: 100%; padding: 12px; background: var(--input); border: 1px solid rgba(161, 211, 248, 0.1); border-radius: 8px; color: var(--foreground); font-size: 15px; text-align: center; letter-spacing: 8px; font-weight: 600;">
+              <input type="text" id="emailVerifyCode" placeholder="Enter 6-digit code" maxlength="6" style="width: 100%; padding: 12px; background: #f5f5f5; border: 1px solid #e5e5e5; border-radius: 8px; color: #1a1a1a; font-size: 15px; text-align: center; letter-spacing: 8px; font-weight: 600;">
             </div>
             <div style="display: flex; gap: 12px;">
-              <button onclick="verifyEmailChange('${newEmail}')" style="flex: 1; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 500;">Verify & Update Email</button>
-              <button onclick="closeModal()" style="padding: 12px 24px; background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 15px;">Cancel</button>
+              <button onclick="verifyEmailChange('${newEmail}')" style="flex: 1; padding: 12px; background: #000000; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 500;">Verify & Update Email</button>
+              <button onclick="closeModal()" style="padding: 12px 24px; background: transparent; color: #666666; border: 1px solid #e5e5e5; border-radius: 8px; cursor: pointer; font-size: 15px;">Cancel</button>
             </div>
           </div>
         `;
@@ -1264,23 +1260,23 @@
           left: 0;
           width: 100%;
           height: 100%;
-          background: rgba(0, 0, 0, 0.8);
+          background: rgba(0, 0, 0, 0.5);
           display: flex;
           align-items: center;
           justify-content: center;
           z-index: 10000;
         `;
         modal.innerHTML = `
-          <div style="background: var(--card); padding: 32px; border-radius: 16px; max-width: 500px; width: 90%;">
-            <h3 style="margin: 0 0 16px; color: #ff6b6b;">Delete Account</h3>
-            <p style="margin: 0 0 24px; color: var(--muted); font-size: 14px;">This action cannot be undone. All your poems, collections, and data will be permanently deleted.</p>
+          <div style="background: #ffffff; padding: 32px; border-radius: 16px; max-width: 500px; width: 90%; border: 1px solid #e5e5e5;">
+            <h3 style="margin: 0 0 16px; color: #1a1a1a;">Delete Account</h3>
+            <p style="margin: 0 0 24px; color: #666666; font-size: 14px;">This action cannot be undone. All your poems, collections, and data will be permanently deleted.</p>
             <div style="margin-bottom: 24px;">
-              <label style="display: block; margin-bottom: 8px; color: var(--foreground); font-size: 14px;">Confirm Password</label>
-              <input type="password" id="deleteAccountPassword" placeholder="Enter your password" style="width: 100%; padding: 12px; background: var(--input); border: 1px solid rgba(161, 211, 248, 0.1); border-radius: 8px; color: var(--foreground); font-size: 15px;">
+              <label style="display: block; margin-bottom: 8px; color: #1a1a1a; font-size: 14px;">Confirm Password</label>
+              <input type="password" id="deleteAccountPassword" placeholder="Enter your password" style="width: 100%; padding: 12px; background: #f5f5f5; border: 1px solid #e5e5e5; border-radius: 8px; color: #1a1a1a; font-size: 15px;">
             </div>
             <div style="display: flex; gap: 12px;">
-              <button onclick="confirmDeleteAccount()" style="flex: 1; padding: 12px; background: #8b2020; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 500;">Delete My Account</button>
-              <button onclick="closeModal()" style="padding: 12px 24px; background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 15px;">Cancel</button>
+              <button onclick="confirmDeleteAccount()" style="flex: 1; padding: 12px; background: #000000; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 500;">Delete My Account</button>
+              <button onclick="closeModal()" style="padding: 12px 24px; background: transparent; color: #666666; border: 1px solid #e5e5e5; border-radius: 8px; cursor: pointer; font-size: 15px;">Cancel</button>
             </div>
           </div>
         `;

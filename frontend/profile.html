@@ -14,20 +14,20 @@
 
     <style>
       :root {
-        --background: #000000;
-        --foreground: #a1d3f8;
-        --border: #00000014;
-        --input: #0b2b3a;
-        --primary: #3576a2;
-        --primary-foreground: #001b2e;
-        --secondary: #3b5d6d;
-        --secondary-foreground: #a1d3f8;
-        --muted: #6e8f99;
-        --muted-foreground: #6e8f99;
-        --accent: #a1d3f8;
-        --accent-foreground: #001b2e;
-        --card: #0b2b3a;
-        --card-foreground: #cfeffb;
+        --background: #ffffff;
+        --foreground: #1a1a1a;
+        --border: #e5e5e5;
+        --input: #f5f5f5;
+        --primary: #000000;
+        --primary-foreground: #ffffff;
+        --secondary: #666666;
+        --secondary-foreground: #ffffff;
+        --muted: #999999;
+        --muted-foreground: #666666;
+        --accent: #1a1a1a;
+        --accent-foreground: #ffffff;
+        --card: #fafafa;
+        --card-foreground: #1a1a1a;
         --radius-sm: 4px;
         --radius-md: 12px;
         --radius-lg: 16px;
@@ -41,9 +41,9 @@
       body {
         margin: 0;
         padding: 0;
-        background: #000000;
+        background: #ffffff;
         overflow-x: hidden;
-        color: #c1d9e8;
+        color: #1a1a1a;
         font-size: 15px;
         line-height: 1.6;
         display: flex;
@@ -87,12 +87,8 @@
         backdrop-filter: blur(18px);
         display: flex;
         justify-content: center;
-        background: linear-gradient(
-          to bottom,
-          rgba(0, 0, 0, 0.96),
-          rgba(0, 0, 0, 0.9)
-        );
-        border-bottom: 1px solid rgba(110, 143, 153, 0.35);
+        background: rgba(255, 255, 255, 0.95);
+        border-bottom: 1px solid #e5e5e5;
       }
 
       .top-nav {
@@ -120,7 +116,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: rgba(53, 118, 162, 0.2);
+        background: #f5f5f5;
       }
 
       .logo-text {
@@ -128,7 +124,7 @@
         font-weight: 500;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        color: #a1d3f8;
+        color: #000000;
       }
 
       .search-container {
@@ -144,22 +140,22 @@
       .search-bar {
         width: 100%;
         padding: 8px 16px 8px 40px;
-        background: rgba(11, 43, 58, 0.6);
-        border: 1px solid rgba(53, 118, 162, 0.3);
+        background: #f5f5f5;
+        border: 1px solid #e5e5e5;
         border-radius: 999px;
-        color: rgba(193, 217, 232, 0.95);
+        color: #333333;
         font-size: 14px;
         outline: none;
         transition: all 0.2s;
       }
 
       .search-bar::placeholder {
-        color: rgba(110, 143, 153, 0.7);
+        color: #999999;
       }
 
       .search-bar:focus {
-        border-color: rgba(53, 118, 162, 0.6);
-        background: rgba(11, 43, 58, 0.8);
+        border-color: #cccccc;
+        background: #ffffff;
       }
 
       .search-icon {
@@ -167,7 +163,7 @@
         left: 14px;
         top: 50%;
         transform: translateY(-50%);
-        color: rgba(110, 143, 153, 0.7);
+        color: #666666;
         pointer-events: none;
       }
 
@@ -181,7 +177,7 @@
 
       .nav-link {
         position: relative;
-        color: rgba(161, 211, 248, 0.7);
+        color: #666666;
         text-decoration: none;
         cursor: pointer;
         white-space: nowrap;
@@ -193,12 +189,12 @@
       }
 
       .nav-link:hover {
-        color: rgba(161, 211, 248, 1);
+        color: #000000;
         background: transparent;
       }
 
       .nav-link[data-active="true"] {
-        color: rgba(161, 211, 248, 1);
+        color: #000000;
         background: transparent;
         border: 1px solid transparent;
       }
@@ -227,7 +223,7 @@
         align-items: flex-start;
         gap: 40px;
         padding: 24px 0 32px;
-        border-bottom: 1px solid rgba(53, 118, 162, 0.2);
+        border-bottom: 1px solid #e5e5e5;
       }
 
       .profile-left {
@@ -249,7 +245,7 @@
         height: 120px;
         border-radius: 50%;
         overflow: hidden;
-        border: 3px solid rgba(53, 118, 162, 0.4);
+        border: 3px solid #cccccc;
       }
 
       .profile-avatar img {
@@ -268,20 +264,20 @@
       .profile-name {
         font-size: 26px;
         font-weight: 700;
-        color: #e8f4fb;
+        color: #000000;
         margin: 0;
       }
 
       .profile-handle {
         font-size: 15px;
-        color: rgba(161, 211, 248, 0.7);
+        color: #666666;
         margin: 0;
       }
 
       .profile-bio {
         font-size: 15px;
         line-height: 1.6;
-        color: rgba(193, 217, 232, 0.9);
+        color: #333333;
         margin: 0;
       }
 
@@ -302,30 +298,30 @@
       .stat-value {
         font-size: 18px;
         font-weight: 600;
-        color: #e8f4fb;
+        color: #000000;
       }
 
       .stat-label {
         font-size: 13px;
-        color: rgba(161, 211, 248, 0.7);
+        color: #666666;
       }
 
       /* Edit Profile Button */
       .edit-profile-btn {
         padding: 10px 24px;
         border-radius: 999px;
-        background: rgba(53, 118, 162, 0.4);
-        color: rgba(161, 211, 248, 0.95);
+        background: #000000;
+        color: #ffffff;
         font-size: 14px;
         font-weight: 500;
-        border: 1px solid rgba(53, 118, 162, 0.3);
+        border: 1px solid #000000;
         cursor: pointer;
         transition: all 0.2s;
         align-self: flex-start;
       }
 
       .edit-profile-btn:hover {
-        background: rgba(53, 118, 162, 0.6);
+        background: #1a1a1a;
         color: #ffffff;
       }
 
@@ -334,7 +330,7 @@
         display: flex;
         gap: 32px;
         justify-content: center;
-        border-bottom: 1px solid rgba(53, 118, 162, 0.2);
+        border-bottom: 1px solid #e5e5e5;
         padding-bottom: 0;
       }
 
@@ -342,7 +338,7 @@
         padding: 12px 8px;
         font-size: 14px;
         font-weight: 500;
-        color: rgba(161, 211, 248, 0.6);
+        color: #666666;
         cursor: pointer;
         border-bottom: 2px solid transparent;
         transition: all 0.2s;
@@ -355,12 +351,12 @@
       }
 
       .profile-tab:hover {
-        color: rgba(161, 211, 248, 0.9);
+        color: #000000;
       }
 
       .profile-tab.active {
-        color: #a1d3f8;
-        border-bottom-color: #a1d3f8;
+        color: #000000;
+        border-bottom-color: #000000;
       }
 
       /* Poems Feed */
@@ -372,8 +368,8 @@
       }
 
       article.poem-card {
-        background: rgba(11, 43, 58, 0.9);
-        border: 1px solid rgba(53, 118, 162, 0.15);
+        background: #fafafa;
+        border: 1px solid #e5e5e5;
         border-radius: var(--radius-lg);
         padding: 16px 18px 12px;
         display: flex;
@@ -390,18 +386,18 @@
       .poem-title {
         font-size: 18px;
         font-weight: 600;
-        color: #e8f4fb;
+        color: #000000;
       }
 
       .poem-date {
         font-size: 12px;
-        color: rgba(110, 143, 153, 0.85);
+        color: #999999;
       }
 
       .poem-more-btn {
         background: none;
         border: none;
-        color: rgba(161, 211, 248, 0.6);
+        color: #666666;
         cursor: pointer;
         padding: 4px;
         display: flex;
@@ -412,7 +408,7 @@
       .poem-body {
         font-size: 16px;
         line-height: 1.8;
-        color: rgba(193, 217, 232, 0.95);
+        color: #333333;
         white-space: pre-line;
         margin: 8px 0;
       }
@@ -428,7 +424,7 @@
         display: flex;
         gap: 18px;
         font-size: 12px;
-        color: rgba(110, 143, 153, 0.9);
+        color: #666666;
       }
 
       .poem-action-item {
@@ -458,12 +454,12 @@
 
       .poem-card .comments-section.expanded ~ .poem-footer-row .comment-toggle-btn iconify-icon,
       .comment-toggle-btn.active iconify-icon {
-        color: #3576a2 !important;
+        color: #000000 !important;
       }
 
       .poem-card .comments-section.expanded ~ .poem-footer-row .comment-toggle-btn .poem-action-count,
       .comment-toggle-btn.active .poem-action-count {
-        color: #3576a2;
+        color: #000000;
       }
 
       .poem-action-count {
@@ -475,7 +471,7 @@
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.4s ease-out;
-        border-top: 1px solid rgba(110, 143, 153, 0.15);
+        border-top: 1px solid #e5e5e5;
         margin-top: 16px;
       }
 
@@ -492,7 +488,7 @@
         display: flex;
         gap: 12px;
         padding: 12px 0;
-        border-bottom: 1px solid rgba(110, 143, 153, 0.1);
+        border-bottom: 1px solid #e5e5e5;
         margin-bottom: 16px;
         align-items: center;
       }
@@ -505,33 +501,33 @@
 
       .comment-input {
         flex: 1;
-        background: rgba(110, 143, 153, 0.05);
-        border: 1px solid rgba(110, 143, 153, 0.15);
+        background: #f5f5f5;
+        border: 1px solid #e5e5e5;
         border-radius: 20px;
         padding: 8px 16px;
         font-size: 13px;
-        color: rgba(255, 255, 255, 0.95);
+        color: #333333;
         outline: none;
         transition: all 0.2s ease;
         font-family: inherit;
       }
 
       .comment-input::placeholder {
-        color: rgba(110, 143, 153, 0.6);
+        color: #999999;
       }
 
       .comment-input:focus {
-        background: rgba(110, 143, 153, 0.08);
-        border-color: rgba(53, 118, 162, 0.3);
-        color: rgba(255, 255, 255, 1);
+        background: #ffffff;
+        border-color: #cccccc;
+        color: #000000;
       }
 
       .comment-submit-btn {
         padding: 6px 18px;
-        background: rgba(53, 118, 162, 0.5);
-        border: 1px solid rgba(53, 118, 162, 0.3);
+        background: #000000;
+        border: 1px solid #000000;
         border-radius: 20px;
-        color: rgba(161, 211, 248, 0.95);
+        color: #ffffff;
         font-size: 13px;
         font-weight: 500;
         cursor: pointer;
@@ -540,7 +536,7 @@
       }
 
       .comment-submit-btn:hover {
-        background: rgba(53, 118, 162, 0.7);
+        background: #1a1a1a;
         color: #ffffff;
       }
 
@@ -571,18 +567,18 @@
       .comment-author {
         font-weight: 600;
         font-size: 13px;
-        color: rgba(255, 255, 255, 0.95);
+        color: #000000;
       }
 
       .comment-time {
         font-size: 11px;
-        color: rgba(110, 143, 153, 0.7);
+        color: #999999;
       }
 
       .comment-text {
         font-size: 13px;
         line-height: 1.5;
-        color: rgba(255, 255, 255, 0.9);
+        color: #333333;
         margin-bottom: 6px;
       }
 
@@ -590,7 +586,7 @@
         display: flex;
         gap: 16px;
         font-size: 11px;
-        color: rgba(110, 143, 153, 0.8);
+        color: #666666;
       }
 
       .comment-action {
@@ -599,7 +595,7 @@
       }
 
       .comment-action:hover {
-        color: rgba(53, 118, 162, 0.9);
+        color: #000000;
       }
 
       .comment-replies {
@@ -616,7 +612,7 @@
         top: 0;
         bottom: 16px;
         width: 2px;
-        background: rgba(110, 143, 153, 0.15);
+        background: #e5e5e5;
       }
 
       .comment-replies .comment-item::before {
@@ -626,7 +622,7 @@
         top: 16px;
         width: 20px;
         height: 2px;
-        background: rgba(110, 143, 153, 0.15);
+        background: #e5e5e5;
       }
 
       .comment-replies .comment-item:last-child::after {
@@ -636,7 +632,7 @@
         top: 16px;
         bottom: -16px;
         width: 2px;
-        background: rgba(239, 248, 255, 1);
+        background: #ffffff;
       }
 
       /* Profile Dropdown */
@@ -655,12 +651,12 @@
         transition: all 0.25s ease;
         background: transparent;
         border: none;
-        color: rgba(161, 211, 248, 0.7);
+        color: #666666;
       }
 
       .profile-btn:hover {
-        background: rgba(53, 118, 162, 0.2);
-        color: rgba(161, 211, 248, 1);
+        background: #f5f5f5;
+        color: #000000;
       }
 
       .profile-btn img {
@@ -668,7 +664,7 @@
         height: 28px;
         border-radius: 50%;
         object-fit: cover;
-        border: 2px solid rgba(53, 118, 162, 0.4);
+        border: 2px solid #cccccc;
       }
 
       .dropdown-menu {
@@ -676,14 +672,14 @@
         top: calc(100% + 8px);
         right: 0;
         min-width: 180px;
-        background: rgba(11, 43, 58, 0.95);
-        border: 1px solid rgba(53, 118, 162, 0.3);
+        background: #ffffff;
+        border: 1px solid #e5e5e5;
         border-radius: var(--radius-md);
         padding: 8px;
         display: none;
         flex-direction: column;
         gap: 4px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(12px);
         z-index: 1000;
       }
@@ -695,7 +691,7 @@
       .dropdown-item {
         padding: 10px 14px;
         border-radius: var(--radius-sm);
-        color: rgba(161, 211, 248, 0.9);
+        color: #333333;
         font-size: 14px;
         font-weight: 500;
         cursor: pointer;
@@ -707,15 +703,15 @@
       }
 
       .dropdown-item:hover {
-        background: rgba(53, 118, 162, 0.3);
-        color: #e8f4fb;
+        background: #f5f5f5;
+        color: #000000;
       }
 
       /* Logout item separator */
       .dropdown-item[onclick*="handleLogout"] {
         margin-top: 8px;
         padding-top: 16px;
-        border-top: 1px solid rgba(53, 118, 162, 0.2);
+        border-top: 1px solid #e5e5e5;
       }
 
       /* Notification Bell */
@@ -724,7 +720,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: rgba(161, 211, 248, 0.7);
+        color: #666666;
         cursor: pointer;
         white-space: nowrap;
         padding: 8px 20px;
@@ -735,8 +731,8 @@
       }
 
       .notification-btn:hover {
-        color: rgba(161, 211, 248, 1);
-        background: rgba(53, 118, 162, 0.2);
+        color: #000000;
+        background: #f5f5f5;
       }
 
       .notification-badge {
@@ -747,7 +743,7 @@
         height: 8px;
         background: #ff6b6b;
         border-radius: 50%;
-        border: 2px solid rgba(0, 0, 0, 0.96);
+        border: 2px solid #ffffff;
       }
 
       /* Share Menu */
@@ -760,14 +756,14 @@
         top: calc(100% + 8px);
         right: 0;
         min-width: 200px;
-        background: rgba(11, 43, 58, 0.98);
-        border: 1px solid rgba(53, 118, 162, 0.3);
+        background: #ffffff;
+        border: 1px solid #e5e5e5;
         border-radius: var(--radius-md);
         padding: 8px;
         display: none;
         flex-direction: column;
         gap: 4px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(12px);
         z-index: 1000;
       }
@@ -779,7 +775,7 @@
       .share-menu-item {
         padding: 10px 14px;
         border-radius: var(--radius-sm);
-        color: rgba(161, 211, 248, 0.9);
+        color: #333333;
         font-size: 14px;
         font-weight: 500;
         cursor: pointer;
@@ -795,8 +791,8 @@
       }
 
       .share-menu-item:hover {
-        background: rgba(53, 118, 162, 0.3);
-        color: #e8f4fb;
+        background: #f5f5f5;
+        color: #000000;
       }
 
       .share-menu-item iconify-icon {
@@ -807,7 +803,7 @@
 
       .share-menu-divider {
         height: 1px;
-        background: rgba(53, 118, 162, 0.2);
+        background: #e5e5e5;
         margin: 4px 0;
       }
 
@@ -819,7 +815,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.75);
+        background: rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(8px);
         z-index: 10000;
         align-items: center;
@@ -844,26 +840,26 @@
       }
 
       .auth-box {
-        background: linear-gradient(135deg, rgba(15, 32, 45, 0.95), rgba(25, 45, 62, 0.95));
-        border: 1px solid rgba(53, 118, 162, 0.3);
+        background: #ffffff;
+        border: 1px solid #e5e5e5;
         border-radius: 16px;
         padding: 40px;
         max-width: 400px;
         width: 90%;
         text-align: center;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
         animation: slideUp 0.3s ease;
       }
 
       .auth-box h3 {
-        color: #a1d3f8;
+        color: #000000;
         font-size: 24px;
         margin: 0 0 12px 0;
         font-weight: 600;
       }
 
       .auth-box p {
-        color: rgba(161, 211, 248, 0.7);
+        color: #666666;
         font-size: 15px;
         margin: 0 0 32px 0;
         line-height: 1.5;
@@ -887,38 +883,38 @@
       }
 
       .auth-box .btn-primary {
-        background: linear-gradient(135deg, #3576a2, #2d6b94);
-        color: white;
+        background: #000000;
+        color: #ffffff;
       }
 
       .auth-box .btn-primary:hover {
-        background: linear-gradient(135deg, #4086b8, #3576a2);
+        background: #1a1a1a;
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(53, 118, 162, 0.4);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       }
 
       .auth-box .btn-secondary {
         background: transparent;
-        border: 1px solid rgba(53, 118, 162, 0.4);
-        color: #a1d3f8;
+        border: 1px solid #cccccc;
+        color: #333333;
       }
 
       .auth-box .btn-secondary:hover {
-        background: rgba(53, 118, 162, 0.2);
-        border-color: rgba(53, 118, 162, 0.6);
+        background: #f5f5f5;
+        border-color: #999999;
       }
 
       .auth-box .btn-close {
         background: transparent;
         border: none;
-        color: rgba(161, 211, 248, 0.5);
+        color: #999999;
         margin-top: 8px;
         padding: 8px;
         font-size: 14px;
       }
 
       .auth-box .btn-close:hover {
-        color: rgba(161, 211, 248, 0.8);
+        color: #666666;
       }
     </style>
   </head>
@@ -973,7 +969,7 @@
                   <iconify-icon icon="lucide:sliders" width="16"></iconify-icon>
                   Settings
                 </a>
-                <a href="#" class="dropdown-item" onclick="handleLogout(event)" style="color: #ff6b6b;">
+                <a href="#" class="dropdown-item" onclick="handleLogout(event)" style="color: #000000;">
                   <iconify-icon icon="lucide:log-out" width="16"></iconify-icon>
                   Log Out
                 </a>

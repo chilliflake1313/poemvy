@@ -14,30 +14,30 @@
 
   <style>
     :root {
-      --background: #000000;
-      --foreground: #a1d3f8;
-      --border: #00000014;
-      --input: #0b2b3a;
-      --primary: #3576a2;
-      --primary-foreground: #001b2e;
-      --secondary: #3b5d6d;
-      --secondary-foreground: #a1d3f8;
-      --muted: #6e8f99;
-      --muted-foreground: #6e8f99;
-      --success: #3b5d6d;
-      --success-foreground: #a1d3f8;
-      --accent: #a1d3f8;
-      --accent-foreground: #001b2e;
-      --destructive: #2b4756;
-      --destructive-foreground: #a1d3f8;
-      --warning: #3b5d6d;
-      --warning-foreground: #a1d3f8;
-      --card: #0b2b3a;
-      --card-foreground: #cfeffb;
-      --sidebar: #071826;
-      --sidebar-foreground: #a1d3f8;
-      --sidebar-primary: #062233;
-      --sidebar-primary-foreground: #a1d3f8;
+      --background: #ffffff;
+      --foreground: #1a1a1a;
+      --border: #e5e5e5;
+      --input: #f5f5f5;
+      --primary: #000000;
+      --primary-foreground: #ffffff;
+      --secondary: #666666;
+      --secondary-foreground: #ffffff;
+      --muted: #999999;
+      --muted-foreground: #666666;
+      --success: #000000;
+      --success-foreground: #ffffff;
+      --accent: #1a1a1a;
+      --accent-foreground: #ffffff;
+      --destructive: #000000;
+      --destructive-foreground: #ffffff;
+      --warning: #666666;
+      --warning-foreground: #ffffff;
+      --card: #fafafa;
+      --card-foreground: #1a1a1a;
+      --sidebar: #f5f5f5;
+      --sidebar-foreground: #1a1a1a;
+      --sidebar-primary: #e5e5e5;
+      --sidebar-primary-foreground: #1a1a1a;
       --radius-sm: 4px;
       --radius-md: 12px;
       --radius-lg: 16px;
@@ -52,9 +52,9 @@
     body {
       margin: 0;
       padding: 0;
-      background: #000000;
+      background: #ffffff;
       overflow-x: hidden;
-      color: #c1d9e8;
+      color: #1a1a1a;
       font-size: 15px;
       line-height: 1.6;
       display: flex;
@@ -98,12 +98,8 @@
       backdrop-filter: blur(18px);
       display: flex;
       justify-content: center;
-      background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.96),
-        rgba(0, 0, 0, 0.9)
-      );
-      border-bottom: 1px solid rgba(110, 143, 153, 0.35);
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid #e5e5e5;
     }
 
     .top-nav {
@@ -131,7 +127,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(53, 118, 162, 0.2);
+      background: #f5f5f5;
     }
 
     .logo-text {
@@ -139,7 +135,7 @@
       font-weight: 500;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: #a1d3f8;
+      color: #000000;
     }
 
     .search-container {
@@ -155,22 +151,22 @@
     .search-bar {
       width: 100%;
       padding: 8px 16px 8px 40px;
-      background: rgba(11, 43, 58, 0.6);
-      border: 1px solid rgba(53, 118, 162, 0.3);
+      background: #f5f5f5;
+      border: 1px solid #e5e5e5;
       border-radius: 999px;
-      color: rgba(193, 217, 232, 0.95);
+      color: #1a1a1a;
       font-size: 14px;
       outline: none;
       transition: all 0.2s;
     }
 
     .search-bar::placeholder {
-      color: rgba(110, 143, 153, 0.7);
+      color: #999999;
     }
 
     .search-bar:focus {
-      border-color: rgba(53, 118, 162, 0.6);
-      background: rgba(11, 43, 58, 0.8);
+      border-color: #cccccc;
+      background: #ffffff;
     }
 
     .search-icon {
@@ -178,7 +174,7 @@
       left: 14px;
       top: 50%;
       transform: translateY(-50%);
-      color: rgba(110, 143, 153, 0.7);
+      color: #999999;
       pointer-events: none;
     }
 
@@ -192,7 +188,7 @@
 
     .nav-link {
       position: relative;
-      color: rgba(161, 211, 248, 0.7);
+      color: #666666;
       text-decoration: none;
       cursor: pointer;
       white-space: nowrap;
@@ -204,12 +200,12 @@
     }
 
     .nav-link:hover {
-      color: rgba(161, 211, 248, 1);
+      color: #000000;
       background: transparent;
     }
 
     .nav-link[data-active="true"] {
-      color: rgba(161, 211, 248, 1);
+      color: #000000;
       background: transparent;
       border: 1px solid transparent;
     }
@@ -245,12 +241,12 @@
       transition: all 0.25s ease;
       background: transparent;
       border: none;
-      color: rgba(161, 211, 248, 0.7);
+      color: #666666;
     }
 
     .profile-btn:hover {
-      background: rgba(53, 118, 162, 0.2);
-      color: rgba(161, 211, 248, 1);
+      background: #f5f5f5;
+      color: #000000;
     }
 
     .profile-btn img {
@@ -258,7 +254,7 @@
       height: 28px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid rgba(53, 118, 162, 0.4);
+      border: 2px solid #e5e5e5;
     }
 
     .dropdown-menu {
@@ -266,14 +262,14 @@
       top: calc(100% + 8px);
       right: 0;
       min-width: 180px;
-      background: rgba(11, 43, 58, 0.95);
-      border: 1px solid rgba(53, 118, 162, 0.3);
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
       border-radius: var(--radius-md);
       padding: 8px;
       display: none;
       flex-direction: column;
       gap: 4px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
       backdrop-filter: blur(12px);
       z-index: 1000;
     }
@@ -285,7 +281,7 @@
     .dropdown-item {
       padding: 10px 14px;
       border-radius: var(--radius-sm);
-      color: rgba(161, 211, 248, 0.9);
+      color: #333333;
       font-size: 14px;
       font-weight: 500;
       cursor: pointer;
@@ -297,14 +293,14 @@
     }
 
     .dropdown-item:hover {
-      background: rgba(53, 118, 162, 0.3);
-      color: #e8f4fb;
+      background: #f5f5f5;
+      color: #000000;
     }
 
     .dropdown-item[onclick*="handleLogout"] {
       margin-top: 8px;
       padding-top: 16px;
-      border-top: 1px solid rgba(53, 118, 162, 0.2);
+      border-top: 1px solid #e5e5e5;
     }
 
     /* Notification Bell */
@@ -313,7 +309,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: rgba(161, 211, 248, 0.7);
+      color: #666666;
       cursor: pointer;
       white-space: nowrap;
       padding: 8px 20px;
@@ -324,8 +320,8 @@
     }
 
     .notification-btn:hover {
-      color: rgba(161, 211, 248, 1);
-      background: rgba(53, 118, 162, 0.2);
+      color: #000000;
+      background: #f5f5f5;
     }
 
     .notification-badge {
@@ -334,9 +330,9 @@
       right: 16px;
       width: 8px;
       height: 8px;
-      background: #ff6b6b;
+      background: #000000;
       border-radius: 50%;
-      border: 2px solid rgba(0, 0, 0, 0.96);
+      border: 2px solid #ffffff;
     }
 
     /* Floating Write Button */
@@ -347,21 +343,21 @@
       width: 64px;
       height: 64px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #3576a2 0%, #5a9fc9 100%);
+      background: #000000;
       color: #ffffff;
       border: none;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 8px 24px rgba(53, 118, 162, 0.4);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
       z-index: 1000;
     }
 
     .floating-write-btn:hover {
       transform: scale(1.1);
-      box-shadow: 0 12px 32px rgba(53, 118, 162, 0.6);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
     }
 
     /* Poem Card Styles */
@@ -369,50 +365,279 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
+      max-width: 1000px;
+      margin: 0 auto;
     }
 
     article.poem-card {
-      background: rgba(11, 43, 58, 0.9);
-      border: 1px solid rgba(53, 118, 162, 0.15);
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
       border-radius: var(--radius-lg);
-      padding: 16px 18px 12px;
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      min-height: 380px;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    article.poem-card.expanded {
+      min-height: auto;
+      grid-template-columns: 180px 1fr;
+    }
+
+    article.poem-card:hover {
+      border-color: #cccccc;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .poem-sidebar {
+      background: #f5f5f5;
+      padding: 20px 16px;
+      border-right: 1px solid #e5e5e5;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .poem-author-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+    }
+
+    .poem-author-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      color: #999999;
+      letter-spacing: 0.08em;
+    }
+
+    .poem-author-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #000000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .poem-author-name:hover {
+      color: #333333;
+    }
+
+    .poem-author-subtitle {
+      font-size: 11px;
+      color: #666666;
+    }
+
+    .poem-follow-btn {
+      padding: 6px 12px;
+      background: transparent;
+      border: 1px solid #cccccc;
+      border-radius: 4px;
+      color: #333333;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 4px;
+    }
+
+    .poem-follow-btn:hover {
+      background: #000000;
+      border-color: #000000;
+      color: #ffffff;
+    }
+
+    .poem-meta-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 11px;
+    }
+
+    .poem-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .poem-meta-label {
+      text-transform: uppercase;
+      color: #999999;
+      letter-spacing: 0.06em;
+      font-size: 9px;
+    }
+
+    .poem-meta-value {
+      color: #1a1a1a;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .poem-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .poem-tag {
+      display: inline-block;
+      padding: 3px 8px;
+      background: #e5e5e5;
+      border: 1px solid #cccccc;
+      border-radius: 3px;
+      color: #333333;
+      font-size: 10px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .poem-tag:hover {
+      background: #000000;
+      border-color: #000000;
+      color: #ffffff;
+    }
+
+    .poem-content-section {
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 350px;
+    }
+
+    article.poem-card.expanded .poem-content-section {
+      min-height: auto;
     }
 
     .poem-title {
-      font-size: 18px;
+      font-size: 22px;
       font-weight: 600;
-      color: #e8f4fb;
+      color: #000000;
+      margin: 0;
+      line-height: 1.3;
     }
 
     .poem-body {
-      font-size: 16px;
-      line-height: 1.8;
-      color: rgba(193, 217, 232, 0.95);
+      font-size: 15px;
+      line-height: 1.7;
+      color: #333333;
       white-space: pre-wrap;
       word-break: break-word;
-      margin: 8px 0;
+      margin: 0;
+      flex: 1;
+      max-height: 200px;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
     }
 
-    .poem-date {
-      font-size: 12px;
-      color: rgba(110, 143, 153, 0.85);
+    article.poem-card.expanded .poem-body {
+      max-height: none;
+      overflow: visible;
+    }
+
+    .poem-footer {
+      display: flex;
+      gap: 24px;
+      padding-top: 12px;
+      border-top: 1px solid #e5e5e5;
+      margin-top: auto;
+      align-items: center;
+    }
+
+    .poem-interaction {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #666666;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .poem-interaction:hover {
+      color: #000000;
+    }
+
+    .poem-interaction.liked {
+      color: #000000;
+    }
+
+    .interaction-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .poem-interaction-label {
+      font-weight: 500;
+    }
+
+    .poem-interaction-count {
+      min-width: 16px;
+      text-align: right;
+      font-weight: 500;
+    }
+
+    /* Expand/Collapse button */
+    .poem-expand-btn {
+      margin-top: auto;
+      padding: 8px 0;
+      background: none;
+      border: none;
+      color: #666666;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.2s;
+      margin-left: auto;
+    }
+
+    .poem-expand-btn:hover {
+      color: #000000;
+    }
+
+    /* Delete button */
+    .poem-delete-btn {
+      background: none;
+      border: none;
+      color: #999999;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      width: 24px;
+      height: 24px;
+    }
+
+    .poem-delete-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .poem-delete-btn:hover {
+      color: #000000;
     }
 
     .loading {
       text-align: center;
-      color: rgba(110, 143, 153, 0.8);
+      color: #666666;
       padding: 40px 20px;
     }
 
     .error {
-      color: #ff6b6b;
+      color: #000000;
       text-align: center;
       padding: 20px;
-      background: rgba(255, 107, 107, 0.1);
+      background: #f5f5f5;
       border-radius: var(--radius-lg);
+      border: 1px solid #e5e5e5;
     }
   </style>
 </head>
@@ -467,7 +692,7 @@
                 <iconify-icon icon="lucide:sliders" width="16"></iconify-icon>
                 Settings
               </a>
-              <a href="#" class="dropdown-item" onclick="handleLogout(event)" style="color: #ff6b6b;">
+              <a href="#" class="dropdown-item" onclick="handleLogout(event)">
                 <iconify-icon icon="lucide:log-out" width="16"></iconify-icon>
                 Log Out
               </a>
@@ -564,13 +789,184 @@
         return;
       }
 
-      feed.innerHTML = poems.map(poem => `
-        <article class="poem-card">
-          <div class="poem-title">${escapeHtml(poem.title)}</div>
-          <div class="poem-body">${escapeHtml(poem.content)}</div>
-          <div class="poem-date">${new Date(poem.createdAt).toLocaleDateString()}</div>
-        </article>
-      `).join('');
+      feed.innerHTML = poems.map((poem, idx) => {
+        const tagsText = poem.tags && poem.tags.length > 0
+          ? poem.tags.join(', ')
+          : 'No tags';
+        
+        const publishDate = new Date(poem.createdAt);
+        const daysAgo = Math.floor((Date.now() - publishDate) / (1000 * 60 * 60 * 24));
+        const dateStr = daysAgo === 0 ? 'Today' : daysAgo === 1 ? '1 day ago' : `${daysAgo}d ago`;
+        
+        const likesCount = poem.likes ? poem.likes.length : 0;
+        const commentsCount = poem.comments ? poem.comments.length : 0;
+        const readCount = poem.readCount || 0;
+        
+        return `
+          <article class="poem-card" data-poem-id="${poem._id}">
+            <!-- Left Sidebar -->
+            <div class="poem-sidebar">
+              <div class="poem-author-section">
+                <div class="poem-author-label">Written by</div>
+                <a href="#" class="poem-author-name">${escapeHtml(poem.author?.username || 'Anonymous')}</a>
+                <div class="poem-author-subtitle">${escapeHtml(poem.author?.bio || '')}</div>
+                <button class="poem-follow-btn">Follow</button>
+              </div>
+
+              <div class="poem-meta-section">
+                <div class="poem-meta-item">
+                  <div class="poem-meta-label">Published</div>
+                  <div class="poem-meta-value">${dateStr}</div>
+                </div>
+
+                <div class="poem-meta-item">
+                  <div class="poem-meta-label">Tags</div>
+                  <div class="poem-meta-value">${escapeHtml(tagsText)}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Content -->
+            <div class="poem-content-section">
+              <div class="poem-title">${escapeHtml(normalizePoemTitle(poem.title))}</div>
+              <div class="poem-body">${escapeHtml(normalizePoemBody(poem.content))}</div>
+              
+              <div class="poem-footer">
+                <div class="poem-interaction like-btn" data-poem-id="${poem._id}">
+                  <svg class="interaction-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                  </svg>
+                  <span class="poem-interaction-count">${likesCount}</span>
+                </div>
+                <div class="poem-interaction comment-btn" data-poem-id="${poem._id}">
+                  <svg class="interaction-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                  <span class="poem-interaction-count">${commentsCount}</span>
+                </div>
+                <div class="poem-interaction read-btn">
+                  <svg class="interaction-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  <span class="poem-interaction-count">${readCount}</span>
+                </div>
+                <button class="poem-expand-btn" onclick="togglePoemExpand(event)">Read more</button>
+                <button class="poem-delete-btn" onclick="deletePoem(event, '${poem._id}')" title="Delete poem">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      // Attach event listeners
+      attachPoemInteractionListeners();
+    }
+
+    function normalizePoemTitle(title) {
+      if (!title) return 'Untitled';
+      return String(title)
+        .replace(/\r\n/g, '\n')
+        .replace(/\n+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function normalizePoemBody(content) {
+      if (!content) return '';
+      return String(content)
+        .replace(/\r\n/g, '\n')
+        .replace(/\u00A0/g, ' ')
+        .replace(/\t/g, '    ')
+        .trim();
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function attachPoemInteractionListeners() {
+      // Like button clicks
+      document.querySelectorAll('.like-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const poemId = btn.getAttribute('data-poem-id');
+          const countSpan = btn.querySelector('.poem-interaction-count');
+          let currentCount = parseInt(countSpan.textContent) || 0;
+          
+          // Toggle like
+          btn.classList.toggle('liked');
+          countSpan.textContent = btn.classList.contains('liked') ? currentCount + 1 : currentCount - 1;
+        });
+      });
+
+      // Comment button clicks
+      document.querySelectorAll('.comment-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          alert('Comment section coming soon!');
+        });
+      });
+    }
+
+    function togglePoemExpand(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const btn = e.target;
+      const poemCard = btn.closest('.poem-card');
+      
+      if (poemCard) {
+        poemCard.classList.toggle('expanded');
+        btn.textContent = poemCard.classList.contains('expanded') ? 'Show less' : 'Read more';
+      }
+    }
+
+    async function deletePoem(e, poemId) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Confirmation dialog
+      if (!confirm('Are you sure you want to delete this poem? This action cannot be undone.')) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:5000/api/poems/${poemId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to delete poem');
+        }
+
+        // Remove the poem card from the feed
+        const poemCard = document.querySelector(`[data-poem-id="${poemId}"]`);
+        if (poemCard) {
+          poemCard.style.opacity = '0';
+          poemCard.style.transform = 'translateY(-10px)';
+          setTimeout(() => {
+            poemCard.remove();
+          }, 300);
+        }
+      } catch (error) {
+        console.error('Error deleting poem:', error);
+        alert('Failed to delete poem. Please try again.');
+      }
     }
 
     function escapeHtml(text) {
