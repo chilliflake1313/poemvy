@@ -7,7 +7,7 @@ function escapeRegex(text) {
 // Create and publish a new poem
 exports.createPoem = async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, tags } = req.body;
 
     if (!title || !content) {
       return res.status(400).json({ error: 'Title and content are required' });
@@ -16,6 +16,7 @@ exports.createPoem = async (req, res) => {
     const poemData = {
       title,
       content,
+      tags,
       author: req.user?._id
     };
 

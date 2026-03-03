@@ -600,7 +600,7 @@
 
     // Go back to home
     function goBack() {
-      window.location.href = '/index.html';
+      window.location.href = 'index.html';
     }
 
     // Show message
@@ -624,8 +624,8 @@
       const title = document.getElementById('title').value.trim();
       const content = document.getElementById('content').value.trim();
       const tagsInput = document.getElementById('tags').value.trim();
-      const tags = tagsInput 
-        ? tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag)
+      const tags = tagsInput
+        ? tagsInput.split(',').map(tag => tag.trim()).filter(Boolean)
         : [];
 
       if (!title || !content) {
@@ -653,10 +653,12 @@
           throw new Error(data.error || 'Failed to publish poem');
         }
 
+        localStorage.setItem('justPublishedPoem', JSON.stringify(data));
+
         showMessage('✓ Poem published! Redirecting...');
         setTimeout(() => {
-          window.location.href = '/index.html';
-        }, 1500);
+          window.location.href = 'index.html';
+        }, 600);
       } catch (error) {
         showMessage(`Error: ${error.message}`, true);
         publishBtn.disabled = false;

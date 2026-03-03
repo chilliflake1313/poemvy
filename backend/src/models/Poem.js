@@ -17,6 +17,17 @@ function extractTagsFromContent(content) {
   return Array.from(normalizedUniqueTags);
 }
 
+function normalizeIncomingTags(tags) {
+  if (!Array.isArray(tags)) {
+    return [];
+  }
+
+  return tags
+    .map((tag) => String(tag || '').replace(/^#/, '').trim().toLowerCase())
+    .map((tag) => tag.replace(/^[^a-zA-Z0-9_]+|[^a-zA-Z0-9_]+$/g, ''))
+    .filter(Boolean);
+}
+
 const poemSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -66,7 +77,9 @@ const poemSchema = new mongoose.Schema({
 });
 
 poemSchema.pre('validate', function(next) {
-  this.tags = extractTagsFromContent(this.content);
+  const extractedTags = extractTagsFromContent(this.content);
+  const incomingTags = normalizeIncomingTags(this.tags);
+  this.tags = Array.from(new Set([...incomingTags, ...extractedTags]));
   next();
 });
 

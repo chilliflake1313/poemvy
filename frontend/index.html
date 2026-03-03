@@ -211,18 +211,23 @@
     }
 
     /* Main Layout */
-    main {
+    main#feed-main {
       display: flex;
       justify-content: center;
-      padding-top: 32px;
+      padding-top: 0;
+    }
+
+    main#feed-main > .feed-shell {
+      padding: 0;
     }
 
     .feed-shell {
       width: 100%;
-      max-width: 720px;
+      max-width: 1440px;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 0;
+      padding: 0;
     }
 
     /* Profile Dropdown */
@@ -364,7 +369,7 @@
     .poem-feed {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 24px;
       max-width: 1000px;
       margin: 0 auto;
     }
@@ -372,17 +377,11 @@
     article.poem-card {
       background: #ffffff;
       border: 1px solid #e5e5e5;
-      border-radius: var(--radius-lg);
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      min-height: 380px;
-      overflow: hidden;
+      border-radius: 0;
+      display: flex;
+      gap: 80px;
+      padding: 100px 40px;
       transition: all 0.2s ease;
-    }
-
-    article.poem-card.expanded {
-      min-height: auto;
-      grid-template-columns: 180px 1fr;
     }
 
     article.poem-card:hover {
@@ -391,122 +390,128 @@
     }
 
     .poem-sidebar {
-      background: #f5f5f5;
-      padding: 20px 16px;
-      border-right: 1px solid #e5e5e5;
+      background: transparent;
+      padding: 0;
+      border-right: none;
       display: flex;
       flex-direction: column;
-      gap: 20px;
-      align-items: stretch;
+      gap: 32px;
+      width: 160px;
+      flex-shrink: 0;
     }
 
     .poem-author-section {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      text-align: center;
+      gap: 16px;
+      text-align: left;
+      align-items: flex-start;
+    }
+
+    .author-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 8px;
+      background-color: #f5f5f5;
+      border: 1px solid #e5e5e5;
     }
 
     .poem-author-label {
-      font-size: 10px;
+      font-size: 11px;
       text-transform: uppercase;
-      color: #999999;
-      letter-spacing: 0.08em;
+      color: #9b9b9b;
+      letter-spacing: 0.5px;
+      margin-bottom: 0;
     }
 
     .poem-author-name {
-      font-size: 15px;
-      font-weight: 600;
-      color: #000000;
+      font-size: 18px;
+      font-weight: 500;
+      color: #e63946;
       text-decoration: none;
       cursor: pointer;
+      margin: 0;
     }
 
     .poem-author-name:hover {
-      color: #333333;
+      color: #d62828;
     }
 
     .poem-author-subtitle {
-      font-size: 11px;
-      color: #666666;
+      font-size: 13px;
+      color: #9b9b9b;
+      line-height: 1.4;
+      margin: 0;
     }
 
     .poem-follow-btn {
-      padding: 6px 12px;
-      background: transparent;
-      border: 1px solid #cccccc;
+      padding: 6px 16px;
+      background: #f6f6f6;
+      border: none;
       border-radius: 4px;
-      color: #333333;
-      font-size: 11px;
+      color: #6b6b6b;
+      font-size: 12px;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s ease;
-      margin-top: 4px;
+      width: fit-content;
     }
 
     .poem-follow-btn:hover {
-      background: #000000;
-      border-color: #000000;
-      color: #ffffff;
+      background: #e5e5e5;
+      color: #333333;
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      background-color: #e5e5e5;
+      margin: 0;
+      opacity: 0.5;
     }
 
     .poem-meta-section {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      font-size: 11px;
+      gap: 24px;
+      font-size: 13px;
+      margin-bottom: 24px;
     }
 
     .poem-meta-item {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 8px;
     }
 
     .poem-meta-label {
       text-transform: uppercase;
-      color: #999999;
-      letter-spacing: 0.06em;
-      font-size: 9px;
+      color: #9b9b9b;
+      letter-spacing: 0.5px;
+      font-size: 11px;
+      font-weight: 600;
+      margin: 0;
     }
 
     .poem-meta-value {
-      color: #1a1a1a;
-      font-size: 11px;
-      font-weight: 500;
+      color: #111111;
+      font-size: 13px;
+      font-weight: 400;
+      margin: 0;
     }
 
-    .poem-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-    }
-
-    .poem-tag {
-      display: inline-block;
-      padding: 3px 8px;
-      background: #e5e5e5;
-      border: 1px solid #cccccc;
-      border-radius: 3px;
-      color: #333333;
-      font-size: 10px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .poem-tag:hover {
-      background: #000000;
-      border-color: #000000;
-      color: #ffffff;
+    .poem-meta-value.tag {
+      color: #9b9b9b;
     }
 
     .poem-content-section {
-      padding: 24px 28px;
+      padding: 0;
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      min-height: 350px;
+      gap: 24px;
+      flex: 1;
+      max-width: 550px;
     }
 
     article.poem-card.expanded .poem-content-section {
@@ -514,45 +519,55 @@
     }
 
     .poem-title {
-      font-size: 22px;
-      font-weight: 600;
-      color: #000000;
-      margin: 0;
-      line-height: 1.3;
+      font-size: 40px;
+      font-weight: 400;
+      line-height: 1.2;
+      color: #111111;
+      margin: 0 0 48px 0;
     }
 
     .poem-body {
       font-size: 15px;
-      line-height: 1.7;
-      color: #333333;
+      line-height: 2;
+      color: #111111;
       white-space: pre-wrap;
       word-break: break-word;
       margin: 0;
       flex: 1;
-      max-height: 200px;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
+      overflow: visible;
+      max-height: none;
     }
 
-    article.poem-card.expanded .poem-body {
-      max-height: none;
-      overflow: visible;
+    .poem-stanza {
+      margin: 0 0 32px 0;
+      line-height: 2;
+    }
+
+    .poem-stanza p {
+      margin: 0;
+    }
+
+    .main-divider {
+      height: 1px;
+      background-color: #e5e5e5;
+      margin: 0 0 24px 0;
+      opacity: 0.5;
     }
 
     .poem-footer {
       display: flex;
-      gap: 24px;
-      padding-top: 12px;
-      border-top: 1px solid #e5e5e5;
-      margin-top: auto;
       align-items: center;
+      gap: 24px;
+      padding-top: 0;
+      border-top: none;
+      margin-top: 0;
     }
 
     .poem-interaction {
       display: flex;
       align-items: center;
-      gap: 6px;
-      color: #666666;
+      gap: 8px;
+      color: #9b9b9b;
       font-size: 13px;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -560,69 +575,36 @@
     }
 
     .poem-interaction:hover {
-      color: #000000;
+      color: #111111;
     }
 
     .poem-interaction.liked {
-      color: #000000;
+      color: #111111;
     }
 
     .interaction-icon {
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
       flex-shrink: 0;
-    }
-
-    .poem-interaction-label {
-      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .poem-interaction-count {
       min-width: 16px;
       text-align: right;
-      font-weight: 500;
+      font-weight: 400;
     }
 
     /* Expand/Collapse button */
     .poem-expand-btn {
-      margin-top: auto;
-      padding: 8px 0;
-      background: none;
-      border: none;
-      color: #666666;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: color 0.2s;
-      margin-left: auto;
-    }
-
-    .poem-expand-btn:hover {
-      color: #000000;
+      display: none;
     }
 
     /* Delete button */
     .poem-delete-btn {
-      background: none;
-      border: none;
-      color: #999999;
-      cursor: pointer;
-      padding: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-      width: 24px;
-      height: 24px;
-    }
-
-    .poem-delete-btn svg {
-      width: 18px;
-      height: 18px;
-    }
-
-    .poem-delete-btn:hover {
-      color: #000000;
+      display: none;
     }
 
     .loading {
@@ -774,15 +756,65 @@
         const query = typeof searchTerm === 'string' ? searchTerm.trim() : '';
         const endpoint = query ? `${API_URL}?q=${encodeURIComponent(query)}` : API_URL;
 
-        const response = await fetch(endpoint);
+        const response = await fetch(endpoint, { cache: 'no-store' });
         if (!response.ok) throw new Error('Failed to load poems');
-        
+
         const poems = await response.json();
+
+        const justPublishedRaw = localStorage.getItem('justPublishedPoem');
+        if (justPublishedRaw) {
+          try {
+            const justPublishedPoem = JSON.parse(justPublishedRaw);
+            const existsInFeed = poems.some((poem) => poem._id === justPublishedPoem._id);
+
+            if (!existsInFeed && (!query || query.toLowerCase() === '#all')) {
+              poems.unshift(justPublishedPoem);
+            }
+          } catch (parseError) {
+            console.warn('Invalid justPublishedPoem payload in storage');
+          }
+
+          localStorage.removeItem('justPublishedPoem');
+        }
+
         displayFeed(poems);
       } catch (error) {
         document.getElementById('feed').innerHTML = 
           `<div class="error">Error loading poems: ${error.message}</div>`;
       }
+    }
+
+    function formatPoemStanzas(content) {
+      if (!content) return '';
+      const stanzas = content.split('\n\n');
+      return stanzas
+        .map(stanza => {
+          const lines = stanza.split('\n').map(line => escapeHtml(line));
+          return `<p class="stanza">${lines.join('<br />')}</p>`;
+        })
+        .join('');
+    }
+
+    function extractTagsForDisplay(poem) {
+      const storedTags = Array.isArray(poem?.tags)
+        ? poem.tags
+            .map((tag) => String(tag || '').replace(/^#/, '').trim().toLowerCase())
+            .filter(Boolean)
+        : [];
+
+      if (storedTags.length > 0) {
+        return [...new Set(storedTags)];
+      }
+
+      const content = typeof poem?.content === 'string' ? poem.content : '';
+      const hashtagMatches = content.match(/#[^\s#]+/g) || [];
+      const fallbackTags = hashtagMatches
+        .map((tag) => tag.slice(1))
+        .map((tag) => tag.replace(/^[^a-zA-Z0-9_]+|[^a-zA-Z0-9_]+$/g, ''))
+        .map((tag) => tag.toLowerCase())
+        .filter(Boolean);
+
+      return [...new Set(fallbackTags)];
     }
 
     function displayFeed(poems) {
@@ -794,9 +826,10 @@
       }
 
       feed.innerHTML = poems.map((poem, idx) => {
-        const tagsText = poem.tags && poem.tags.length > 0
-          ? poem.tags.map((tag) => `#${tag}`).join(', ')
-          : 'No tags';
+        const poemTags = extractTagsForDisplay(poem);
+        const tagsText = poemTags.length > 0
+          ? poemTags.map((tag) => `#${tag}`).join(' ')
+          : '';
         
         const publishDate = new Date(poem.createdAt);
         const daysAgo = Math.floor((Date.now() - publishDate) / (1000 * 60 * 60 * 24));
@@ -809,63 +842,64 @@
         return `
           <article class="poem-card" data-poem-id="${poem._id}">
             <!-- Left Sidebar -->
-            <div class="poem-sidebar">
+            <aside class="poem-sidebar">
               <div class="poem-author-section">
-                <div class="poem-author-label">Written by</div>
+                <img
+                  src="${escapeHtml(poem.author?.avatar || 'https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FEuropean%2F2')}"
+                  class="author-avatar"
+                  alt="Author Avatar"
+                />
+                <div class="poem-author-label">WRITTEN BY</div>
                 <a href="#" class="poem-author-name">${escapeHtml(poem.author?.username || 'Anonymous')}</a>
                 <div class="poem-author-subtitle">${escapeHtml(poem.author?.bio || '')}</div>
                 <button class="poem-follow-btn">Follow</button>
               </div>
 
+              <div class="sidebar-divider"></div>
+
               <div class="poem-meta-section">
                 <div class="poem-meta-item">
-                  <div class="poem-meta-label">Published</div>
+                  <div class="poem-meta-label">PUBLISHED</div>
                   <div class="poem-meta-value">${dateStr}</div>
                 </div>
 
-                <div class="poem-meta-item">
-                  <div class="poem-meta-label">Tags</div>
-                  <div class="poem-meta-value">${escapeHtml(tagsText)}</div>
-                </div>
+                ${tagsText ? `<div class="poem-meta-item">
+                  <div class="poem-meta-label">TAGS</div>
+                  <div class="poem-meta-value tag">${tagsText}</div>
+                </div>` : ''}
               </div>
-            </div>
+            </aside>
 
             <!-- Right Content -->
-            <div class="poem-content-section">
-              <div class="poem-title">${escapeHtml(normalizePoemTitle(poem.title))}</div>
-              <div class="poem-body">${escapeHtml(normalizePoemBody(poem.content))}</div>
+            <main class="poem-content-section">
+              <h1 class="poem-title">${escapeHtml(normalizePoemTitle(poem.title))}</h1>
+              <div class="poem-body">
+                ${formatPoemStanzas(poem.content)}
+              </div>
               
+              <div class="main-divider"></div>
+
               <div class="poem-footer">
                 <div class="poem-interaction like-btn" data-poem-id="${poem._id}">
-                  <svg class="interaction-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                  </svg>
+                  <div class="action-icon">
+                    <iconify-icon icon="lucide:heart" style="font-size: 16px; color: var(--muted-foreground)"></iconify-icon>
+                  </div>
                   <span class="poem-interaction-count">${likesCount}</span>
                 </div>
                 <div class="poem-interaction comment-btn" data-poem-id="${poem._id}">
-                  <svg class="interaction-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                  </svg>
+                  <div class="action-icon">
+                    <iconify-icon icon="lucide:message-circle" style="font-size: 16px; color: var(--muted-foreground)"></iconify-icon>
+                  </div>
                   <span class="poem-interaction-count">${commentsCount}</span>
                 </div>
                 <div class="poem-interaction read-btn">
-                  <svg class="interaction-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                    <circle cx="12" cy="12" r="3"></circle>
-                  </svg>
+                  <div class="action-icon">
+                    <iconify-icon icon="lucide:activity" style="font-size: 16px; color: var(--muted-foreground)"></iconify-icon>
+                  </div>
                   <span class="poem-interaction-count">${readCount}</span>
                 </div>
-                <button class="poem-expand-btn" onclick="togglePoemExpand(event)">Read more</button>
-                <button class="poem-delete-btn" onclick="deletePoem(event, '${poem._id}')" title="Delete poem">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="3 6 5 6 21 6"></polyline>
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                    <line x1="10" y1="11" x2="10" y2="17"></line>
-                    <line x1="14" y1="11" x2="14" y2="17"></line>
-                  </svg>
-                </button>
               </div>
-            </div>
+            </main>
           </article>
         `;
       }).join('');
