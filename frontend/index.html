@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Poemvy – Home</title>
+  <title>Poemvy — Home</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -49,10 +49,13 @@
       box-sizing: border-box;
     }
 
-    body {
+    html, body {
       margin: 0;
       padding: 0;
-      background: #ffffff;
+    }
+
+    body {
+      background: transparent;
       overflow-x: hidden;
       color: #1a1a1a;
       font-size: 15px;
@@ -375,18 +378,22 @@
     }
 
     article.poem-card {
-      background: #ffffff;
-      border: 1px solid #e5e5e5;
+      background: url("./images/Feed-Card.png");
+      background-position: center;
+      background-size: cover;
+      border: none;
       border-radius: 0;
       display: flex;
       gap: 80px;
-      padding: 100px 40px;
+      padding: 100px 110px;
       transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      transform: rotate(-0.3deg);
     }
 
     article.poem-card:hover {
-      border-color: #cccccc;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      transform: rotate(-0.3deg);
     }
 
     .poem-sidebar {
@@ -396,7 +403,7 @@
       display: flex;
       flex-direction: column;
       gap: 32px;
-      width: 160px;
+      width: 200px;
       flex-shrink: 0;
     }
 
@@ -509,7 +516,7 @@
       padding: 0;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 16px;
       flex: 1;
       max-width: 550px;
     }
@@ -523,7 +530,7 @@
       font-weight: 400;
       line-height: 1.2;
       color: #111111;
-      margin: 0 0 48px 0;
+      margin: 0 0 24px 0;
     }
 
     .poem-body {
@@ -539,7 +546,7 @@
     }
 
     .poem-stanza {
-      margin: 0 0 32px 0;
+      margin: 0 0 20px 0;
       line-height: 2;
     }
 
@@ -550,7 +557,7 @@
     .main-divider {
       height: 1px;
       background-color: #e5e5e5;
-      margin: 0 0 24px 0;
+      margin: 0 0 16px 0;
       opacity: 0.5;
     }
 
@@ -630,7 +637,7 @@
     <header>
       <div class="top-nav">
         <a href="index.html" class="logo-mark">
-          <div class="logo-text">P❆EMVY</div>
+          <div class="logo-text">POEMVY</div>
         </a>
         <div class="search-container">
           <div class="search-wrapper">
@@ -1005,12 +1012,6 @@
         console.error('Error deleting poem:', error);
         alert('Failed to delete poem. Please try again.');
       }
-    }
-
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
     }
 
     if (searchInput) {
