@@ -1,5 +1,22 @@
 const mongoose = require('mongoose');
 
+function extractTagsFromContent(content) {
+  if (!content || typeof content !== 'string') {
+    return [];
+  }
+
+  const hashtagMatches = content.match(/#[^\s#]+/g) || [];
+  const normalizedUniqueTags = new Set(
+    hashtagMatches
+      .map((tag) => tag.slice(1))
+      .map((tag) => tag.replace(/^[^a-zA-Z0-9_]+|[^a-zA-Z0-9_]+$/g, ''))
+      .map((tag) => tag.toLowerCase())
+      .filter(Boolean)
+  );
+
+  return Array.from(normalizedUniqueTags);
+}
+
 const poemSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -47,6 +64,14 @@ const poemSchema = new mongoose.Schema({
     default: Date.now
   }
 });
+
+poemSchema.pre('validate', function(next) {
+  this.tags = extractTagsFromContent(this.content);
+  next();
+});
+
+poemSchema.index({ tags: 1, createdAt: -1 });
+poemSchema.index({ content: 'text' });
 
 module.exports = mongoose.model('Poem', poemSchema);
 

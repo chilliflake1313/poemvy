@@ -1,26 +1,21 @@
 const Poem = require('../models/Poem');
 
+function escapeRegex(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 // Create and publish a new poem
 exports.createPoem = async (req, res) => {
   try {
-    const { title, content, tags } = req.body;
+    const { title, content } = req.body;
 
     if (!title || !content) {
       return res.status(400).json({ error: 'Title and content are required' });
     }
 
-    const normalizedTags = Array.isArray(tags)
-      ? tags
-      : typeof tags === 'string'
-        ? tags.split(',')
-        : [];
-
     const poemData = {
       title,
       content,
-      tags: normalizedTags
-        .map((tag) => String(tag).trim().replace(/^#/, '').toLowerCase())
-        .filter(Boolean),
       author: req.user?._id
     };
 
@@ -35,7 +30,27 @@ exports.createPoem = async (req, res) => {
 // Get all published poems (sorted by newest first)
 exports.getPoems = async (req, res) => {
   try {
-    const poems = await Poem.find()
+    const { q } = req.query;
+    const searchQuery = typeof q === 'string' ? q.trim() : '';
+
+    const queryFilter = {};
+
+    if (searchQuery) {
+      if (searchQuery.startsWith('#')) {
+        const normalizedTag = searchQuery
+          .replace(/^#+/, '')
+          .toLowerCase()
+          .trim();
+
+        if (normalizedTag) {
+          queryFilter.tags = normalizedTag;
+        }
+      } else {
+        queryFilter.content = { $regex: escapeRegex(searchQuery), $options: 'i' };
+      }
+    }
+
+    const poems = await Poem.find(queryFilter)
       .populate('author', 'username bio avatar')
       .populate('likes', '_id')
       .populate('comments.user', 'username avatar')
