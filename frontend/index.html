@@ -516,7 +516,7 @@
       padding: 0;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 0;
       flex: 1;
       max-width: 550px;
     }
@@ -530,7 +530,7 @@
       font-weight: 400;
       line-height: 1.2;
       color: #111111;
-      margin: 0 0 24px 0;
+      margin: 0 0 -25px 0;
     }
 
     .poem-body {
@@ -539,7 +539,7 @@
       color: #111111;
       white-space: pre-wrap;
       word-break: break-word;
-      margin: 0;
+      margin: -25px 0 0 0;
       flex: 1;
       overflow: visible;
       max-height: none;
@@ -567,7 +567,7 @@
       gap: 24px;
       padding-top: 0;
       border-top: none;
-      margin-top: 0;
+      margin-top: -30px;
     }
 
     .poem-interaction {
@@ -792,13 +792,32 @@
     }
 
     function formatPoemStanzas(content) {
-      if (!content) return '';
-      const stanzas = content.split('\n\n');
+      const normalized = normalizePoemBody(content);
+      if (!normalized) return '';
+
+      const cleaned = normalized
+        .replace(/\(\s+\)/g, '')
+        .replace(/\[\s+\]/g, '')
+        .replace(/\{\s+\}/g, '')
+        .trim();
+
+      if (!cleaned) return '';
+
+      const stanzas = cleaned.split(/\n{2,}/);
       return stanzas
-        .map(stanza => {
-          const lines = stanza.split('\n').map(line => escapeHtml(line));
+        .map((stanza) => stanza.trim())
+        .filter(Boolean)
+        .map((stanza) => {
+          const lines = stanza
+            .split('\n')
+            .map((line) => line.trimEnd())
+            .filter((line) => line.trim().length > 0)
+            .map((line) => escapeHtml(line));
+
+          if (lines.length === 0) return '';
           return `<p class="stanza">${lines.join('<br />')}</p>`;
         })
+        .filter(Boolean)
         .join('');
     }
 

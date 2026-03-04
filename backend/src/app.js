@@ -2,6 +2,7 @@
 
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const poemRoutes = require('./routes/poem.routes');
 
 const app = express();
@@ -12,6 +13,9 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
+
+// Serve static files from frontend directory
+app.use(express.static(path.join(__dirname, '../../frontend')));
 
 // Routes
 app.use('/api/poems', poemRoutes);
