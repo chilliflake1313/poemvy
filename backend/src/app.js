@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const poemRoutes = require('./routes/poem.routes');
+const commentRoutes = require('./routes/comment.routes');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.static(path.join(__dirname, '../../frontend')));
 
 // Routes
 app.use('/api/poems', poemRoutes);
+app.use('/api/comments', commentRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
