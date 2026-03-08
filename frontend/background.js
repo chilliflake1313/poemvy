@@ -18,7 +18,7 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-renderer.setClearColor(0xffffff, 1);
+renderer.setClearColor(0x1a1a1a, 1);
 
 function createCircleTexture() {
     const size = 64;
@@ -33,9 +33,9 @@ function createCircleTexture() {
         size / 2, size / 2, size / 2
     );
 
-    gradient.addColorStop(0, "rgba(0,0,0,0.3)");
-    gradient.addColorStop(0.5, "rgba(0,0,0,0.15)");
-    gradient.addColorStop(1, "rgba(0,0,0,0)");
+    gradient.addColorStop(0, "rgba(255,255,255,0.8)");
+    gradient.addColorStop(0.5, "rgba(255,255,255,0.5)");
+    gradient.addColorStop(1, "rgba(255,255,255,0.1)");
 
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, size, size);
