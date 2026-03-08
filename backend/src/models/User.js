@@ -34,11 +34,12 @@ const userSchema = new mongoose.Schema({
   },
   bio: {
     type: String,
+    default: "",
     maxlength: [500, 'Bio cannot exceed 500 characters']
   },
   avatar: {
-    url: String,
-    publicId: String
+    type: String,
+    default: "https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FEuropean%2F2"
   },
   mobile: {
     type: String,

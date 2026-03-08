@@ -1,4 +1,5 @@
 const Poem = require('../models/Poem');
+const User = require('../models/User');
 const mongoose = require('mongoose');
 
 function escapeRegex(text) {
@@ -133,6 +134,42 @@ exports.unlikePoem = async (req, res) => {
   }
 };
 
+// Update a poem
+exports.updatePoem = async (req, res) => {
+  try {
+    const { poemId } = req.params;
+    const { title, content, tags } = req.body;
+    
+    const poem = await Poem.findById(poemId);
+    
+    if (!poem) {
+      return res.status(404).json({ error: 'Poem not found' });
+    }
+
+    // Check if user is the poem author
+    if (req.user && poem.author && poem.author.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ error: 'You can only edit your own poems' });
+    }
+
+    // Update poem fields
+    if (title !== undefined) poem.title = title;
+    if (content !== undefined) poem.content = content;
+    if (tags !== undefined) poem.tags = tags;
+
+    await poem.save();
+    
+    const populatedPoem = await poem.populate('author', 'username bio avatar');
+    
+    res.json({ 
+      success: true, 
+      message: 'Poem updated successfully',
+      poem: populatedPoem 
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 // Delete a poem
 exports.deletePoem = async (req, res) => {
   try {
@@ -152,6 +189,39 @@ exports.deletePoem = async (req, res) => {
 
     await Poem.findByIdAndDelete(poemId);
     res.json({ success: true, message: 'Poem deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Get all poems by a specific user (username)
+exports.getPoemsByUsername = async (req, res) => {
+  try {
+    const { username } = req.params;
+    
+    // Find user by username
+    const user = await User.findOne({ username: username.toLowerCase() });
+    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Find all poems by this user
+    const poems = await Poem.find({ author: user._id })
+      .populate('author', 'username bio avatar')
+      .populate('likes', '_id')
+      .populate('comments.user', 'username avatar')
+      .sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      user: {
+        username: user.username,
+        bio: user.bio,
+        avatar: user.avatar
+      },
+      poems
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

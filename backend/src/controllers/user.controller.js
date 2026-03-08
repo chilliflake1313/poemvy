@@ -8,12 +8,33 @@ const { sendOTPEmail } = require('../utils/mailer');
 exports.getProfile = async (req, res) => {
   try {
     const { username } = req.params;
+    const currentUserId = req.user?._id;
 
     const user = await userService.getProfileByUsername(username);
 
+    // Check if current user is following this profile
+    let isFollowing = false;
+    if (currentUserId) {
+      isFollowing = user.followers.some(
+        follower => follower._id.toString() === currentUserId.toString()
+      );
+    }
+
     res.status(200).json({
       success: true,
-      user
+      user: {
+        _id: user._id,
+        username: user.username,
+        name: user.name,
+        bio: user.bio,
+        avatar: user.avatar,
+        followers: user.followers,
+        following: user.following,
+        followerCount: user.followers.length,
+        followingCount: user.following.length,
+        createdAt: user.createdAt
+      },
+      isFollowing
     });
   } catch (error) {
     res.status(404).json({ error: error.message });

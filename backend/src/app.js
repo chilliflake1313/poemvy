@@ -5,6 +5,8 @@ const cors = require('cors');
 const path = require('path');
 const poemRoutes = require('./routes/poem.routes');
 const commentRoutes = require('./routes/comment.routes');
+const authRoutes = require('./routes/auth.routes');
+const userRoutes = require('./routes/user.routes');
 
 const app = express();
 
@@ -18,13 +20,20 @@ app.use(express.json());
 // Serve static files from frontend directory
 app.use(express.static(path.join(__dirname, '../../frontend')));
 
-// Routes
+// API Routes
 app.use('/api/poems', poemRoutes);
 app.use('/api/comments', commentRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK' });
+});
+
+// Handle @username routes - serve profile.html
+app.get('/@:username', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../frontend/profile.html'));
 });
 
 // Error handler

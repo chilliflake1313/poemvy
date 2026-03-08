@@ -28,10 +28,10 @@
         --accent-foreground: #ffffff;
         --card: #fafafa;
         --card-foreground: #1a1a1a;
-        --radius-sm: 4px;
-        --radius-md: 12px;
-        --radius-lg: 16px;
-        --radius-xl: 24px;
+        --radius-sm: 8px;
+        --radius-md: 16px;
+        --radius-lg: 20px;
+        --radius-xl: 28px;
       }
 
       * {
@@ -87,8 +87,11 @@
         backdrop-filter: blur(18px);
         display: flex;
         justify-content: center;
-        background: rgba(255, 255, 255, 0.95);
-        border-bottom: 1px solid #e5e5e5;
+        background: rgba(248, 248, 248, 0.98);
+        border-bottom: none;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
       }
 
       .top-nav {
@@ -124,7 +127,7 @@
         font-weight: 500;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        color: #000000;
+        color: #1a1a1a;
       }
 
       .search-container {
@@ -140,13 +143,14 @@
       .search-bar {
         width: 100%;
         padding: 8px 16px 8px 40px;
-        background: #f5f5f5;
-        border: 1px solid #e5e5e5;
-        border-radius: 999px;
-        color: #333333;
+        background: #ffffff;
+        border: 1px solid #e0e0e0;
+        border-radius: 24px;
+        color: #1a1a1a;
         font-size: 14px;
         outline: none;
         transition: all 0.2s;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
       }
 
       .search-bar::placeholder {
@@ -156,6 +160,7 @@
       .search-bar:focus {
         border-color: #cccccc;
         background: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
       }
 
       .search-icon {
@@ -182,20 +187,20 @@
         cursor: pointer;
         white-space: nowrap;
         padding: 8px 20px;
-        border-radius: 999px;
+        border-radius: 20px;
         transition: all 0.25s ease;
         background: transparent;
         border: 1px solid transparent;
       }
 
       .nav-link:hover {
-        color: #000000;
-        background: transparent;
+        color: #1a1a1a;
+        background: rgba(0, 0, 0, 0.04);
       }
 
       .nav-link[data-active="true"] {
-        color: #000000;
-        background: transparent;
+        color: #1a1a1a;
+        background: rgba(0, 0, 0, 0.04);
         border: 1px solid transparent;
       }
 
@@ -309,7 +314,7 @@
       /* Edit Profile Button */
       .edit-profile-btn {
         padding: 10px 24px;
-        border-radius: 999px;
+        border-radius: 24px;
         background: #000000;
         color: #ffffff;
         font-size: 14px;
@@ -323,6 +328,260 @@
       .edit-profile-btn:hover {
         background: #1a1a1a;
         color: #ffffff;
+      }
+
+      .edit-profile-btn.following {
+        background: transparent;
+        color: #000000;
+        border: 1px solid #e5e5e5;
+      }
+
+      .edit-profile-btn.following:hover {
+        background: #f5f5f5;
+        border-color: #cccccc;
+      }
+
+      /* User Poems Container */
+      .user-poems-container {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        max-width: 1000px;
+        margin: 40px auto 0;
+        padding: 20px;
+      }
+
+      .user-poems-container .loading,
+      .user-poems-container .error,
+      .user-poems-container .no-poems {
+        text-align: center;
+        color: #666666;
+        padding: 40px 20px;
+        font-size: 15px;
+      }
+
+      .user-poems-container .error {
+        color: #e63946;
+      }
+
+      /* Poem Card Styles */
+      article.poem-card {
+        background: url("./images/Feed-Card.png");
+        background-color: #f8f5f0;
+        background-position: center;
+        background-size: cover;
+        border: none;
+        border-radius: 32px;
+        display: flex;
+        gap: 80px;
+        padding: 100px 110px;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        transform: rotate(-0.3deg);
+      }
+
+      article.poem-card:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        transform: rotate(-0.3deg);
+      }
+
+      .poem-sidebar {
+        background: transparent;
+        padding: 0;
+        border-right: none;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        width: 200px;
+        flex-shrink: 0;
+      }
+
+      .poem-author-section {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        text-align: left;
+        align-items: flex-start;
+      }
+
+      .author-avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 8px;
+        background-color: #f5f5f5;
+        border: 1px solid #e5e5e5;
+      }
+
+      .poem-author-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        color: #9b9b9b;
+        letter-spacing: 0.5px;
+        margin-bottom: 0;
+      }
+
+      .poem-author-name {
+        font-size: 18px;
+        font-weight: 500;
+        color: #e63946;
+        text-decoration: none;
+        cursor: pointer;
+        margin: 0;
+      }
+
+      .poem-author-name:hover {
+        color: #d62828;
+      }
+
+      .poem-author-subtitle {
+        font-size: 13px;
+        color: #9b9b9b;
+        line-height: 1.4;
+        margin: 0;
+      }
+
+      .poem-follow-btn {
+        padding: 6px 16px;
+        background: #f6f6f6;
+        border: none;
+        border-radius: 8px;
+        color: #6b6b6b;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: fit-content;
+      }
+
+      .poem-follow-btn:hover {
+        background: #e5e5e5;
+        color: #333333;
+      }
+
+      .sidebar-divider {
+        height: 1px;
+        background-color: #e5e5e5;
+        margin: 0;
+        opacity: 0.5;
+      }
+
+      .poem-meta-section {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        font-size: 13px;
+        margin-bottom: 24px;
+      }
+
+      .poem-meta-item {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .poem-meta-label {
+        text-transform: uppercase;
+        color: #9b9b9b;
+        letter-spacing: 0.5px;
+        font-size: 11px;
+        font-weight: 600;
+        margin: 0;
+      }
+
+      .poem-meta-value {
+        color: #111111;
+        font-size: 13px;
+        font-weight: 400;
+        margin: 0;
+      }
+
+      .poem-meta-value.tag {
+        color: #9b9b9b;
+      }
+
+      .poem-content-section {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        flex: 1;
+        max-width: 550px;
+      }
+
+      .poem-title {
+        font-size: 40px;
+        font-weight: 400;
+        line-height: 1.2;
+        color: #111111;
+        margin: 0 0 -25px 0;
+      }
+
+      .poem-body {
+        font-size: 15px;
+        line-height: 2;
+        color: #111111;
+        white-space: pre-wrap;
+        word-break: break-word;
+        margin: -25px 0 0 0;
+        flex: 1;
+        overflow: visible;
+        max-height: none;
+      }
+
+      .poem-body .stanza {
+        margin: 0 0 20px 0;
+        line-height: 2;
+      }
+
+      .poem-body .stanza p {
+        margin: 0;
+      }
+
+      .main-divider {
+        height: 1px;
+        background-color: #e5e5e5;
+        margin: 0 0 16px 0;
+        opacity: 0.5;
+      }
+
+      .poem-footer {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        padding-top: 0;
+        border-top: none;
+        margin-top: -30px;
+      }
+
+      .poem-interaction {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #9b9b9b;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        user-select: none;
+      }
+
+      .poem-interaction:hover {
+        color: #111111;
+      }
+
+      .poem-interaction.liked {
+        color: #111111;
+      }
+
+      .poem-interaction .action-icon iconify-icon {
+        color: inherit !important;
+        transition: transform 0.2s ease;
+      }
+
+      .poem-interaction-count {
+        font-size: 13px;
+        font-weight: 500;
       }
 
       /* Profile Tabs */
@@ -647,7 +906,7 @@
         cursor: pointer;
         white-space: nowrap;
         padding: 6px 12px 6px 6px;
-        border-radius: 999px;
+        border-radius: 20px;
         transition: all 0.25s ease;
         background: transparent;
         border: none;
@@ -655,8 +914,8 @@
       }
 
       .profile-btn:hover {
-        background: #f5f5f5;
-        color: #000000;
+        background: rgba(0, 0, 0, 0.04);
+        color: #1a1a1a;
       }
 
       .profile-btn img {
@@ -664,7 +923,7 @@
         height: 28px;
         border-radius: 50%;
         object-fit: cover;
-        border: 2px solid #cccccc;
+        border: 2px solid #e0e0e0;
       }
 
       .dropdown-menu {
@@ -673,13 +932,13 @@
         right: 0;
         min-width: 180px;
         background: #ffffff;
-        border: 1px solid #e5e5e5;
+        border: 1px solid #e0e0e0;
         border-radius: var(--radius-md);
         padding: 8px;
         display: none;
         flex-direction: column;
         gap: 4px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
         backdrop-filter: blur(12px);
         z-index: 1000;
       }
@@ -704,7 +963,7 @@
 
       .dropdown-item:hover {
         background: #f5f5f5;
-        color: #000000;
+        color: #1a1a1a;
       }
 
       /* Logout item separator */
@@ -724,15 +983,15 @@
         cursor: pointer;
         white-space: nowrap;
         padding: 8px 20px;
-        border-radius: 999px;
+        border-radius: 20px;
         transition: all 0.25s ease;
         background: transparent;
         border: none;
       }
 
       .notification-btn:hover {
-        color: #000000;
-        background: #f5f5f5;
+        color: #1a1a1a;
+        background: rgba(0, 0, 0, 0.04);
       }
 
       .notification-badge {
@@ -741,9 +1000,9 @@
         right: 16px;
         width: 8px;
         height: 8px;
-        background: #ff6b6b;
+        background: #e63946;
         border-radius: 50%;
-        border: 2px solid #ffffff;
+        border: 2px solid #f8f8f8;
       }
 
       /* Share Menu */
@@ -988,47 +1247,54 @@
           <div class="profile-left">
             <div class="profile-avatar">
               <img
+                id="profile-avatar"
                 src="https://storage.googleapis.com/banani-avatars/avatar%2Ffemale%2F25-35%2FEuropean%2F2"
-                alt="Elena Voshka"
+                alt="Profile Avatar"
               />
             </div>
             <div class="profile-info">
-              <h1 class="profile-name">Elena Voshka</h1>
-              <p class="profile-handle">@elena</p>
+              <h1 class="profile-name" id="profile-name">Loading...</h1>
+              <p class="profile-handle" id="profile-username">@...</p>
             </div>
           </div>
 
           <div class="profile-right">
             <div class="profile-stats">
               <div class="stat-item">
-                <span class="stat-value">62</span>
+                <span class="stat-value" id="poem-count">0</span>
                 <span class="stat-label">Poems</span>
               </div>
               <div class="stat-item">
-                <span class="stat-value">12k</span>
+                <span class="stat-value" id="follower-count">0</span>
                 <span class="stat-label">Followers</span>
               </div>
               <div class="stat-item">
-                <span class="stat-value">85</span>
+                <span class="stat-value" id="following-count">0</span>
                 <span class="stat-label">Following</span>
               </div>
             </div>
 
-            <p class="profile-bio">
-              Chasing the moon through words. Finding silence in the noise.<br />
-              Poet & Dreamer based in Kyoto.
+            <p class="profile-bio" id="profile-bio">
+              Loading bio...
             </p>
 
-            <button class="edit-profile-btn">Edit Profile</button>
+            <button class="edit-profile-btn" id="follow-btn" style="display: none;">Follow</button>
           </div>
         </div>
 
         <!-- Profile Tabs -->
         <div class="profile-tabs">
           <button class="profile-tab active">Poems</button>
-          <button class="profile-tab">Collections</button>
           <button class="profile-tab">About</button>
         </div>
+
+        <!-- Poems Container -->
+        <div id="user-poems" class="user-poems-container">
+          <div class="loading">Loading poems...</div>
+        </div>
+
+        <!-- About Container -->
+        <div id="about-content" style="display: none;"></div>
       </div>
       </main>
     </div>
@@ -1521,5 +1787,6 @@
     <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
     <script src="api.js"></script>
     <script src="background.js"></script>
+    <script src="js/profile.js"></script>
   </body>
 </html>
