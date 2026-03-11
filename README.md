@@ -1,3 +1,3 @@
 # poemvy
 A poetry site.
-Under Development 
+under development 
